@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="css/styles.css" />
-  <script src="/js/question-2-3.js" defer></script>
+  <script src="js\question-2-3.js" defer></script>
   <title>Todo list</title>
 </head>
 
@@ -22,7 +22,13 @@
   </header>
 
   <main>
+    <div>
+    <input type="number" id="durationFilter" placeholder="Max duration (hours)">
+    <button onclick="filterByDuration()">Filter</button>
+    <div id="filter"></div>
+    </div>
     <ul id="todos">
+   
 
     </ul>
   </main>
