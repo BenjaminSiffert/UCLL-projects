@@ -1,0 +1,11 @@
+Bulbasaur,Grass-Poison
+Charmander,Fire
+Charmeleon,Fire
+Charizard,Fire-Flying
+Blastoise,Water
+Pidgey,Normal-Flying
+Rattata,
+Raticate,
+Spearow,Normal-Flying
+Pikachu,
+Arcanine,Fire
