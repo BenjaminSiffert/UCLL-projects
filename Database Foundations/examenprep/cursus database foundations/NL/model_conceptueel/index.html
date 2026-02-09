@@ -1,0 +1,829 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>Modelleren: conceptueel</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">Before anything else, preparation is the key to success.</span> <br>
+&mdash;Alexander Graham Bell
+</p> </blockquote> <h1>Conceptueel datamodel</h1> <p>
+In dit hoofdstuk gaan we dieper in op de verschillende bouwblokken van een
+      conceptueel datamodel en het proces om dit datamodel te ontwerpen.
+      Hiervoor lichten we alvast een aantal belangrijke begrippen toe en gaan we
+      ook de eerste stappen zetten om zelf eenvoudige conceptuele modellen te
+      ontwerpen. We bekijken de volgende vragen:
+</p> <ul> <li>
+Wat zijn de bouwblokken van een conceptueel diagram? Wat is de rol van
+        entiteiten, relaties en attributen als bouwblokken van een conceptueel
+        datamodel?
+</li> <li>
+Welke stappen moeten genomen worden om een probleemstelling naar een
+        conceptueel diagram te vertalen?
+</li> </ul> <p>
+Na dit hoofdstuk te hebben afgewerkt, moet je de volgende termen kunnen
+      uitleggen:
+</p> <section class="leerdoel"> <ul> <li>conceptueel datamodel;</li> <li>ERD diagram;</li> <li>
+entiteit en entiteittype (zwakke entiteittypes, sterke (of gewone)
+          entiteittypes)
+</li> <li>
+attribuut (sleutelattribuut, afgeleid attribuut, samengesteld
+          attribuut, enkelvoudig attribuut, enkelwaardig attribuut, meerwaardig
+          attribuut, attribuut van een relatie);
+</li> <li>
+relatie (graad, kardinaliteit, 1-1 relatie, 1-N relatie, N-M relatie);
+</li> <li>redundantie;</li> <li>subtypes, supertypes, specialisatie en generalisatie.</li> </ul> <p>
+Na dit hoofdstuk te hebben afgewerkt, moet je in staat zijn om de
+        notatie in een ERD (waar relevant) te kennen en toe te lichten aan de
+        hand van een voorbeeld.
+</p> <p>
+Je moet daarnaast ook in staat zijn een ERD uit te tekenen voor een
+        gegeven probleemstelling.
+</p> </section> <h2>Entity Relationship Diagram</h2> <p>
+Een conceptueel datamodel beantwoordt de vraag ‘Welke informatie is
+      relevant voor de beoogde IT-toepassing?’. Dit datamodel geeft een beeld
+      van de realiteit van de gebruikers en de informatie die hierin vervat zit,
+      zonder hierbij technische details in rekening te nemen.
+</p> <p>
+Een conceptueel datamodel is een <em>schematische voorstelling</em> van de
+      relevante informatie. We streven naar een voorstelling die gemakkelijk op te
+      stellen is en door een breed publiek gelezen kan worden. Om dat te bereiken,
+      maken we gebruik van een gestandaardiseerde notatie, namelijk <em>
+Entity Relationship Modelling.
+</em> De diagrammen die gebruik maken van deze notatie noemen we <em>
+Entity Relationship Diagrams
+</em> (afgekort naar ERD).
+</p> <p>
+ERD maakt gebruik van drie belangrijke concepten die de basis vormen van
+      de modellen: <em>entiteiten</em>, <em>relaties</em> en <em>attributen</em>. We gaan elk van deze concepten uitgebreid toelichten en tonen hoe deze
+      passen in het proces om tot een conceptueel datamodel te komen.
+</p> <p>
+ERD-notatie werd ontwikkeld in 1976 door Peter Chen en gaat dus al heel
+      wat jaren mee. Deze computer was <a href="https://en.wikipedia.org/wiki/Apple_I">toen net ontwikkeld</a> door een klein bedrijfje genaamd ‘Apple Computer’:
+</p> <figure class="center"> <img src="/assets/conceptueel/Original_1976_Apple_1_Computer_In_A_Briefcase.JPG" alt=""> </figure> <p>
+ERD werd later ook uitgebreid met enkele bijkomende concepten. We spreken
+      dan over het <em>Extended Entity Relationship Model</em> (EERD). De concepten
+      die toegevoegd zijn, zijn specialisatie en generalisatie, en subklasses en
+      superklasses. Deze concepten zullen we ook kort toelichten.
+</p> <p>
+ERD is zeker niet de enige gestandaardiseerde notatie, zo heb je
+      bijvoorbeeld ook UML. <em>
+In de context van dit vak gebruiken we ERD notatie om conceptuele en
+        logische datamodellen te beschrijven.
+</em> Heel wat mensen met een IT-opleiding (en ook daarbuiten) kunnen vlot
+      een ERD lezen, wat het een uitstekende vorm van documenteren maakt.
+</p> <h2>Entiteiten en entiteittypes</h2> <h3>Wat zijn entiteiten en entiteittypes?</h3> <p>
+De eerste belangrijke concepten binnen een ERD zijn entiteiten en
+      entiteittypes. Een <em>entiteit</em> komt overeen met <em>
+iets dat bestaat in de reële wereld.
+</em> Dit kan zowel iets fysieks als iets abstracts zijn zodat we kunnen spreken
+      over objecten, personen, … de persoon met als naam ‘Emma’, de stad met als
+      naam ‘Leuven’, een wagen met nummerplaat ‘1-AAA-001’, … zijn elk voorbeelden
+      van entiteiten. Vanaf het ogenblik dat het bestaat en het relevant is, kunnen
+      we het als een entiteit beschouwen.
+</p> <p>
+Naast entiteiten hebben we ook <em>entiteittypes</em>. We definiëren
+      entiteittypes als <em>een verzameling van gelijkaardige entiteiten.</em> Deze
+      verzameling geven we vervolgens een naam die het type van entiteiten duidelijk
+      omschrijft. Voorbeelden van entiteittypes zijn ‘Persoon’, ‘Stad’, ‘Wagen’,
+      ... Je zal merken dat we deze entiteittypes in het <em>enkelvoud</em> en met
+      een <em>hoofdletter</em>
+schrijven. Daar bestaat geen wet of regel voor, we doen dit voor duidelijkheid
+      en consistentie.
+</p> <p>
+Even een voorbeeld van bovenstaande: indien je een systeem ontwikkelt
+      waarbij we informatie bijhouden over klanten, zou ‘Sam Peters’ een klant
+      zijn, en zou ‘Klant’ het entiteittype zijn dat de verzameling klanten
+      beschrijft. We zeggen dat Sam een reële invulling is van een bepaald type,
+      in dit geval een klant. In het kader van dit opleidingsonderdeel gaan we
+      een strikt onderscheid maken tussen enerzijds entiteit en anderzijds
+      entiteittype. We moeten echter toegeven dat dit in de beschikbare
+      literatuur niet altijd het geval is. Men gebruikt de termen ‘entiteit’ en
+      ‘entiteittype’ door elkaar. Houd dit in het achterhoofd wanneer je in
+      boeken of online bepaalde dingen opzoekt.
+</p> <h3>Hoe herken je entiteittypes?</h3> <p>
+Om een ERD op te stellen, gaan we op zoek naar de relevante entiteittypes.
+      Het herkennen van entiteittypes gebeurt typisch aan de hand van de
+<em>zelfstandige naamwoorden</em> die je tijdens een interview hoort of bij
+      het doornemen van documenten leest of die gebruikt worden in de beschrijving
+      van de oplossing. Woorden zoals ‘Klant’, ‘Reservatie’, ‘Product’, ‘Winkel’,
+      ‘Aanvraag’, ‘Wagen’, … zijn een goed startpunt. Vaak wil je dan informatie
+      hierover bijhouden (zie attributen) wat van deze concepten goede kandidaten
+      maakt.
+</p> <p>Om de kandidaten te evalueren kunnen we de volgende vragen stellen:</p> <ul> <li>
+Is het entiteittype iets wat relevant is voor onze toepassing? Anders
+        gezegd, is het cruciaal dat we informatie over het entiteittype
+        bijhouden? Heeft het een rol in de werking van de toepassing?
+</li> <li>
+Is het entiteittype iets wat we willen en kunnen beschrijven? Hoe zouden
+        we het beschrijven? Welke informatie zouden we van een entiteittype
+        kunnen bijhouden?
+</li> <li>
+Kunnen we van het entiteittype makkelijk entiteiten bedenken? Hebben we
+        voorbeelden van entiteiten?
+</li> <li>
+Kunnen we meer dan één entiteit bedenken? Indien we maximaal één
+        entiteit kunnen bedenken, dan is het vermoedelijk overbodig. Een
+        voorbeeld van een overbodig entiteittype is bijvoorbeeld ‘Hogeschool’ in
+        het geval van een administratiesysteem voor de UCLL Hogeschool.
+        Aangezien we met slechts één hogeschool werken, zou dat het datamodel
+        onnodig complex maken. De situatie verandert van zodra onze applicatie
+        vanuit de associatie (combinatie van verschillende universiteiten en
+        hogescholen) voor meerdere hogescholen ingezet zou worden, want dan gaan
+        we voor elk van die hogescholen informatie bijhouden.
+</li> </ul> <p>
+In een conceptueel datamodel nemen we <em>enkel entiteittypes</em> op. Het
+      is altijd wel handig om enkele voorbeelden van entiteiten mee op te nemen in
+      jouw documentatie, want dit maakt het voor de personen die jouw ERD lezen makkelijker
+      om zich voor te stellen wat je exact bedoelt.
+</p> <h3>Notatie entiteittype in ERD</h3> <p>
+Entiteittypes worden in een ERD weergegeven door een <em>rechthoek</em> met
+      daarin de naam van het entiteittype. We kiezen ervoor om de naam telkens in
+      het
+<em>enkelvoud</em> te schrijven en te laten beginnen met een <em>hoofdletter</em>. Bijvoorbeeld de entiteittypes ‘Klant’, ‘Product’ en ‘Wagen’ worden als
+      volgt weergegeven:
+</p> <figure class="center model"> <img src="/assets/conceptueel/NL/model_conceptueel_entiteiten_afb01.svg" alt="Voorbeelden van de notatie van een entiteittype: ‘Klant’, ‘Product’ en ‘Wagen’."> </figure> <h3>Hoe eraan beginnen?</h3> <p>
+Zoals aangegeven kan je entiteittypes typisch herkennen als zelfstandige
+      naamwoorden die gebruikt worden in een bepaalde tekst. Ons advies is om
+<em>
+een bepaalde beschrijving te overlopen en alle zelfstandige naamwoorden
+        aan te duiden of te onderlijnen.
+</em> Dit zijn de kandidaten voor jouw entiteittypes.
+</p> <p>Om de kandidaten te evalueren kunnen we de volgende vragen stellen:</p> <ul> <li>
+Stelt het kandidaat-entiteittype een verzameling van <em>verschillende entiteiten</em> voor? Bijvoorbeeld het entiteittype ‘Wagen’ stelt een verzameling van wagens
+        (een wagen met nummerplaat ‘1-DSY-558’, een wagen met nummerplaat ‘2-AST-114’,
+        ... ) voor. Indien we maar één entiteit kunnen bedenken van een bepaald entiteittype,
+        dan is het vermoedelijk overbodig.
+</li> <li>
+Willen we <em>informatie</em> bijhouden over de verschillende entiteiten
+        van het kandidaat-entiteittype? Bijvoorbeeld van het entiteittype ‘Wagen’
+        willen we de nummerplaat, het merk, het model, het bouwjaar, ... bijhouden.
+        We kunnen de entiteiten van het entiteittype ‘Wagen’ beschrijven aan de hand
+        van deze kenmerken (wat we later <em>attributen</em> gaan noemen).
+</li> <li>
+Is het kandidaat-entiteittype <em>relevant</em> voor de IT-oplossing die
+        we ontwikkelen? In de context van een fleet-management systeem voor een bedrijf
+        wordt aangegeven dat we een overzicht willen houden van alle wagens die er
+        in gebruik zijn. Het entiteittype ‘Wagen’ is dan relevant voor onze oplossing.
+</li> </ul> <p>
+Het evalueren van bovenstaande vragen is soms moeilijk of verwarrend. In
+      bovenstaande voorbeelden gebruiken we het kandidaat-entiteittype ‘Wagen’
+      om elke vraag af te toetsen, maar wat bijvoorbeeld met het
+      kandidaat-entiteittype ‘Nummerplaat’? Er zijn meerdere nummerplaten, we
+      kunnen nummerplaten ook beschrijven (nummer, datum aanvraag, datum
+      afgifte, ...), en we gebruiken het om wagens te identificeren dus het is
+      ook relevant.
+</p><p>
+Om te bepalen of het entiteittype ‘Nummerplaat’ relevant is, moeten we
+      naar de IT-oplossing kijken. Voor een fleet-management systeem zal de
+      nummerplaat een beschrijving zijn van een wagen, maar zelf minder relevant
+      zijn. In dit geval is het een eigenschap om een wagen te beschrijven, maar
+      geen entiteittype op zich. Mocht je een systeem ontwikkelen voor de Dienst
+      voor Inschrijvingen van Voertuigen, dan zou ‘Nummerplaat’ dan weer wel een
+      goede kandidaat zijn omdat het verdelen van nummerplaten voor hen van
+      belang is. Het is dus niet altijd voor de hand liggend.
+</p> <h3>Tekentool: Draw.io (diagrams.net)</h3> <p>
+Gebruik draw.io als tekentool voor ERD. We maakten een aparte pagina over
+      deze app. Bekijk:
+</p> <ul> <li> <a href="/NL/model_drawio/#Draw.io-(diagrams.net)-algemene-inleiding">Algemene uitleg draw.io</a> </li> <li> <a href="/NL/model_drawio/#Conceptueel-datamodel-tekenen-met-draw.io">Conceptueel datamodel met draw.io</a> </li> </ul> <h3>Oefening jeugdvereniging: entiteittypes</h3> <p></p> <section class="taak"> <p>
+Maak <a href="/NL/model_conceptueel_oefeningen#Oefening-1:-jeugdvereniging:-entiteittypes">Oefening 1: jeugdvereniging: entiteittypes</a>. Houd het resultaat van de oefening bij aangezien we dit in een aantal
+        stappen gaan opbouwen.
+</p>  </section> <h2>Attributen</h2> <h3>Wat zijn attributen?</h3> <p>
+Entiteittypes beschrijven concepten die relevant zijn voor ons datamodel,
+      maar bevatten eigenlijk geen data. <em>
+Om aan te geven wat we specifiek over de verschillende entiteiten willen
+        bijhouden, gebruiken we attributen.
+</em> Elk attribuut van een entiteittype beschrijft één eigenschap die we als
+      data bijhouden voor elk van de entiteiten. Indien we meerdere eigenschappen
+      willen bijhouden, dan maken we meerdere attributen aan.
+</p> <p>
+Voorbeelden van deze eigenschappen voor de entiteit ‘Sam Peters’ zijn
+      ‘Sam’, ‘Peters’, ‘04/09/2001’, ‘21’, ‘Vilvoorde’ en ‘Bordspelen, rugby,
+      reizen’ die respectievelijk waarden zijn voor de attributen ‘Voornaam’,
+      ‘Naam’, ‘Geboortedatum’, ‘Leeftijd’, ‘Woonplaats’ en ‘Hobby’s’.
+</p> <p>
+Een attribuut krijgt een algemene naam die de eigenschap beschrijft. De
+      mogelijke waarden die de eigenschap kan aannemen noemen we <em>
+het domein van een attribuut.
+</em> Bijvoorbeeld, het attribuut met de naam ‘Woonplaats’ kan als domein ‘Vilvoorde’,
+      ‘Leuven’, ‘Tienen’, ‘Landen’, ‘Heverlee’, ... hebben.
+</p> <p>
+Een attribuut <em>wordt niet gedeeld tussen meerdere entiteittypes.</em> Wil
+      je bijvoorbeeld de woonplaats bijhouden van zowel een klant als een werknemer,
+      moet je het attribuut ‘Woonplaats’ zowel toevoegen aan entiteittype ‘Klant’
+      als aan het entiteittype ‘Werknemer’.
+</p> <p>
+Er zijn verschillende types van attributen zodat je meer nuance kan leggen
+      over de aard van de eigenschap die je wil bijhouden, maar daar komen we op
+      een later moment op terug.
+</p> <h3>Hoe herken je een attribuut?</h3> <p>
+Attributen zijn eigenschappen van entiteittypes. Dus als je een
+      kandidaat-entiteittype hebt, kan je <em>
+op zoek gaan naar de verschillende elementen die iets zeggen over de
+        entiteittypes
+</em> en de data die we hierover willen bijhouden. Vaak geven constructies
+      zoals ‘Over de klant willen we de volgende informatie bijhouden …’ een zeer
+      duidelijke hint dat we data willen bijhouden over entiteittype ‘Klant’ met
+      dan de nodige attributen. Helaas is het niet altijd even duidelijk aangegeven.
+      Soms kan het makkelijker zijn om een bepaalde entiteit voor ogen te nemen.
+      Wat willen we weten over onze klant ‘Sam Peters’?
+</p> <p>
+Soms moet je voor bepaalde elementen de keuze maken of het een
+      entiteittype is of een attribuut van een entiteittype. Enkele tips die we
+      hierbij kunnen geven:
+</p> <ul> <li>
+Een entiteittype <em>zonder attribuut</em> is een lege doos. We hebben een
+        concept waar we geen informatie over bijhouden. Wat is de relevantie van
+        dit entiteittype?
+</li> <li>
+Een entiteittype <em>met slechts één attribuut</em>, is mogelijk een
+        attribuut van een ander entiteittype. Een uitzondering hierop bestaat
+        indien dit entiteittype verschillende relaties heeft met andere
+        entiteittypes, wat aan bod komt in het volgende onderdeel.
+</li> </ul> <h3>Notatie attribuut in ERD</h3> <p>
+In de context van een ERD wordt een attribuut weergegeven door een ellips
+      met hierin de naam van het attribuut. Deze ellips wordt vervolgens met een
+      lijn verbonden met het entiteittype. Een attribuut kan niet gedeeld worden
+      tussen verschillende entiteittypes!
+</p> <figure class="center model"> <img src="/assets/conceptueel/NL/model_conceptueel_attributen_afb01.svg" alt="Voorbeeld van de notatie van attributen: het entiteittype ‘Klant’ met een aantal attributen
+  ‘Voornaam’, ‘Naam’, ‘Geboortedatum’, ‘Leeftijd’, ‘Hobby’s’ en ‘Woonplaats’"> </figure> <p>
+Het domein van een attribuut (= de mogelijke waarden die een attribuut kan
+      aannemen) wordt niet weergegeven in een ERD.
+</p> <h3>Oefening jeugdvereniging: attributen</h3> <p>
+Maak <a href="/NL/model_conceptueel_oefeningen#Oefening-2:-jeugdvereniging:-attributen">oefening 2: jeugdvereniging, attributen</a>. Houd het resultaat van de oefening bij aangezien we dit in een aantal
+      stappen gaan opbouwen.
+</p> <h2>Relaties</h2> <h3>Wat zijn relaties?</h3> <p>
+Een entiteittype met attributen beschrijft concepten die we relevant
+      vinden en de data die we hiervan willen bijhouden. <em>
+Informatie wordt gecreëerd wanneer data gecombineerd wordt en verbanden
+        gelegd worden.
+</em> Om deze verbanden te beschrijven die bestaan tussen de verschillende
+      concepten, maken we gebruik van relaties.
+</p> <p> <em>
+Een relatie verbindt een aantal entiteittypes en geeft het verband dat
+        er bestaat tussen deze entiteittypes een naam.
+</em> Daarbovenop laten relaties toe om het verband tussen de entiteittypes
+      verder te nuanceren door het gebruik van een maximum- en minimumkardinaliteit.
+      We bespreken kardinaliteit later.
+</p> <p>
+Een voorbeeld van een relatie ontstaat wanneer Sam Peters in een
+      supermarkt een flesje water koopt. Onze klanten zullen namelijk onze
+      producten kopen. We hebben hierbij twee entiteittypes: ‘Klant’ (met als
+      entiteit ‘Sam Peters’) en ‘Product’ (met als entiteit ‘Flesje water’).
+      Tussen beide entiteittypes creëren we een relatie ‘Koopt’. Ons datamodel
+      laat nu toe om informatie af te leiden van welke klanten welke producten
+      kopen.
+</p> <h3>Hoe herken je een relatie?</h3> <p>
+Relaties gaan over <em>verbanden</em> herkennen en benoemen. Vaak worden die
+      verbanden beschreven in de vorm van <em>‘is de … van’</em> of een bepaald <em>werkwoord.</em>
+Je kan voor elke combinatie evalueren of er ergens een verband bestaat, maar
+      opgelet dat je geen redundantie creëert. We bespreken redundantie ook later.
+</p> <p>
+Een entiteittype dat met geen enkele ander entiteittype verbonden is, is
+      meestal een teken dat er <em>een relatie ontbreekt</em>, of dat het
+      geïsoleerde entiteittype niet relevant is.
+</p> <h3>Notatie relatie in ERD</h3> <p>
+Een relatie wordt in een ERD getekend als een <em>ruit</em> waarin we met een
+      naam de relatie benoemen. De ruit wordt verbonden met de relevante entiteittypes.
+      Het attribuut ‘SKU’ betekent ‘Stock Keeping Unit’ en is een unieke code die
+      gebruikt wordt om een product te identificeren.
+</p> <figure class="center model"> <img src="/assets/conceptueel/NL/model_conceptueel_relaties_afb01.svg" alt="Een voorbeeld van de notatie van een relatie: een relatie ‘Koopt’ tussen twee entiteittypes
+          ‘Klant’ en ‘Product’. Elk entiteittype heeft een aantal attributen."> </figure> <h3>Redundantie</h3> <p>
+De bedoeling van een ERD is om een zo eenvoudig mogelijke weergave te
+      hebben van de nodige informatie. Het is echter mogelijk dat we in een
+      datamodel <em>meerdere keren dezelfde informatie toevoegen.</em> Dit noemen
+      we <em>redundantie</em>.
+</p> <p>
+Redundantie ontstaat hoofdzakelijk wanneer we entiteiten, attributen of
+      relaties toevoegen <em>die afgeleid kunnen worden uit andere elementen</em> in onze databank. Bijvoorbeeld, een klant koopt een wagen in één van de garages.
+      We weten welke klant welke wagen koopt. We weten ook in welke garage een wagen
+      verkocht wordt. Indien we willen weten in welke garage een klant een wagen
+      koopt, kunnen we de relatie ‘Koopt wagen in’ tussen de entiteittypes ‘Klant’
+      en ‘Garage’ toevoegen.
+</p> <figure class="center model"> <img src="/assets/conceptueel/NL/model_conceptueel_relaties_afb03.svg" alt="Een voorbeeld van een niet-redundante relatie ‘Bezoekt’ tussen de entiteittypes ‘Klant’ en
+          ‘Garage’ die bijkomende informatie aangeeft."> </figure> <p>
+Maar deze relatie is redundant. We kunnen deze informatie altijd afleiden
+      uit de combinatie van de andere relaties. De relatie ‘Koopt wagen in’
+      nemen we niet mee op in het ERD.
+</p> <p> <em>
+Zeggen dat we redundantie kunnen afleiden uit elke lus in ons ERD, is
+        kort door de bocht.
+</em> Het klopt dat redundantie vaak de vorm van een cyclus aanneemt. Maar
+      je moet wel altijd rekening houden met wat je specifiek wil zeggen.
+</p> <p>
+Stel bijvoorbeeld dat we willen bijhouden dat een klant een bepaalde
+      garage bezoekt, dan kunnen we een relatie ‘Bezoekt’ definiëren tussen de
+      entiteittypes ‘Klant’ en ‘Garage’. Het bezoek leidt mogelijk niet tot een
+      aankoop, dus dat willen we wel apart bijhouden.
+</p>
+We komen hier later op terug wanneer we het hebben over het relationele
+    databankmodel.
+<h3>Graad</h3> <p>
+In de meeste gevallen zal een relatie <em>twee</em> entiteittypes met elkaar
+      verbinden, maar dat hoeft niet per se het geval te zijn. Het is ook mogelijk
+      dat een entiteittype <em>naar zichzelf</em> verwijst, of dat er een relatie
+      bestaat tussen <em>drie of meer</em> entiteittypes. Het aantal entiteittypes
+      dat een relatie met elkaar verbindt, noemen we de <em>graad</em> van een relatie.
+</p> <p>
+In geval van één entiteittype, spreken we over een <em>unaire relatie</em>
+of een
+<em>relatie van de eerste graad.</em> In geval van twee entiteittypes, spreken
+      we over een <em>binaire relatie</em> of een <em>relatie van de tweede graad</em>. In geval van drie entiteittypes, spreken we over een <em>ternaire relatie</em> of een <em>relatie van de derde graad</em>. Enzovoort. De meeste
+      relaties zullen binair zijn, maar unair, ternair, ... komen zeker voor.
+</p> <p>
+Een voorbeeld van een unaire relatie is ‘Is getrouwd met’ waarbij een
+      entiteit van het entiteittype ‘Persoon’ getrouwd is met een entiteit van
+      hetzelfde entiteittype.
+</p> <figure class="center model"> <img src="/assets/conceptueel/NL/model_conceptueel_relaties_afb04.svg" alt="Voorbeeld van een unaire relatie ‘Is getrouwd met’ die het entiteittypes ‘Persoon’ met
+          zichzelf verbindt."> </figure> <p>
+We gaan er voor dit voorbeeld vanuit dat de twee entiteiten niet dezelfde
+      zijn. Maar in principe kan het ook gaan om <em>
+een relatie die een entiteit met zichzelf heeft
+</em>. Een relatie waarbij we aangeven dat een minister opgevolgd wordt
+      door een andere minister zouden we kunnen beschrijven door de relatie
+      ‘Volgt op’ die twee entiteiten van het entiteittype ‘Minister’ met elkaar
+      verbindt. Het kan gebeuren dat een minister zichzelf opvolgt.
+</p> <p>
+Een voorbeeld van een binaire relatie is ‘Is piloot’ waarbij een entiteit
+      van het entiteittype ‘Piloot’ wordt toegekend aan een entiteit van het
+      entiteittype ‘Geplande vlucht’. Zoals onderstaand voorbeeld ook toont, is
+      het mogelijk om <em>meerdere relaties te hebben tussen twee entiteittypes</em>
+aangezien we ook een binaire relatie ‘Is copiloot’ hebben gedefinieerd. Voor
+      een geplande vlucht zal een piloot als (hoofd)piloot worden toegekend en een
+      andere piloot als copiloot. Op basis van het model houden we de informatie
+      van beide rollen bij.
+</p> <figure class="center model"> <img src="/assets/conceptueel/NL/model_conceptueel_relaties_afb05.svg" alt="Voorbeeld van twee binaire relaties: de relatie ‘Is piloot’ en de relatie ‘Is copiloot’ die het
+          entiteittypes ‘Piloot’ en ‘Geplande vlucht’ verbinden."> </figure> <p>
+Een voorbeeld van een ternaire relatie is ‘Schrijft voor’ waarbij telkens
+      entiteiten van entiteittype ‘Patiënt’, ‘Dokter’ en ‘Medicatie’ met elkaar
+      verbonden worden.
+</p> <figure class="center"> <img src="/assets/conceptueel/Doctor-advising-patient-about-medication-pills_Hero_iStock-1169928112_2021-02_1336x614.jpg" alt=""> </figure> <figure class="center model"> <img src="/assets/conceptueel/NL/model_conceptueel_relaties_afb06.svg" alt="Voorbeeld van een ternaire relatie ‘Schrijft voor’ die de entiteittypes ‘Patiënt’, ‘Dokter’ en
+          ‘Medicatie’ verbindt."> </figure> <p>
+Voor het verband dat er tussen de drie bestaat, is het essentieel dat alle
+      drie de entiteittypes betrokken zijn. <em>
+Mochten we dit vervangen door binaire relaties, zouden we namelijk
+        informatie verliezen.
+</em> Onderstaande figuur laat ons wel toe om te achterhalen welke patiënt
+      welke medicatie krijgt, maar niet door welke dokter het voorgeschreven wordt.
+      Het laat ons toe om te achterhalen welke patiënt door welke dokter behandeld
+      wordt, maar niet welke medicatie hierbij voorgeschreven wordt. En ten slotte
+      weten we ook welke dokter welke medicatie voorschrijft, maar niet voor welke
+      patiënt. Willen we telkens het volledige plaatje hebben, dan moeten we bij
+      elk verband de drie entiteittypes betrekken.
+</p> <figure class="center model"> <img src="/assets/conceptueel/NL/model_conceptueel_relaties_afb07.svg" alt="Een voorbeeld hoe drie binaire relaties die geen goed alternatief vormen voor de ternaire
+          relatie."> </figure> <p> <em>
+Alternatief kan bovenstaande ternaire relatie gemodelleerd worden als
+        een entiteittype ‘Voorschrift’.
+</em> Hierbij gaan we de relatie ‘Schrijft voor’ die de entiteittypes ‘Patient’,
+      ‘Dokter’ en ‘Medicatie’ verbindt, vervangen door een entiteittype ‘Voorschrift’
+      dat dan vervolgens telkens met een binaire relatie verbonden is met de entiteittypes
+      ‘Patient’, ‘Dokter’ en ‘Medicatie’. Voor elk voorschrift weten we dan welke
+      patiënt het voorschrift ontvangt, welke dokter het voorschrift schrijft en
+      welke medicatie voorgeschreven wordt.
+</p> <figure class="center model"> <img src="/assets/conceptueel/NL/model_conceptueel_relaties_afb08.svg" alt="Een nieuw entiteittype ‘Voorschrift’ dat de entiteittypes ‘Patient’, ‘Dokter’ en ‘Medicatie’
+          verbindt als alternatief op de ternaire relatie ‘Schrijft voor’"> </figure> <p>
+Het voordeel van deze aanpak is dat we aan dit entiteittype ook nog
+      bijkomende attributen kunnen hangen. Zo kunnen we bijvoorbeeld het
+      attribuut ‘Datum’ toevoegen. Zo weten we ook op welke datum het
+      voorschrift werd geschreven.
+</p> <p>
+Je kan nu de vraag stellen welke oplossing het best is, die met de
+      ternaire relatie ‘Schrijft voor’, of die met het entiteittype
+      ‘Voorschrift’. Het antwoord is dat <em>beide oplossingen correct zijn.</em> Aan het einde van de rit gaat dit in hetzelfde resulteren.
+</p> <h3>Kardinaliteit van een relatie</h3> <p>
+Zoals eerder gezegd, verbindt een relatie één of meerdere entiteittypes.
+      Entity Relationship Modeling laat ons toe om de aard van die relatie
+      verder te nuanceren door bijkomende informatie mee te geven. Zo kunnen we
+      aangeven met <em>hoeveel</em> entiteiten van een bepaald entiteittype een entiteit
+      van een ander entiteittype verbonden moet en kan zijn. Dit doen we door de
+<em>kardinaliteit</em> van een relatie te bepalen. Elke kardinaliteit bestaat
+      uit twee delen, een minimum- en een maximumkardinaliteit. Dit wordt voor elk
+      entiteittype binnen de relatie individueel bepaald.
+</p> <p>
+De kardinaliteit is van belang wanneer we ons datamodel omzetten naar een
+      logisch en fysiek datamodel. Een fout in het bepalen van kardinaliteit
+      leidt tot problemen en fouten in het gebruik van de data.
+</p> <p>
+Binnen een ERD bestaan er verschillende manieren om kardinaliteit te
+      noteren. In het kader van dit vak maken we gebruik van de
+<em>(min,max)-notatie.</em> Naast de (min,max)-notatie gaan we bij de logische
+      datamodellen gebruik maken van de <em>kraaienpootnotatie</em>, zodat
+      jullie beide kennen.
+</p> <h4>Minimumkardinaliteit (of participatierestrictie)</h4> <p>
+De minimumkardinaliteit geeft aan of een relatie <em>optioneel</em> of <em>verplicht</em> is voor alle entiteiten van een specifiek entiteittype. Er zijn twee mogelijke
+      waarden: ‘0’ en ‘1’:
+</p> <ul> <li>
+De waarde ‘0’ geeft aan dat de relatie voor het specifiek entiteittype
+<em>optioneel</em> is. Optioneel betekent dat een entiteit kan bestaan zonder
+        dat een relatie bestaat met andere entiteiten van de entiteittypes in de
+        relatie.
+</li> <li>
+De waarde ‘1’ geeft aan dat die <em>verplichting</em> wel bestaat. Met andere
+        woorden, een entiteit van dit entiteittype kan enkel bestaan indien deze
+        minstens 1 relatie heeft met entiteiten van de andere entiteittypes binnen
+        de relatie.
+</li> </ul> <p>
+Dit kan mogelijk wat abstract klinken, dus laten we dit even aan de hand
+      van voorbeelden toelichten. Een eerste voorbeeld is de relatie ‘Koopt’
+      tussen de entiteittypes ‘Klant’ en ‘Product’. Stel nu de volgende vraag:
+<em>kan een product bestaan zonder dat dit gekocht wordt door een klant?</em> Het antwoord is ‘ja’, want nieuwe producten die we nog niet verkocht hebben,
+      kunnen wel degelijk aanwezig zijn in het systeem zonder dat een klant die al
+      gekocht heeft. De minimumkardinaliteit van het entiteittype ‘Product’ in de
+      relatie ‘Koopt’ is dus ‘0’.
+</p> <figure class="center"> <img src="/assets/conceptueel/klantkoopproduct.jpg" alt=""> </figure> <p>
+De volgende vraag die we stellen: <em>
+kan een klant bestaan zonder dat deze een product heeft gekocht?
+</em> Dat is al moeilijker eenduidig te beantwoorden, want dit gaat erg afhangen
+      van hoe er in de winkel wordt gewerkt. Indien een klant zich vooraf kan registreren
+      zonder dat hij een aankoop doet, kan een klant bestaan zonder dat hij een product
+      heeft gekocht, en is de minimumkardinaliteit ‘0’. Maar mocht een klant pas
+      aangemaakt worden van zodra deze een product koopt, dan is de waarde van de
+      minimumkardinaliteit ‘1’.
+</p> <p>
+We gaan even er van uit dat een klant pas klant wordt van zodra deze iets
+      koopt, dus met een minimumkardinaliteit van ‘1’.
+</p> <p>
+Binnen een ERD gaan we de minimumkardinaliteit aanduiden waar de lijn
+      komende van de ruit die de relatie voorstelt het vierkant dat het
+      entiteittype voorstelt, raakt. We schrijven <span class="focus">(0, ...)</span> of <span class="focus">(1, ...)</span>.
+</p> <figure class="center model"> <img src="/assets/conceptueel/NL/model_conceptueel_relaties_afb09.svg" alt="Een voorbeeld van de minimumkardinaliteit in (min,max) notatie voor elk van de entiteittypes
+          in de relatie ‘Koopt’."> </figure> <p>
+In het kader van de minimumkardinaliteit <em>
+is de waarde ‘1’ de meest beperkende,
+</em> omdat we eisen dat er minstens één relatie moet zijn. Bij twijfel geven
+      we het advies telkens voor ‘0’ te gaan of beter nog, geen veronderstelling
+      te maken en gericht de vraag te stellen of de relatie al dan niet optioneel
+      is voor het entiteittype.
+</p> <h4>Maximumkardinaliteit (of kardinaliteitsrestrictie)</h4> <p>
+De maximumkardinaliteit geeft aan of een entiteit van een entiteittype aan
+<em>meerdere relaties</em> van hetzelfde type kan deelnemen. We hebben twee
+      mogelijke waarden: 1 of N.
+</p> <ul> <li>
+De waarde 1 geeft aan dat een entiteit van een entiteittype <em>
+maximaal 1 relatie
+</em> van een bepaald type kan hebben.
+</li> <li>
+De waarde N geeft aan dat een entiteit van een entiteittype <em>
+meerdere relaties
+</em> van een bepaald type kan hebben.
+</li> </ul> <p>
+Laten we dit opnieuw toelichten aan de hand van ons eerder voorbeeld
+      waarbij klanten producten kopen. We stellen onszelf de volgende vraag: kan
+      een klant meerdere producten kopen? Het antwoord is ‘ja’, wat betekent dat
+      we een maximumkardinaliteit hebben van ‘N’. Als we dit combineren met de
+      minimumkardinaliteit, dan kunnen we stellen dat een klant minimaal ‘1’ en
+      maximaal ‘N’ producten kan kopen, samengevat als <span class="focus">(1, N)</span>.
+</p> <p>
+De volgende vraag die we stellen: <em>
+kan een product door meerdere klanten worden gekocht?
+</em> Dit is opnieuw moeilijk eenduidig vast te leggen en zal afhangen van
+      het type product we verkopen. Indien we spreken over bijvoorbeeld een supermarkt,
+      dan kunnen we een flesje water beschouwen als een product, en kunnen meerdere
+      personen een flesje water kopen. We houden geen overzicht bij welke klant een
+      specifiek flesje water heeft gekocht. In dat geval is de maximumkardinaliteit
+      ‘N’. Maar indien het gaat om iets exclusiefs (bijvoorbeeld een wagen, uniek
+      kunstwerk, ...) dan kan dat uniek stuk maar aan 1 klant verkocht worden. En
+      dan is de maximumkardinaliteit dus ‘1’.
+</p> <p>
+Voor dit voorbeeld gaan we even er van uit dat een product maar aan 1
+      klant verkocht kan worden, dus met een maximumkardinaliteit van ‘1’.
+</p> <p>
+Binnen een ERD gaan we de maximumkardinaliteit achter de
+      minimumkardinaliteit toevoegen. We schrijven (minimumkardinaliteit, 1) of
+      (minimumkardinaliteit, N). Wanneer binnen eenzelfde type relatie meerdere
+      keren een maximumkardinaliteit van N voorkomt, gaan we differentiëren door
+      in plaats van N ook M, O, P, ... te gebruiken. Daarbij willen we
+      benadrukken dat deze telkens andere waarden voorstellen, maar telkens wel
+      groter dan ‘1’. In de praktijk zullen we vaak enkel N schrijven in plaats
+      van N, M, O, P, …
+</p> <figure class="center model"> <img src="/assets/conceptueel/NL/model_conceptueel_relaties_afb10.svg" alt="Een voorbeeld van de minimum- en maximumkardinaliteit in (min,max) notatie voor elk
+          van de entiteittypes in de relatie ‘Koopt’."> </figure> <p>
+Hoe moet je bovenstaande figuur lezen? ‘Product’ heeft in de relatie
+      ‘Koopt’ een minimumkardinaliteit van ‘0’, wat betekent dat een product kan
+      bestaan zonder verkocht te zijn geweest. De maximumkardinaliteit van
+      ‘Product’ in de relatie ‘Koopt’ is ‘1’, wat betekent dat een product maar
+      door één klant gekocht kan worden.
+</p> <p>
+‘Klant’ heeft in de relatie ‘Koopt’ een minimumkardinaliteit van ‘1’, wat
+      betekent dat een klant niet kan bestaan zonder dat deze een product heeft
+      gekocht. Er moet een relatie bestaan met minstens 1 product. De
+      maximumkardinaliteit van ‘Klant’ in de relatie ‘Koopt’ is ‘N’, wat
+      betekent dat een klant meerdere producten kan kopen en dus een relatie kan
+      hebben met meerdere producten.
+</p> <h4>Kardinaliteit: voorbeeld hondenschool</h4> <p>
+Misschien was het bovenstaande nogal veel tekst. Het volgende filmpje
+      probeert kardinaliteit met een nieuw voorbeeld uit te leggen:
+</p> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_mhm8qste&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_9ei0bj7x" width="1280" height="720" allowfullscreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation" frameborder="0" title="Kaltura Player"></iframe> </div> <h3>Types relaties</h3> <p>Onder de binaire relaties, onderscheiden we drie verschillende types.</p> <h4>1-1 relatie</h4> <p>
+Het eerste type is een 1-1 relatie (één-op-één-relatie) waarbij de
+<em>maximumkardinaliteit van beide entiteittypes binnen de relatie ‘1’ is.</em>
+Elke entiteit van het ene entiteittype kan dus maximaal 1 relatie hebben met
+      een entiteit van het andere entiteittype. En dit geldt in beide richtingen.
+</p> <figure class="center"> <img src="/assets/conceptueel/idkaart.jpg" alt=""> </figure> <p>
+Een voorbeeld van een 1-1 relatie is een relatie ‘Heeft’ waarbij een
+      entiteit (bijvoorbeeld ‘Sam Peters’) van het entiteittype ‘Persoon’
+      maximaal 1 entiteit van het entiteittype ‘Identiteitskaart’ kan hebben, en
+      elke entiteit van het entiteittype ‘Identiteitskaart’ kan maximaal aan één
+      entiteit van het entiteittype ‘Persoon’ toebehoren. Elke persoon heeft
+      maximaal één identiteitskaart, en elke identiteitskaart behoort aan juist
+      één persoon.
+</p> <figure class="center model"> <img src="/assets/conceptueel/NL/model_conceptueel_relaties_afb11.svg" alt="Een voorbeeld van een 1-1 relatie."> </figure> <p>
+In bovenstaande voorbeeld gaan we ervan uit dat historiek niet bijgehouden
+      wordt, maar een persoon kan doorheen de jaren wel meerdere
+      identiteitskaarten hebben. Maar dat kunnen we oplossen door twee
+      verschillende relaties te definiëren: ‘Heeft’ en ‘Had’. Een persoon kan
+      maximaal 1 identiteitskaart hebben, maar doorheen de tijd kan hij er wel
+      meerdere gehad hebben.
+</p> <figure class="center model"> <img src="/assets/conceptueel/NL/model_conceptueel_relaties_afb12.svg" alt="Een voorbeeld van een 1-1 relatie."> </figure> <p>
+De <em>minimumkardinaliteit</em> speelt hier geen rol in deze typering. Er
+      wordt enkel naar maximumkardinaliteit gekeken.
+</p> <h4>1-N relatie</h4> <p>
+Een tweede type is een 1-N relatie (<em>één-op-meer-relatie</em> of
+<em>één-op-veel-relatie</em>) waarbij de maximumkardinaliteit van het ene
+      entiteittype ‘N’ is en deze van het andere entiteittype ‘1’ is. Elke
+      entiteit van het entiteittype met maximumkardinaliteit ‘N’ kan een relatie
+      hebben met meerdere entiteiten van het entiteittype met
+      maximumkardinaliteit ‘1’. Omgekeerd kan elke entiteit van het entiteittype
+      met maximumkardinaliteit ‘1’ maximaal met 1 entiteit van het entiteittype
+      met maximumkardinaliteit ‘N’ een relatie hebben.
+</p> <figure class="center"> <img src="/assets/conceptueel/autodealer.jpg" alt=""> </figure> <p>
+Een voorbeeld van een 1-N relatie is een relatie ‘Koopt’ waarbij een
+      entiteit (bijvoorbeeld ‘Sam Peters’) van het entiteittype ‘Klant’ meerdere
+      entiteiten van het entiteittype ‘Wagen’ kan kopen, maar elke entiteit van
+      het entiteittype ‘Wagen’ kan maximaal aan één entiteit van het
+      entiteittype ‘Klant’ worden verkocht. Een klant kan meerdere wagens kopen,
+      maar elke wagen kunnen we maximaal één keer verkopen (we houden
+      tweedehandsverkoop even buiten beschouwing). Belangrijk in dit voorbeeld
+      is dat elke wagen individueel identificeerbaar is en dat het relevant is
+      om te weten welke klant welke wagen heeft gekocht.
+</p> <figure class="center model"> <img src="/assets/conceptueel/NL/model_conceptueel_relaties_afb13.svg" alt="Een voorbeeld van een 1-N relatie."> </figure> <p>Ook bij deze typering speelt <em>minimumkardinaliteit</em> geen rol.</p> <h4>N-M relatie</h4> <p>
+Een derde type is een N-M relatie (<em>meer-op-meer-relatie</em> of <em>veel-op-veel-relatie</em>) waarbij de maximumkardinaliteit van beide entiteittypes ‘N’ is. Elke
+      entiteit van het ene entiteittype kan dus meerdere relaties hebben met een
+      entiteit van het andere entiteittype. En dit geldt in beide richtingen.
+</p> <p>
+Een voorbeeld van een N-M relatie is een relatie ‘Koopt’ waarbij een
+      entiteit (bijvoorbeeld ‘Sam Peters’) van het entiteittype ‘Klant’ meerdere
+      entiteiten van het entiteittype ‘Product’ kan kopen, en elke entiteit van
+      het entiteittype ‘Product’ kan door meerdere entiteiten van het
+      entiteittype ‘Klant’ worden gekocht. Een klant kan meerdere producten
+      kopen, elk product kan door meerdere klanten worden gekocht. Belangrijk in
+      dit voorbeeld is dat het niet relevant is om elke product individueel te
+      identificeren. We willen wel bijhouden dat een klant ‘Sam Peters’ een
+      flesje water heeft gekocht, maar niet welk exact flesje dat dan is, in
+      tegenstelling tot het voorbeeld met de wagen, waar we dit wel willen
+      bijhouden.
+</p> <figure class="center model"> <img src="/assets/conceptueel/NL/model_conceptueel_relaties_afb14.svg" alt="Een voorbeeld van een N-M relatie."> </figure> <h3>Oefening jeugdvereniging: relaties</h3> <section class="taak"> <p>
+Maak <a href="/NL/model_conceptueel_oefeningen#Oefening-3:-jeugdvereniging:-relaties">Oefening 3: jeugdvereniging: relaties</a>. Houd het resultaat van de oefening bij aangezien we dit in een aantal
+        stappen gaan opbouwen.
+</p>  </section> <h2>Soorten attributen</h2> <h3>Sleutelattributen</h3> <p>
+Om entiteiten <em>uniek te identificeren</em>, maken we gebruik van
+<em>sleutelattributen</em>. Sleutelattributen van een entiteittype zijn
+      attributen die toelaten om elke entiteit van een entiteittype uniek te
+      benoemen.
+</p> <p>
+Een voorbeeld van een sleutelattribuut voor het entiteittype ‘Student’ is
+      het attribuut ‘Studentnummer’. Elke student is uniek identificeerbaar aan
+      de hand van zijn of haar studentnummer. Voor een wagen heb je de keuze: je
+      kan bijvoorbeeld chassisnummer of nummerplaat gebruiken. Wat onderzoek zou
+      je leren dat chassisnummer een betere keuze is, dus gebruik je dat als
+      sleutelattribuut.
+</p> <p>
+In een ERD gaan we sleutelattributen aanduiden <span class="focus">
+door de naam van de attributen te <u>onderlijnen</u> </span>. Indien we meerdere attributen nodig hebben om een entiteit te
+      identificeren, onderlijnen we elk van de nodige attributen. Als we de
+      keuze hebben tussen verschillende attributen, onderlijnen we slechts één
+      van de opties.
+</p> <figure class="center model"> <img src="/assets/conceptueel/NL/model_conceptueel_soorten_attributen_afb02.svg" alt="Een voorbeeld van een entiteittype ‘Student’ met een sleutelattribuut ‘Studentennummer’."> </figure> <p> <em>
+Sleutels vormen een belangrijke componenten van het relationeel
+        databankmodel
+</em>, dus hier komen we nog uitgebreid op terug in het kader van het
+      logisch datamodel.
+</p> <h3>Afgeleide attributen</h3> <p>
+Attributen kunnen in sommige gevallen <em>
+afgeleid worden op basis van andere attributen
+</em>. We spreken in dat geval over afgeleide attributen.
+</p> <p>
+Een voorbeeld van een afgeleid attribuut is het attribuut ‘Leeftijd’
+      wanneer we ook het attribuut ‘Geboortedatum’ ter beschikking hebben. Met
+      behulp van een berekening op basis van deze datum kunnen we telkens ook de
+      leeftijd bepalen.
+</p> <p>
+Een afgeleid attribuut wordt in een ERD aangeduid door middel van een
+<span class="focus">ellips die met een stippellijn getekend is</span> waarin
+      de naam van het attribuut wordt geplaatst.
+</p> <figure class="center model"> <img src="/assets/conceptueel/NL/model_conceptueel_soorten_attributen_afb03.svg" alt="Een voorbeeld van een entiteittype ‘Student’ met een afgeleid attribuut ‘Leeftijd’."> </figure> <p>
+Het attribuut waarvan het afgeleid is, moet ook aanwezig zijn in het
+      datamodel. In het geval van ‘Leeftijd’ moet dus ook ‘Geboortedatum’
+      aanwezig zijn. Het is niet mogelijk om in een ERD aan te duiden dat
+      ‘Leeftijd’ specifiek van ‘Geboortedatum’ afgeleid wordt, dat moet je in de
+      documentatie of een nota op het model aangeven.
+</p> <p>
+Je kan jezelf de vraag stellen ‘waarom voegen we deze toe?’. Het antwoord
+      is dat we compleet willen zijn als we bepaalde vragen krijgen van de
+      gebruikers. Als we een expliciete vraag hebben ontvangen om leeftijd toe
+      te voegen, kunnen we ook tonen dat dit uit het model af te leiden is en
+      hierbij de gebruikers geruststellen. Tegelijk voorkomen we op deze manier
+      dat er redundantie gecreëerd wordt, en alle problemen die hierbij komen
+      kijken. In het bovenstaande voorbeeld voorkomen we ook dat we continu de
+      leeftijden moeten aanpassen telkens iemand verjaart.
+</p> <p>
+Een afgeleid attribuut kan trouwens ook afgeleid worden op basis van
+      attributen van andere entiteittypes. Het attribuut ‘Aantal opgenomen
+      studiepunten’ van een entiteit van het entiteittype ‘Inschrijving’ kan je
+      afleiden uit het attribuut ‘Aantal studiepunten’ van de entiteiten van het
+      entiteittype ‘Opleidingsonderdeel’ dat opgenomen zijn binnen een
+      inschrijving.
+</p> <h3>Samengestelde en enkelvoudige attributen</h3> <p>
+Een attribuut kan samengesteld of enkelvoudig zijn. <em>Samengestelde</em>
+attributen kunnen nog opgedeeld worden in verschillende attributen. <em>Enkelvoudige</em>
+attributen kunnen niet meer opgedeeld worden.
+</p> <p>
+Een voorbeeld van een samengesteld attribuut van het entiteittype
+      ‘Persoon’ is ‘Adres’. Een adres bestaat namelijk uit een straat,
+      huisnummer, ... We zouden met andere woorden het attribuut ‘Adres’ ook
+      kunnen vervangen door de attributen ‘Straat’, ‘Huisnummer’, ...
+</p> <p>
+In een ERD gaan we het onderscheid tussen samengesteld en enkelvoudig <em>niet</em>
+aanduiden. Er is dus geen verschil in notatie.
+</p> <p>
+De keuze tussen samengestelde of enkelvoudige attributen is een <em>afweging</em>
+tussen <em>eenvoudig en leesbaar</em> enerzijds en <em>correct en volledig</em> anderzijds. Vaak geven we de voorkeur aan correct en volledig.
+</p> <h3>Enkelwaardige en meerwaardige attributen</h3> <p>
+Een attribuut zal typisch voor een entiteit maximaal één waarde bevatten.
+      Bijvoorbeeld voor het entiteittype ‘Student’ zal voor de entiteit ‘Sam
+      Peters’ het attribuut ‘Voornaam’ de waarde ‘Sam’ bevatten. Voor elke
+      entiteit hebben we voor een bepaald attribuut dus maximaal één waarde. We
+      spreken in dit geval over een <em>enkelwaardig</em> (of <em>enkelvoudig</em>) attribuut.
+</p> <p>
+Het is ook mogelijk <em>meerwaardige</em> (of <em>meervoudige</em> )attributen
+      te definiëren waarbij voor een attribuut van een entiteit meerdere waarden
+      kunnen bestaan. Het is bijvoorbeeld mogelijk dat een student meerdere e-mailadressen
+      heeft. Voor het entiteittype ‘Student’ kan voor de entiteit ‘Sam Peters’ het
+      attribuut ‘E-mailadres’ de waarden ‘sam.peters@gmail.com’ en ‘huppeldepup@gmail.com’
+      bevatten. ‘E-mailadres’ is in dit geval een meervoudig attribuut.
+</p> <p>
+Een meervoudig attribuut wordt in een ERD <span class="focus">
+aangeduid door middel van een dubbel omlijnde ellips
+</span> waarin de naam van het attribuut wordt geplaatst.
+</p> <figure class="center model"> <img src="/assets/conceptueel/NL/model_conceptueel_soorten_attributen_afb04.svg" alt="Een voorbeeld van een entiteittype ‘Student’ met een meerwaardig attribuut ‘E-mail’."> </figure> <h3>Attribuut van een relatie</h3> <p>
+In bepaalde N-M relaties merk je dat je bepaalde attributen niet kan
+      plaatsen bij de entiteittypes.
+</p> <p>
+Laten we even het volgende voorbeeld bekijken. In een bedrijf dat
+      tweedehandswagens verkoopt, is het mogelijk voor klanten om een testrit te
+      reserveren met één van de beschikbare wagens. Het is zelfs mogelijk dat
+      een klant die interesse heeft in een wagen, meerdere keren een testrit
+      doet met dezelfde wagen. Daarnaast kunnen voor een wagen verschillende
+      klanten testritten inboeken. Als we dit zouden omzetten naar een ERD komen
+      we op het volgende diagram:
+</p> <figure class="center model"> <img src="/assets/conceptueel/NL/model_conceptueel_soorten_attributen_afb05.svg" alt="Een voorbeeld van een N-M relatie met een relatie ‘Boekt testrit’ tussen de entiteittypes
+          ‘Klant’ en ‘Wagen’."> </figure> <p>
+Onze opdrachtgever wil ook weten op welke dag en tijdstip de testrit
+      ingepland is, dus we willen de attributen ‘Dag’ en ‘Tijdstip’ toevoegen.
+      Mochten we deze attributen toevoegen bij het entiteittype ‘Auto’, betekent
+      dat we voor elke entiteit van ‘Auto’ één dag en één tijdstip kunnen
+      vastleggen. Maar aangezien meerdere personen een testrit kunnen aanvragen,
+      kunnen voor één wagen verschillende momenten vastgelegd zijn. We zouden
+      van ‘Dag’ en ‘Tijdstip’ meerwaardige attributen van het entiteittype
+      ‘Auto’ kunnen maken. Maar ook dat is geen optie. We zouden dan voor elke
+      entiteit van ‘Auto’ wel meerdere dagen en meerdere tijdstippen kunnen
+      boeken, maar we hebben dan geen idee bij welke klant deze horen.
+</p> <p>
+Mochten we de attributen toevoegen aan het entiteittype ‘Klant’, dan
+      zitten we met een gelijkaardig probleem. Een klant kan met meerdere wagens
+      een dag en tijdstip vastleggen voor een testrit. Mochten we dit dus als
+      een attribuut toevoegen aan het entiteittype ‘Klant’, dan zou voor alle
+      vastgelegde testritten hetzelfde datum en tijdstip gelden. We kunnen de
+      attributen ‘Dag’ en ‘Tijdstip’ dus niet toevoegen bij het entiteittype
+      ‘Klant’.
+</p> <p>
+De oplossing is om <span class="focus">
+deze attributen als eigenschappen van de relatie te beschouwen
+</span>. Hierdoor gaan we voor elke combinatie van klant en auto aangeven
+      op welke dag en tijdstip de testrit gepland is.
+</p> <figure class="center model"> <img src="/assets/conceptueel/NL/model_conceptueel_soorten_attributen_afb06.svg" alt="Een voorbeeld van een N-M relatie met een relatie ‘Boekt testrit’ tussen de entiteittypes
+          ‘Klant’ en ‘Wagen’. De relatie is uitgebreid met twee attributen ‘Datum’ en ‘Tijdstip’."> </figure> <p>
+Opgelet! <em>
+Een attribuut van een relatie kan enkel bestaan indien het gaat om een
+        N-M relatie.
+</em> Voor alle andere types van relaties is dit niet mogelijk. We kunnen de
+      attributen dan altijd aan één van de entiteittypes verbinden.
+</p> <h3>Oefening jeugdvereniging: types van attributen</h3> <section class="taak"> <p>
+Maak <a href="/NL/model_conceptueel_oefeningen#Oefening-4:-jeugdvereniging:-types-van-attributen">oefening 4: jeugdvereniging, types van attributen</a>.
+</p>  </section> <h3>Oefening autoverhuurbedrijf</h3> <section class="taak"> <p>
+Maak <a href="/NL/model_conceptueel_oefeningen#Oefening-5:-autoverhuurbedrijf">oefening 5: autoverhuurbedrijf</a>.
+</p>  </section> <h2>Zwakke en sterke entiteiten</h2> <p>
+Binnen de entiteittypes kunnen we nog een onderscheid maken tussen zwakke
+      entiteittypes en sterke entiteittypes (ook wel gewone entiteittypes
+      genoemd). Een <em>zwak entiteittype</em> beschrijft een verzameling van entiteiten
+      die niet op zichzelf kunnen bestaan. De entiteiten zijn afhankelijk van het
+      bestaan van andere entiteiten.
+</p> <p>
+Een voorbeeld van een zwak entiteittype is een ‘Inschrijving’ aan de UCLL
+      Hogeschool. Een inschrijving kan niet bestaan als er geen student bestaat.
+      Er moet met andere woorden al een entiteit ‘Sam Peters’ van entiteittype
+      ‘Student’ aangemaakt zijn vooraleer we Sam kunnen inschrijven. De entiteit
+      van het entiteittype ‘Inschrijving’ zal een verwijzing bevatten naar de
+      entiteit van het entiteittype ‘Student’. In het ERD moet er dus een
+      relatie bestaan tussen beide entiteittypes.
+</p> <p>
+Voor de identificatie van de zwakke entiteit gaan we gebruik maken van het
+      sleutelattribuut van de sterke entiteit. Op basis van bovenstaand
+      voorbeeld, gaan we dus gebruik maken van het studentnummer van ‘Sam
+      Peters’ om de inschrijving (deels) te identificeren. Aangezien Sam
+      meerdere inschrijvingen kan hebben over verschillende jaren heen, is het
+      studentnummer onvoldoende om de inschrijving te identificeren. We gaan die
+      combineren met een volgnummer, of academiejaar, ...
+</p> <p>
+Een <span class="focus">zwak entiteittype</span> wordt in een ERD aangeduid
+      als een <span class="focus"> rechthoek met een dubbele omlijning </span> met
+      hierin de naam van het entiteittype. De <span class="focus">relatie</span>
+tussen het zwak en sterk entiteittype wordt weergegeven als een <span class="focus">
+ruit met dubbele omlijning
+</span>.
+</p> <figure class="center model"> <img src="/assets/conceptueel/NL/model_conceptueel_sterk_zwakke_entiteiten_afb01.svg" alt="Een voorbeeld van een zwak entiteittype‘Inschrijving’ met relatietype ‘Schrijft in’."> </figure> <p>
+Let op het feit dat we in het ERD het identificerend attribuut van het
+      entiteittype ‘Student’ niet overnemen als identificerend attribuut van
+      ‘Inschrijving’. We kunnen dit wel afleiden uit de notatie met de dubbel
+      omlijnde rechthoeken en ruiten.
+</p> <p>
+In de praktijk kan een zwakke entiteit wel een eigen sleutelattribuut
+      krijgen bij het uittekenen van een logisch of fysiek datamodel omdat dit
+      efficiëntiewinst oplevert.
+</p> <p> <strong>Belangrijke opmerking:</strong> in de rest van de cursus zullen we
+      aan het onderscheid tussen sterke / zwakke entiteiten eigenlijk geen aandacht
+      meer schenken. Je zal dus amper ergens een voorbeeld vinden van een ruit of
+      rechthoek met dubbele lijn. Je mag het natuurlijk wel in je eigen oefeningen
+      gebruiken!
+</p> <h3>Oefening studentenadministratie</h3> <section class="taak"> <p>
+Maak <a href="/NL/model_conceptueel_oefeningen#Oefening-6:-studentenadministratie">oefening 6: studentenadministratie</a>.
+</p>  </section> <h2>Extended Entity Relationship Diagram (EERD)</h2> <p>
+Het ERD werd uitgebreid met een aantal concepten om meer complexe versies
+      van de realiteit te kunnen modelleren.
+</p> <h3>Subtypes en supertypes</h3> <p>
+Een entiteittype is een <em>subtype van een ander entiteittype</em> indien
+      het eerste entiteittype alle attributen en relaties overerft van het tweede
+      entiteittype en dit uitbreidt met eigen attributen en relaties. Het tweede
+      entiteittype is een meer generiek entiteittype met een aantal algemene attributen
+      en relaties, en noemen we het <em>supertype</em>.
+</p> <p>
+Een voorbeeld van subtypes en supertypes is bijvoorbeeld een supertype
+      ‘Werknemer’, en twee subtypes ‘Tijdelijke werknemer’ en ‘Permanente
+      werknemer’. Van het entiteittype ‘Werknemer’ houden we de typische
+      eigenschappen bij: naam, voornaam, geboortedatum, werknemersnummer, ...
+      Daarnaast hebben we het entiteittype ‘Tijdelijke werknemer’ dat alle
+      attributen en relaties overerft van het entiteittype ‘Werknemer’, maar dit
+      uitbreidt met de attributen ‘Startdatum contract’ en ‘Einddatum contract’.
+      Het entiteittype ‘Permanente werknemer’ breidt het entiteittype
+      ‘Werknemer’ uit met de attributen ‘Startdatum werknemer’ en ‘Aantal jaren
+      dienst’.
+</p> <p>Subtypes kunnen overlappend of disjunct zijn:</p><ul> <li>
+Bij <em>overlap</em> kan een entiteit van het supertype tegelijk ook een
+        entiteit zijn van meerdere subtypes.
+</li> <li>
+Bij <em>disjunct</em> kan een entiteit van het supertype tegelijk een entiteit
+        zijn van hoogstens één subtype.
+</li> </ul> <p>
+Het voorbeeld (zie ook onderstaande figuur) is <em>disjunct</em>,
+      aangezien een werknemer of een tijdelijke werknemer is, of een permanente
+      werknemer maar nooit beide.
+</p> <p>De overerving kan totaal of optioneel zijn:</p><ul> <li>
+Bij <em>totale overerving</em> moet een entiteit van het supertype ook een
+        entiteit zijn van minstens één van de subtypes.
+</li> <li>
+Bij <em>optionele overerving</em> mag een entiteit van het supertype een
+        entiteit zijn van minstens één van de subtypes, maar is dit niet verplicht.
+</li> </ul> <p>
+Het voorbeeld is <em>totaal</em>: elke werknemer moet of een tijdelijke
+      medewerker zijn, of een permanente medewerker zijn.
+</p> <p>
+Elke entiteit van een subtype, is ook een entiteit van het supertype. De
+      relatie tussen een subtype en supertype is een 1-1 relatie. Het
+      sleutelattribuut van het supertype, wordt ook het sleutelattribuut van de
+      subtypes. Dit wordt geïmpliceerd door de overerving, en moet dus niet
+      toegevoegd worden.
+</p> <h4>Notatie ERD</h4> <p>
+De notatie van sub- en supertypes gebeurt aan de hand van een cirkel met
+      hierin een ‘O’ om overlappende subtypes aan te geven, of ‘D’ om disjuncte
+      subtypes aan te geven. Vanuit de subtypes gaat een lijn naar de cirkel
+      waarop we een boog tekenen. Vanuit de cirkel gaat een lijn naar het
+      supertype. De lijn wordt dubbel of enkel getekend. Een dubbele lijn duidt
+      op een totale overerving, een enkele lijn op een optionele overerving.
+</p> <figure class="center model"> <img src="/assets/conceptueel/NL/model_conceptueel_eerd_afb01.svg" alt="Een voorbeeld van een supertype ‘Werknemer’ met twee subtypes ‘Tijdelijke werknemer’
+          en ‘Permanente werknemer’."> </figure> <h4>Generalisatie en specialisatie</h4> <p>
+Het proces om subtypes en supertypes te definiëren, wordt ook wel
+      generalisatie en specialisatie genoemd:
+</p><ul> <li> <em>Generalisatie</em> verwijst naar het proces waarbij we voor een aantal
+        gelijkaardige entiteittypes een supertype creëren waarin we de gemeenschappelijke
+        attributen en relaties verzamelen, en waarvan de initiële entiteittypes van
+        overerven.
+</li> <li> <em>Specialisatie</em> start van een entiteittype waarbij verschillende subtypes
+        worden aangemaakt die elk een aantal eigen attributen of relaties hebben
+        die verschillend zijn voor de andere subtypes.
+</li> </ul> <p>
+Met andere woorden, het is de richting die bepaalt of je spreekt over
+      generalisatie of specialisatie, maar het resultaat is hetzelfde.
+</p> <h4>Wanneer toepassen?</h4> <p>
+Subtypes en supertypes zijn <em>
+handig wanneer er een grote overlap is tussen een aantal entiteittypes.
+</em> Het zorgt voor een overzichtelijk schema en reikt ook al oplossingen
+      aan voor de ontwikkeling van de tabellen.
+</p> <h3>Oefening bibliotheek</h3> <section class="taak"> <p>
+Maak <a href="/NL/model_conceptueel_oefeningen#Oefening-7:-bibliotheek">oefening 7: bibliotheek</a>.
+</p>  </section> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

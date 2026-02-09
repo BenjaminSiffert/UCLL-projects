@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>SQL: ORDER BY</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">Everybody in this country should learn to program a computer, because
+          it teaches you how to think.</span> <br>
+&mdash;Steve Jobs
+</p> </blockquote> <h1>De ORDER BY clause in detail</h1> <p>
+Als je met een <code>SELECT</code> query als resultaat een aantal rijen krijgt,
+      is de volgorde waarin die getoond worden <em>onvoorspelbaar</em>. De enige
+      manier om een bepaalde volgorde te bekomen, is gebruik te maken van de <code>ORDER BY</code> clause.
+</p> <section class="info"> <p>
+Je kan de query's nog steeds uitvoeren op de tabel ‘opleidingsonderdeel’
+        in het schema ‘uclloket’ van de databank ‘df’ of in je eigen versie
+        hiervan.
+</p> </section> <h2>Sorteren op kolommen</h2> <h3>Op kolomnaam</h3> <p>
+De volgende query toont drie kolommen voor alle OPO’s die minder dan 6 SP
+      hebben:<pre><code>SELECT opocode, studiepunten, naam
+FROM opleidingsonderdeel
+WHERE studiepunten &lt; 6</code></pre> </p> <p>
+Zoals gezegd kan je op voorhand niets zeggen over de volgorde waarin deze
+      rijen getoond worden. Als je de rijen gesorteerd wil zodat de studiepunten
+      van klein naar groot gerangschikt staan, kan dat door de kolomhoofding in
+      de <code>ORDER BY</code> clause te gebruiken:<pre><code>SELECT opocode, studiepunten, naam
+FROM opleidingsonderdeel
+WHERE studiepunten &lt; 6
+ORDER BY studiepunten ASC</code></pre> </p> <p>
+De toevoeging <code>ASC</code> (‘ascending’) mag weggelaten worden, want dat
+      is de <em>standaardsortering</em>.
+</p> <p>
+Omdat het zo belangrijk is, overlopen we nog eens de volgorde waarin deze
+      query uitgevoerd wordt:
+</p> <ol> <li>
+Eerst de <code>FROM</code>: welke tabel(len) moeten in het werkgeheugen
+        geladen worden?
+</li> <li>
+Daarna <code>WHERE</code>: enkel de rijen die aan deze voorwaarde
+        voldoen blijven bewaard, de rest wordt verwijderd.
+</li> <li>
+Vervolgens de <code>GROUP BY</code>, onmiddellijk gevolgd door <code>HAVING</code>. Deze twee clauses zijn niet aanwezig in dit voorbeeld.
+</li> <li>
+Dan pas komt de <code>SELECT</code> clause: welke kolommen moeten getoond
+        worden?
+</li> <li>
+Tot slot de <code>ORDER BY</code>: in welke volgorde worden de rijen
+        getoond?
+</li> </ol> <p>Dit is het resultaat van de query:</p> <figure class="center"> <img src="/assets/orderby/orderbySP.png" alt="orden volgens stijgend aantal studiepunten" width="500"> </figure> <p>
+De OPO’s met het kleinste aantal SP staan bovenaan. Binnen de rijen met de
+      zelfde waarde voor het aantal SP (bvb 3) is de volgorde nog steeds
+      onvoorspelbaar. Je kan echter meer dan één kolom aangeven om op te
+      sorteren. Stel dat je eerst wil sorteren op stijgend aantal SP en daarna
+      (binnen rijen met hetzelfde aantal SP) alfabetisch op naam, dan kan dat
+      als volgt:<pre><code>SELECT opocode, studiepunten, naam
+FROM opleidingsonderdeel
+WHERE studiepunten &lt; 6
+ORDER BY studiepunten, naam</code></pre> </p> <p>Dit is het resultaat:</p> <figure class="center"> <img src="/assets/orderby/orderbySPnaam.png" alt="orden volgens stijgend aantal studiepunten en dan naam" width="500"> </figure> <p>
+Merk op dat de volgorde belangrijk is: <code>ORDER BY studiepunten, naam</code> geeft een ander resultaat dan <code>ORDER BY naam, studiepunten</code>!
+</p> <h3>Op volgnummer van de kolom</h3> <p>
+Zoals zo vaak in SQL bestaat er een kortere manier om dingen te noteren.
+      Nemen we als voorbeeld de laatste query:<pre><code>SELECT opocode, studiepunten, naam
+FROM opleidingsonderdeel
+WHERE studiepunten &lt; 6
+ORDER BY studiepunten, naam</code></pre> </p> <p>
+Een korter alternatief is om <em>de kolomnummers</em> van de kolommen uit de
+<code>SELECT</code> gebruiken i.p.v. de naam:<pre><code>SELECT opocode, studiepunten, naam
+FROM opleidingsonderdeel
+WHERE studiepunten &lt; 6
+ORDER BY 2, 3</code></pre> </p> <p>
+Je moet dan vanzelfsprekend weten wat de kolomnummers zijn in de <code>SELECT</code>. Een klein <em>nadeel</em> is dat je de kolomnummers moet aanpassen als je
+      besluit in de <code>SELECT</code> clause een extra kolom toe te voegen, zoals
+      in deze uitgebreide query:<pre><code>SELECT opocode, coordinator, studiepunten, naam -- extra tweede kolom
+FROM opleidingsonderdeel
+WHERE studiepunten &lt; 6
+ORDER BY 3, 4 -- de kolomnummers schuiven eentje op</code></pre> </p> <h2>Oplopend en aflopend sorteren</h2> <p>
+Met <code>ASC</code> sorteer je van klein naar groot. Dit is ook de standaardwaarde,
+      dus je mag dit weglaten. Sorteren van groot naar klein doe je met <code>DESC</code>. Zeker als Nederlands niet je moedertaal is, kan het een uitdaging zijn
+      om uit de opgave de juiste sorteervolgorde te halen. We hebben immers in
+      taal veel verschillende manieren om ongeveer hetzelfde te zeggen. Een
+      klein overzichtje met enkele mogelijkheden:
+</p> <ul> <li> <code>ASC</code>: van klein naar groot, stijgend, alfabetisch,
+        chronologisch, oplopend, toenemend, opklimmend, incrementeel,
+        aangroeiend, …
+</li> <li> <code>DESC</code>: van groot naar klein, dalend, antichronologisch,
+        aflopend, afnemend, …
+</li> </ul> <h2>Sorteren op uitdrukkingen</h2> <p>
+Je weet al dat je zelf nieuwe kolommen kan bijmaken (<a href="/NL/SQL_select/index.html#Nieuwe-kolommen-bijmaken">zie hoofdstuk SELECT</a>). Hetzelfde kan je doen in de ORDER BY clause zoals volgend voorbeeld
+      toont:<pre><code>SELECT opocode, coordinator, studiepunten, naam
+FROM opleidingsonderdeel
+ORDER BY
+  CASE
+    WHEN studiepunten &lt;= 6 THEN &#39;gewoon&#39;
+    ELSE &#39;speciaal&#39;
+  END</code></pre> </p> <p>
+Je kan het vergelijken met een nieuwe kolom bijmaken (zet zelf de <code>CASE</code> eens in de <code>SELECT</code>) en dan sorteren op deze niet-getoonde
+      kolom. Deze query geeft alle OPO’s van 6 of minder SP de waarde ‘gewoon’
+      en alle grotere OPO’s de waarde ‘speciaal’. Op deze twee waarden wordt er
+      dan gesorteerd. Omdat ‘speciaal’ in alfabetische volgorde later komt dan
+      ‘gewoon’ zullen alle OPO’s met 6 of minder SP bovenaan de lijst staan.
+</p> <p>
+Een tweede voorbeeld: de laatste letter van de OPOcode heeft vaak een
+      speciale betekenis. Volgende query laat toe om te sorteren op deze laatste
+      letter (‘A’, ‘H’ enz):<pre><code>SELECT opocode, coordinator, studiepunten, naam
+FROM opleidingsonderdeel
+ORDER BY substring(opocode FROM 6) -- alle letters vanaf de 6de, dus enkel de laatste letter</code></pre> </p> <h2>Wat met NULL waarden?</h2> <p>
+Zoals al uitgelegd in <a href="/NL/SQL_CSV/index.html#Rangschikking-op-basis-van-internetsnelheid">de oplossing van de eerste oefening op de CSV-dataset</a> legt de SQL-standaard niet vast wat er moet gebeuren met <code>NULL</code> waarden in een kolom waarop gesorteerd wordt. PostgreSQL beschouwt <code>NULL</code> als een waarde groter dan alle andere waarden en dus komen rijen met deze
+      waarde in de kolom onderaan de lijst te staan. Er zijn andere databanksystemen
+      die het omgekeerd doen …
+</p> <h2>Oefeningen</h2> <section class="taak"> <p>
+Geef een overzicht van alle OPOs alfabetisch gesorteerd op coördinator
+        en voor elke coördinator oplopend gesorteerd op semester.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT naam, coordinator, semester
+FROM opleidingsonderdeel
+ORDER BY coordinator ASC, semester ASC;</code></pre> </div>  </section> <section class="taak"> <p>
+Sorteer de OPOs op basis van hoe lang ze al gegeven worden. De OPOs die
+        al het langst gegeven worden staan bovenaan. Als de einddatum <code>NULL</code> is, mag je het aantal jaar gelijk stellen aan 1.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT naam, van, tot,
+  CASE
+    WHEN tot IS NULL THEN 1
+     ELSE(tot - van) / 365.25       -- Om de 4 jaar een schrikkeljaar, niet exact, maar OK
+  END AS AANTAL_JAAR_GEGEVEN
+FROM opleidingsonderdeel
+ORDER BY 4 DESC;</code></pre> <p>
+Extra uitdaging voor de dapperen, stel ‘tot’ gelijk aan de einddatum
+          van het huidige academiejaar indien ‘tot IS NULL’ en reken daarmee
+          verder.
+</p> </div>  </section> <h2>Oefeningen SQLzoo</h2> <h3>Tabel Nobelprijswinnaars</h3> <p>Een overzicht van Nobelprijswinnaars met volgende kolommen:</p> <ul> <li>yr: jaartal,</li> <li>subject: vakgebied, onderwerp,</li> <li>winner: naam van de winnaar.</li> </ul> <section class="taak"> <p> <a href="https://sqlzoo.net/wiki/SELECT_from_Nobel_Tutorial">Oefeningenreeks 3</a> bevat vooral oefeningen op <code>WHERE</code>. Bij de laatste
+        oefeningen moet je ook <code>ORDER BY</code> gebruiken.
+</p>  </section> <section class="taak"> <p>
+Maak nu <a href="https://sqlzoo.net/wiki/Nobel_Quiz">quiz 3</a> op de tabel
+        met de Nobelprijswinnaars.
+</p>  </section> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

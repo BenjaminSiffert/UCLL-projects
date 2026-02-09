@@ -1,0 +1,57 @@
+@use 'rwd';
+
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Display:wght@700&family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=swap");
+
+
+:root {
+  --linkkleur: rgb(247, 126, 12);
+  --titelkleur: #00a;
+  --afronding: 6px;
+  --achtergrondkleur: #f3f3f3;
+  --tekstkleur: #111;
+  --focuskleur: #c00;
+  font-size: 100%;
+  -webkit-text-size-adjust: none;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Noto Serif", georgia, serif;
+  line-height: 1.55;
+  font-size: 1rem;
+  background-color: var(--achtergrondkleur);
+  color: var(--tekstkleur);
+
+  hyphens: auto;
+  hyphenate-limit-chars: 10 3 4;
+
+  @include rwd.groter {
+    font-size: 1.1rem;
+  }
+}
+
+a:focus {
+  background-color: var(--linkkleur);
+  color: #fff;
+}
+
+abbr[title] {
+  border-bottom: none;
+  text-decoration: underline;
+  text-decoration: underline dotted;
+  text-underline-offset: 0.1em;
+}
+
+.focus {
+  color: var(--focuskleur);
+}

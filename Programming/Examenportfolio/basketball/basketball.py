@@ -1,17 +1,13 @@
 import os
 
-# ========================
 # BESTANDSPADEN
-# ========================
 BASE_DIR = os.path.dirname(__file__)
 MATCH_DATA_FILE = os.path.join(BASE_DIR, "match_data.txt")
 MATCH_STATS_FILE = os.path.join(BASE_DIR, "match_statistics.txt")
 OUTPUT_FILE = os.path.join(BASE_DIR, "output.txt")
 
 
-# ========================
 # PLAYER
-# ========================
 class Player:
     def __init__(self, name, number):
         self.name = name
@@ -60,9 +56,8 @@ class Player:
         }
 
 
-# ========================
+
 # TEAM
-# ========================
 class Team:
     def __init__(self, name, abbreviation):
         self.name = name
@@ -79,16 +74,12 @@ class Team:
         return self.players.values()
 
 
-# ========================
 # MATCH
-# ========================
 class Match:
     def __init__(self):
         self.teams = {}
 
-    # ------------------------
     # MATCH DATA
-    # ------------------------
     def read_match_data_file(self, filename):
         current_team = None
 
@@ -110,9 +101,7 @@ class Match:
                     number, name = [p.strip() for p in line[1:].split("-", maxsplit=1)]
                     current_team.add_player(name, int(number))
 
-    # ------------------------
     # MATCH STATISTICS
-    # ------------------------
     def read_match_statistics_file(self, filename):
         with open(filename, "r", encoding="utf-8-sig") as f:
             for line in f:
@@ -152,9 +141,7 @@ class Match:
                 elif stat_type == "RB":
                     player.add_RB()
 
-    # ------------------------
     # DISPLAY / WRITE
-    # ------------------------
     def display_match(self):
         lines = []
 
@@ -179,9 +166,7 @@ class Match:
         with open(filename, "w", encoding="utf-8") as f:
             f.write(self.display_match())
 
-    # ------------------------
     # HELPERS
-    # ------------------------
     def get_team_by_abbrev(self, abbrev):
         return self.teams.get(abbrev)
 
@@ -189,9 +174,7 @@ class Match:
         return self.teams.values()
 
 
-# ========================
 # MAIN
-# ========================
 def main():
     match = Match()
     match.read_match_data_file(MATCH_DATA_FILE)

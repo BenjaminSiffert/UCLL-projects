@@ -1,0 +1,109 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>SQL: oefeningen schooladministratie</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">Nothing is impossible. The word itself says “I’m Possible”</span> <br>
+&mdash;Audrey Hepburn
+</p> </blockquote> <h1>Oefeningen SQL op databank voor een hogeschool</h1> <h2>Voorstelling model</h2> <p>
+Een hogeschool heeft een aantal campussen. Elke campus biedt één of
+      meerdere bachelor- (type 6) of graduaatsopleidingen (type 5) aan. Elke
+      opleiding heeft een startdatum en mogelijk een einddatum. Indien er geen
+      einddatum is, zit deze opleiding in het huidige onderwijsaanbod. Een
+      academiejaar wordt voorgesteld door het beginjaar, dus het academiejaar
+      (2022–23) is ‘2022’.
+</p> <p>
+Centraal in een hogeschool staan natuurlijk studenten en lectoren. Een
+      student kan zich inschrijven voor één of meerdere opleidingen met een
+      diploma-, credit- of examencontract. Een inschrijving heeft een duur van
+      één jaar en start op de inschrijfdatum en loopt in principe tot eind
+      september van het volgend kalenderjaar, tenzij een student vroeger stopt
+      met de opleiding.
+</p> <p>
+Een inschrijving bevat één of meerdere opleidingsonderdelen. Voor elke
+      examenkans heeft een student maximaal twee examenkansen. Als een
+      examenperiode voorbij is, heeft een student een cijfer (of de code ‘NA’
+      voor ‘Niet Afgelegd’).
+</p> <p>
+Een lector geeft één of meerdere opleidingsonderdelen en kan coördinator
+      zijn van één of meerdere opleidingsonderdelen. Een opleidingsonderdeel kan
+      door meerdere lectoren gegeven worden. Van een lector wordt de datum van
+      indiensttreding en eventueel de einddatum van de aanstelling bijgehouden.
+      Een jonge lector kan een meer ervaren lector als mentor krijgen.
+</p> <p>Bestudeer onderstaand fysiek model aandachtig.</p> <figure class="center"> <img src="/assets/schooladmin/schema.png" alt=""> </figure> <section class="info"> <p>
+Je vindt dit schema (‘schooladministratie’) in de databank ‘df’. Je hebt
+        hier enkel <code>SELECT</code> rechten en kan dus geen <code>INSERT</code>, <code>CREATE</code> enz uittesten.
+</p> </section> <h2>Oefeningen</h2> <p>
+Je lost nu volgende oefeningen op. Ik wil graag telkens de SQL-query
+      (gewoon tekst zodat ik die kan kopiëren en plakken) en een screenshot van
+      je resultaat, samen met een paar zinnen uitleg hoe je tot deze query
+      gekomen bent. Elke oefening begint op een nieuwe pagina in je PDF.
+</p> <h3>Oefening 1: gemeente</h3> <section class="taak"> <p>
+In welke gemeente (naam) woont de lector met een lector_id dat eindigt
+        op het karakter ‘2’ die van het meeste lectoren mentor is?
+</p>  </section> <h3>Oefening 2: geboortedatum lectoren</h3> <section class="taak"> <p>
+Maak een lijst van alle lectoren die een OPO geven in een andere taal
+        dan het Nederlands van wie hun contract geen einddatum heeft en die
+        bovendien een mentor hebben. Deze lijst bevat drie kolommen: voornaam,
+        naam en geboortedatum. Elke lector in deze lijst mag maar één keer
+        vermeld worden. Rangschik deze lijst zodat de oudste lector bovenaan
+        staat.
+</p>  </section> <h3>Oefening 3: oudste lector zonder les in 2022</h3> <section class="taak"> <p>
+Hoe heet de oudste lector die <em>geen</em> les gaf in 2022?
+</p>  </section> <h3>Oefening 4: informatie toevoegen aan de databank</h3> <p>
+Voeg volgende informatie toe aan de databank. <em>
+Opgelet: je hebt geen schrijfrechten in dit schema, dus je kan je
+        SQL-code niet zelf uittesten.
+</em> Maar als de lectoren jouw code uitvoeren willen we wel een foutloos resultaat.
+      Doe dus geen dingen die leiden tot een foutmelding van de server!
+</p> <p>
+Als er een nodig gegeven ontbreekt (en dat zal zo bij verschillende dingen
+      zijn!), moet je daar zelf een zinvolle waarde voor verzinnen. Velden met
+      een optionele waarde vul je niet in.
+</p> <section class="taak"> <p>
+Student George Maxwell (studentnummer r0082155) uit de Kievitlaan 110 in
+        8000 Vaux-sur-Sûre schrijft zich op 2 augustus 2023 met een
+        creditcontract in voor het OPO ‘Financial English’. Dat is een nieuw OPO
+        van 3 studiepunten uit de richting ‘Accountancy - Fiscaliteit’ dat
+        volgend academiejaar (2023) voor het eerst wordt ingericht. Lector Omar
+        Conrad wordt de coördinator van dit OPO. Hij zal het ook als enige
+        geven.
+</p>  </section> <h3>Oefening 5: Lectoren met woonplaats dichtbij campus</h3> <section class="taak"> <div> <p>
+Geef een overzicht, gesorteerd op naam van de campus, van alle
+          lectoren die een OPO geven op een campus waar ze dichtbij wonen.
+          ‘Dichtbij wonen’ definiëren we in dit verband als ‘het eerste cijfer
+          van de postcode van de woonplaats van de lector is hetzelfde als het
+          eerste cijfer van de postcode van de campus’. Bestudeer de output van
+          onderstaande figuur goed om te zien welke kolommen en bijhorende
+          hoofding je als resultaat van de query moet geven.
+</p> <figure class="center"> <img src="/assets/schooladmin/lectorendichtbij.png" alt=""> </figure> </div>  </section> <h3>Oefening 6: aantal unieke studenten per campus</h3> <section class="taak"> <p>
+Geef een lijst van het aantal unieke studenten die elke campus nu heeft
+        of in het verleden gehad heeft. Met ‘unieke student’ bedoelen we dat een
+        student die in twee of meer opleidingen of meerdere jaren na elkaar
+        ingeschreven is in één campus toch maar één keer mag geteld worden. Je
+        geeft de naam van de campus en het aantal studenten en rangschikt
+        zodanig dat de campus met het grootste aantal unieke studenten bovenaan
+        staat.
+</p>  </section> <h3>Oefening 7: pair programming teams</h3> <section class="taak"> <div> <p>
+Bekijk het OPO met code ‘U66877’ in het jaar 2020. Er zijn 16
+          studenten die dit OPO in dat academiejaar volgden. We willen deze
+          studenten een project laten uitvoeren in ‘pair programming’, dus in
+          teams van twee. Genereer een lijst van alle mogelijke duo’s. De
+          volgorde is niet belangrijk, dus het team ‘student1, student2’ is
+          hetzelfde team als ‘student2, student1’. Elk team mag maar één keer in
+          de lijst vermeld staan. Je noteert het team in één kolom met beide
+          studentennummers gescheiden door het woord ‘en’. De figuur hieronder
+          toont de eerste rijen van het resultaat. Denk eens na over het juiste
+          aantal rijen dat je verwacht voor alle mogelijke teams met 16
+          studenten!
+</p> <figure class="center"> <img src="/assets/schooladmin/pairteams.png" width="250" alt=""> </figure> </div>  </section> <h3>Oefening 8: Studenten met tolereerbaar cijfer</h3> <section class="taak"> <div> <p>
+Stel een lijst op (alfabetisch gesorteerd op gemeente) van alle
+          studenten die in augustus een tolereerbaar cijfer behaalden (8 of 9
+          dus) en in een gemeente wonen die minstens één ‘a’ en minstens één ‘e’
+          bevat (hoofdletter of kleine letter maakt niet uit). Zorg ervoor dat
+          elke student maar één keer keer vermeld wordt in deze lijst. De figuur
+          toont de eerste rijen van het resultaat.
+</p> <figure class="center"> <img src="/assets/schooladmin/tolereerbaar.png" width="400" alt=""> </figure> </div>  </section> <h3>Oefening 9: Straten van Aalst</h3> <section class="taak"> <div> <p>
+Uit welke straten in Aalst van de reeds in de databank aanwezige
+          adressen hebben zich <em>nog nooit</em> studenten ingeschreven voor een
+          opleiding?
+</p> <figure class="center"> <img src="/assets/schooladmin/aalst.png" width="250" alt=""> </figure> </div>  </section> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

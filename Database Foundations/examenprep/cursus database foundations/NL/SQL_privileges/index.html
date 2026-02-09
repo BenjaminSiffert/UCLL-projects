@@ -1,0 +1,204 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>SQL: PRIVILEGES</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">When my brothers try to draw a circle to exclude me, I shall draw a
+          larger circle to include them. Where they speak out for the privileges
+          of a puny group, I shall shout for the rights of all mankind.</span> <br>
+&mdash;Pauli Murray
+</p> </blockquote> <h1>Toekennen van PRIVILEGES</h1> <p>
+Denk even aan je ISP in KULoket. Achter KULoket zit een uitgebreide
+      databank. In het begin van elk semester kan je in je ISP aanpassingen doen
+      bvb. OPO's toevoegen of weglaten, reeksen aanpassen in een andere fase dan
+      je basisfase enz. <em>
+Je kan vanzelfsprekend het ISP van een andere student niet bekijken,
+        want dat is persoonlijke informatie
+</em>. Maar heb je je al eens afgevraagd wie binnen UCLL dan wel toegang
+      tot je ISP heeft? Wie het kan wijzigen?
+</p> <p>
+Je studententrajectcoach (STC), dat spreekt vanzelf want je kan het ISP
+      met je STC bespreken, die het trouwens ook moet goedkeuren. Mensen van het
+      studentensecretariaat moeten bvb. soms de basisreeks aanpassen, dus die
+      krijgen ook toegang. Gewone lectoren (zonder STC-rol) kunnen echter geen
+      ISP's van studenten bekijken.
+</p> <p>
+In dit hoofdstukje geven we je een vereenvoudigde inkijk in het
+      rechtensysteem van PostgreSQL.
+</p> <h2>Privileges — rechten</h2> <p>
+Als STC heb ik <em>beperkte</em> toegang tot alle ISP's in KULoket. Als ik
+      naar het ISP van mijn zoon David (studeerde aan KULeuven) ga, krijg ik deze
+      melding:
+</p> <figure class="center"> <img src="/assets/privileges/DavidISP.png" alt=""> </figure> <p>
+Ik heb dus <em>wel</em> het recht om een overzicht van het ISP te <em>raadplegen</em>, maar
+<em>niet</em> om er <em>wijzigingen</em> in aan te brengen.
+</p> <section class="taak"> <p>
+Kan je een reden bedenken waarom een STC van UCLL toch ISP's van
+        KULeuven studenten kan raadplegen?
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Eén reden is dat een studententrajectcoach van UCLL nieuwe studenten
+          moet kunnen adviseren die al iets aan KULeuven deden. Om te kunnen
+          beoordelen of zo'n student vrijstellingen zou kunnen krijgen is het
+          zinvol dat je als STC toch een overzicht kan opvragen van elke student
+          aan de associatie KULeuven. Een STC moet enkel kunnen zien welke
+          credits een student behaalde, niet met welke cijfers dit gebeurde. Die
+          punten krijg ik dus niet te zien!
+</p> </div>  </section> <p>
+We spreken binnen Postgresql over ‘privileges’. Rechten toekennen aan
+      andere gebruikers doe je in SQL met <code>GRANT ... PRIVILEGE ... TO</code>. We geven eerst enkele voorbeelden en dan bespreken we de <code>GRANT</code> statements die nuttig kunnen zijn voor een database-opdracht waarbij je moet
+      samenwerken met andere mensen binnen hetzelfde databaseschema.
+</p> <h2>GRANT</h2> <p>Zonder in detail te gaan, eerst enkele voorbeelden:</p> <ul> <li> <code>GRANT USAGE ON SCHEMA examenoef TO student</code>: alle gebruikers
+        die de rol ‘student’ hebben krijgen toegang tot het schema ‘examenoef’.
+</li> <li> <code>GRANT SELECT ON TABLE klant TO local_r0987654</code>: gebruiker
+        ‘local_r0987654’ mag <code>SELECT</code> statements uitvoeren op de tabel
+        ‘klant’ in het huidig schema.
+</li> <li> <code>GRANT ALL ON ALL TABLES IN SCHEMA project TO local_01234567,
+          local_02345678, local_03456789</code>: geef deze drie studenten <em>alle</em> rechten op <em>alle</em> tabellen
+        waarvan jij de eigenaar bent.
+</li> </ul> <p>
+Je definieert toegangsrechten met het <code>GRANT</code> statement. Dit is
+      een van de meer complexe statements in SQL. We beperken ons tot die dingen
+      die nuttig zijn voor een eventueel groepswerk. Uit <a href="https://www.postgresql.org/docs/current/sql-grant.html">de uitgebreide documentatie van <code>GRANT</code></a> halen we enkele mogelijkheden. Geen paniek als het volgende je wat overdondert.
+      We werken het uit in de volgende secties.
+</p> <p>De formele definitie ziet er zo uit:</p> <p> <pre><code>GRANT { { SELECT | INSERT | UPDATE | DELETE | TRUNCATE | REFERENCES | TRIGGER }
+  [, ...] | ALL [ PRIVILEGES ] }
+  ON { [ TABLE ] table_name [, ...]
+    | ALL TABLES IN SCHEMA schema_name [, ...] }
+  TO role_specification [, ...] [ WITH GRANT OPTION ]
+  [ GRANTED BY role_specification ]
+
+GRANT { { CREATE | USAGE } [, ...] | ALL [ PRIVILEGES ] }
+  ON SCHEMA schema_name [, ...]
+  TO role_specification [, ...] [ WITH GRANT OPTION ]
+  [ GRANTED BY role_specification ]</code></pre> </p> <p> <em>No panic!</em> Verwerk eerst de rest van dit hoofdstuk en kom dan even
+      terug naar bovenstaande definitie. Die zal er dan een heel stuk leesbaarder
+      uitzien.
+</p> <h2>Praktische oefening i.v.m. rechten</h2> <section class="info"> <p>
+In wat volgt gaan we praktisch aan de slag in postgreSQL. We gebruiken
+        pgAdmin. Je maakt deze oefeningen liefst per twee. Eventueel kan het ook
+        alleen (bvb. voor studenten in het afstandstraject). Elke student heeft
+        immers twee gescheiden gebruikers: je r-nummer op de gewone connectie
+        52324 en je local_rnummer op de pooling-connectie 62526. De oefeningen
+        zijn opgezet als een soort rollenspel tussen twee gebruikers (<a href="https://militaryalphabet.net">‘Alpha’ en ‘Bravo’</a>).
+</p> </section> <p>
+Schermafbeeldingen en code hieronder zijn gemaakt voor de gebruiker
+      ‘local_u0012047’ (‘Alpha’, hier vertolkt door lector Jan) en gebruiker
+      ‘local_u0145920’ (‘Bravo’, lector Steven). Als je de oefening zelf maakt,
+      vervang je natuurlijk onze twee gebruikersnamen door je eigen r-nummer.
+</p> <p>
+Voer de stappen uit in de volgende werktekst. Als iets fout loopt, lees
+      dan even verder. We laten je met opzet hier en daar fouten begaan om
+      daaruit te leren …
+</p> <h2>Eigenaar</h2> <p> <em>
+Wie een object (schema, tabel, …) maakt in een databank is automatisch
+        eigenaar van dit object.
+</em> Voer nu volgende stappen uit in de databank die hoort bij je reeks (‘1TX31’,
+      …):
+</p> <section class="taak"> <div> <ul> <li>
+Alpha maakt een nieuw schema met als naam ‘u0012047_privileges’ in
+            de pooling-connectie 62526.
+</li> <li>Bravo gebruikt ook de pooling-connectie.</li> <li>
+Alleen de eigenaar heeft momenteel rechten om iets te doen in dit
+            schema. Om dit aan te tonen probeert Bravo een tabel te maken in dit
+            schema.
+</li> </ul> <p>
+Bravo maakt (via een <code>CREATE</code> statement) een heel eenvoudige
+          tabel ‘klant’ met slechts twee kolommen: klantnummer (geheel getal, dit
+          is de primaire sleutel dus verplicht) en naam (<code>varchar(50)</code>, ook verplicht).
+<em>Vergeet niet de naam van het schema voor de naam van de tabel te
+            vermelden, want anders maak je een nieuwe tabel aan in public!</em> Normaal gezien krijgt Bravo een foutmelding in de stijl van: <pre><code>ERROR:  permission denied for schema u0012047_privileges
+LINE 1: create table u0012047_privileges.klant (
+                     ^
+SQL state: 42501
+Character: 14</code></pre> </p> </div>  </section> <h2>Rechten geven op je schema</h2> <p>
+Bravo kan geen nieuwe objecten (zoals een tabel) maken in het schema van
+      Alpha. <em>
+Het is nu aan de eigenaar van het schema om de juiste rechten toe te
+        kennen aan een andere gebruiker.
+</em> Breng nu volgende stappen in de praktijk:
+</p> <section class="taak"> <div> <ol> <li> <p>
+Alpha geeft bepaalde rechten op het schema aan Bravo. Dat kan heel
+              beperkt zijn tot enkel gebruik (<code>USAGE</code>), zoals we dat
+              bvb. voor het schema instellen op een examen. We willen immers
+              niet dat studenten zelf in het schema aanpassingen maken (nieuwe
+              tabellen enz). Alpha wil echter dat zijn groepsgenoot wel in zijn
+              schema kan werken en typt volgend commando in een query tool:<pre><code>GRANT ALL PRIVILEGES ON SCHEMA u0012047_privileges TO local_u0145920
+-- Het woord PRIVILEGES is niet verplicht, dus korter is:
+GRANT ALL ON SCHEMA u0012047_privileges TO local_u0145920</code></pre> </p> <p>
+Als alles goed gaat antwoordt de server met:<pre><code>GRANT
+
+Query returned successfully in 60 msec.</code></pre> </p> </li> <li> <p>
+Bravo heeft nu alle rechten gekregen op het schema van Alpha.
+              Alhoewel … alle rechten? Bravo probeert het schema te droppen: <pre><code>DROP SCHEMA u0012047_privileges</code></pre> </p> <p>
+De databankserver antwoordt echter met een foutmelding:<pre><code>ERROR:  must be owner of schema u0012047_privileges
+SQL state: 42501</code></pre> </p> <p>
+Met ander woorden: <code>ALL PRIVILEGES</code> betekent eigenlijk ‘alles
+              behalve <code>DROP</code>. Je kan nooit het schema van iemand
+              anders droppen, tenzij je <em>superuser</em> van de databankserver
+              bent.
+</p> </li> <li>
+Bravo probeert nu opnieuw in het schema van Alpha de nieuwe tabel
+            ‘klant’ te maken. Dat zou nu wel moeten lukken. Probeer dit uit!
+</li> </ol> </div>  </section> <h2>Rechten geven op een tabel</h2> <p>
+Bravo heeft de kleine tabel ‘klant’ succesvol kunnen aanmaken. We proberen
+      nu volgende dingen uit op deze tabel.
+</p> <section class="taak"> <div> <ol> <li> <p>
+Bravo voegt een klant met nummer 789 en naam ‘Dieter Desmedt’ toe
+              aan de tabel. Dat zou zonder probleem moeten lukken, zie figuur:
+</p> <figure class="center"> <img src="/assets/privileges/KlantDieter.png" width="400" alt=""> </figure> </li> <li> <p>
+Alpha probeert een rij toe te voegen aan de tabel ‘klant’ (‘Wim
+              Claes’ met klantnummer 5). Die krijgt echter volgende foutmelding:<pre><code>ERROR:  permission denied for table klant
+SQL state: 42501</code></pre> </p> <p>
+Die foutmelding is logisch, want Alpha is niet de eigenaar van het
+              tabelobject ‘klant’. <em>Dat Alpha wel de eigenaar is van het schema doet niets ter
+                zake, want het gaat hier enkel over de rechten op de tabel zelf.</em> </p> </li> <li> <p>
+Bravo geeft nu <code>INSERT</code> recht aan Alpha: <pre><code>GRANT INSERT ON TABLE u0012047_privileges.klant to local_u0012047;</code></pre> </p> <p>
+Die rechten kan je mooi visualiseren in pgAdmin. Klik rechts op de
+              tabel ‘klant’ en kies properties… Onderstaande figuur vertelt me
+              dat local_u0145920 de eigenaar is van deze tabel:
+</p> <figure class="center"> <img src="/assets/privileges/tabelproperties.png" alt=""> </figure> <p>Het tabblad ‘security’ geeft extra informatie:</p> <figure class="center"> <img src="/assets/privileges/tabelsecurity.png" alt=""> </figure> <p>
+Even een paar woorden vertalen: ‘grantor’ is diegene die de
+              rechten geeft, ‘grantee’ is de ontvanger van de rechten. Deze
+              screenshot toont dat gebruiker local_u0145920 <code>INSERT</code> rechten
+              gegeven heeft aan gebruiker local_u0012047. <em>Je kan trouwens in dit tabblad zelf de rechten aanpassen en dit
+                bewaren. Je moet het echter in elk geval voor het examen ook
+                m.b.v. SQL statements in pgAdmin kunnen.</em> </p> </li> <li> <p>
+Nu kan Alpha wel een rij toevoegen aan de tabel:<pre><code>INSERT INTO u0012047_privileges.klant VALUES(5,&#39;Wim Claes&#39;)</code></pre> </p> </li> <li> <p>
+Alpha merkt echter dat dit niet de juiste klant is, dus die moet
+              verwijderd worden:<pre><code>DELETE FROM u0012047_privileges.klant
+WHERE klantnummer = 5</code></pre> </p> <p>Verklaar wat er gebeurt als deze query uitgevoerd wordt.</p> </li> <li> <p>
+Bravo geeft Alpha ook <code>DELETE</code> rechten. Alpha probeert vervolgens
+              de klant met nummer 5 nogmaals te verwijderen met de query die hierboven
+              staat. Het verrassend resultaat is dat dit niet lukt omdat Alpha hier
+              onvoldoende rechten heeft! Hoe kan dat? De eigenaar van de tabel (Bravo)
+              gaf toch net <code>DELETE</code> rechten?
+</p> <p>
+Het antwoord op deze vragen staat <a href="https://www.postgresql.org/docs/current/ddl-priv.html">in de documentatie van postgres</a>. We citeren even: “In practice, any nontrivial <code>DELETE</code> command will require <code>SELECT</code> privilege as well, since
+              it must reference table columns to determine which rows to delete.”.
+              Aangezien de <code>DELETE</code> query hierboven de rij met klantnummer
+              5 moet kunnen <em>selecteren</em>, moet Alpha dus ook <code>SELECT</code> rechten krijgen.
+</p> <p>
+Bravo, geef je student ook de <code>SELECT</code> rechten op je tabel,
+              zodat Alpha uiteindelijk toch de foute rij kan verwijderen? Fijn!
+</p> </li> </ol> </div>  </section> <h2>Overzicht rechten</h2> <p>
+Je vindt de volledige lijst van privileges op <a href="https://www.postgresql.org/docs/current/ddl-priv.html">de reeds vermelde pagina</a>. Voor ons de meest interessante zijn (het systeem is veel uitgebreider
+      dan dit klein overzichtje):
+</p> <ol> <li><code>ALL</code>: alle rechten (behalve <code>DROP</code>).</li> <li> <code>SELECT</code>: kolom(men) in een tabel selecteren. Zo goed als
+        altijd ook nodig voor <code>UPDATE</code> en <code>DELETE</code> privileges.
+</li> <li><code>UPDATE</code>: recht om kolommen in een tabel te updaten.</li> <li><code>DELETE</code>: rijen verwijderen in een tabel.</li> <li> <code>CREATE</code>: recht op in een database een nieuw schema te maken,
+        of in een bestaand schema een nieuwe tabel aan te maken.
+</li> <li><code>USAGE</code>: recht om in een schema toegang te krijgen.</li> </ol> <p>
+Voor een groepswerk zal je in de praktijk aan de groepsgenoten alle
+      rechten geven. Eén persoon maakt het schema en geeft iedereen rechten:<pre><code>GRANT ALL ON SCHEMA ... TO local_r1, local_r2, local_r3</code></pre> </p> <p>
+Elke student die in dit schema een nieuwe tabel maakt, geeft dan aan de
+      anderen alle rechten op die tabellen. Je kan ook ineens privileges geven
+      op alle tabellen in een schema:<pre><code>GRANT ALL ON ALL TABLES IN SCHEMA ... TO ...</code></pre> </p> <p>
+Op het examenschema van de gewone dagopleiding passen we volgende
+      privileges toe:<pre><code>GRANT USAGE ON SCHEMA examenschema TO student;
+GRANT SELECT ON ALL TABLES IN SCHEMA examenschema TO student;</code></pre> </p> <p>
+Je krijgt op het examen m.a.w. toegang tot alle tabellen van het schema en
+      kan enkel <code>SELECT</code> query's uitvoeren.
+</p> <h2>REVOKE</h2> <p>
+Alles wat je kan <em>toekennen</em> qua privileges kan je ook <em>afnemen</em> met <code>REVOKE</code>. Je vervangt in bovenstaande voorbeelden gewoon
+      het woord <code>GRANT</code> door <code>REVOKE</code> en het woord <code>TO</code> door <code>FROM</code>. Je geeft immers rechten <em>aan</em> (‘TO’) iemand
+      en neemt rechten af <em>van</em> (‘FROM’) iemand.
+</p> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

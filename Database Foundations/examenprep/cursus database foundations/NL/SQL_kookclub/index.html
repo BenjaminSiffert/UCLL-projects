@@ -1,0 +1,461 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>SQL: oefeningen kookclub</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">All I ever wanted to do was to make food accessible to everyone; to
+          show that you can make mistakes &ndash; I do all the time &ndash; but
+          it doesn't matter.</span> <br>
+&mdash;Jamie Oliver
+</p> </blockquote> <h1>Oefeningen SQL op databank voor een kookclub</h1> <h2>Voorstelling model</h2> <p>
+In dit laatste hoofdstuk willen we je een idee geven van de
+      moeilijkheidsgraad van de oefeningen op het examen. We recycleren hiervoor
+      een model dat op een vorig examen gebruikt is voor een kookclub.
+</p> <section class="info"> <p>
+Je vindt dit model (‘kookclub’) in de databank ‘df’. Je hebt hier enkel <code>SELECT</code> rechten en kan dus geen <code>INSERT</code>, <code>CREATE</code> enz uittesten.
+</p> </section> <p>
+Voor dit examen maken we gebruiken van een eenvoudig model van een
+      organisatie die kookworkshops inricht. Dit is het fysiek model:
+</p> <figure class="center"> <img src="/assets/kookclub/ERD_kookclub.png" alt=""> </figure> <p>
+We willen graag de organisatie van kookworkshops automatiseren. Een
+      kookworkshop gaat telkens over een bepaald thema waarbinnen dan bepaalde
+      gerechten gemaakt worden. Leden kunnen zich inschrijven om aan zo’n
+      workshop deel te nemen en kunnen na deelname ook een score geven en wat
+      feedback. Beide attributen zijn dus niet verplicht.
+</p> <p>
+Op het moment dat een kookworkshop georganiseerd wordt, wordt zoals gezegd
+      het thema bepaald. Binnen elk thema zijn een aantal gerechten gekend. Bij
+      het vastleggen van de gerechten die in een kookworkshop aan bod zullen
+      komen, kan uit het aanbod binnen dat thema gekozen worden, maar is het ook
+      mogelijk om een nieuw gerecht toe te voegen. Uiteraard wordt dat nieuw
+      gerecht dan ook aan dat thema gekoppeld. Ook wordt bijgehouden voor elk
+      gerecht wat de ingrediënten zijn en in welke hoeveelheid ze voor dat
+      gerecht gebruikt worden.
+</p> <p>
+Let op bij ingrediënt: de eenheid geeft weer of dat ingrediënt per g, per
+      ml, per eetlepel, per stuk of andere gebruikt wordt. Het energieniveau
+      geeft het aantal kcal weer. Let op: als de eenheid uitgedrukt wordt in g
+      of ml, dan is de energie altijd per 100 g, resp ml gegeven. In de andere
+      gevallen is het per eenheid die aangegeven is.
+</p> <section class="taak"> <p>
+Ga bvb na dat aardbeien per 100 g 32 kcal energie hebben en dat één
+        abrikoos een energie-inhoud van 27 kcal heeft.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT *
+FROM kookclub.ingrediënt -- je kan ook je search_path goed zetten …
+WHERE naam IN (&#39;Aardbei&#39;,&#39;Abrikoos&#39;)</code></pre> </div>  </section> <section class="opgepast">
+Vergeet niet je <code>search_path</code> goed te zetten ofwel telkens de naam
+      van het schema voor de naam van een tabel te vermelden …
+</section> <section class="taak"> <p>
+Tip: bestudeer nu eerst rustig het model vooraleer je naar de vragen
+        kijkt. Bekijk de inhoud van alle tabellen zodat je een idee krijgt waar
+        welke informatie zit en hoe uitgebreid sommige tabellen zijn. Een deel
+        van de databank is automatisch gegenereerd (bvb lid en deelname), maar
+        veel tabellen zijn toch manueel ingevuld zodat de data er redelijk
+        realistisch uitziet.
+</p>  </section> <p>
+Hieronder vind je nu heel wat oefeningen zoals die ooit op een examen
+      gevraagd zijn. Er zijn heel wat verschillende types:
+</p> <ul> <li>Geef het antwoord op een vraag, geen SQL-code gevraagd.</li> <li>Geef de SQL-code die een vraag beantwoordt.</li> <li>
+Pas de databank aan: voeg gegevens toe, verander dingen (kan je niet
+        uittesten, want je hebt daarvoor niet de juiste privileges).
+</li> <li>Wat doet volgende SQL-code?</li> <li>Breid het model uit met een nieuwe functionaliteit.</li> </ul> <h2>Vragen waarbij je enkel het antwoord moet geven</h2> <p>
+Voor deze oefeningen moet je enkel kort een antwoord geven (naam,
+      ingrediënt, gemeente, … ). Je hoeft dus niet de query te geven waarmee je
+      dit antwoord vond. In de oplossingen zal je meestal wel de query vinden
+      zodat je kan controleren wat je fout deed.
+</p> <section class="taak"> <p>
+Het schema bevat een uitgebreide lijst van ingrediënten. Sommige hiervan
+        zijn per gram, andere per milliliter, per eetlepel, nog andere per stuk
+        enz. Stel dat je van elk ingrediënt dat <em>per stuk</em> geteld wordt er
+        1 eet, hoeveel energie (kcal) heb je dan binnen?
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Antwoord: 7071 kcal. Een mogelijke query hiervoor is:
+<pre><code>SELECT sum(energie)
+FROM ingrediënt
+WHERE eenheid = &#39;stuk&#39;</code></pre> </p> </div>  </section> <section class="taak"> <p>
+Dit schema is voor een deel opgevuld door automatische datageneratie.
+        Dat is niet al te slim gebeurd. Zo kan het natuurlijk niet dat een
+        inschrijfdatum <em>na</em> de kookworkshop zelf valt. Deze fout moet dus
+        manueel rechtgezet worden. Hoeveel van dergelijke foute inschrijvingen zijn
+        er?
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Antwoord: 57, mogelijke query:
+<pre><code>SELECT COUNT(*)
+FROM deelname D INNER JOIN kookworkshop K ON D.workshop = K.workshop_id
+WHERE D.inschrijfdatum &gt; K.startmoment</code></pre> </p> </div>  </section> <section class="taak"> <p>
+Bekijk alle hoofdgerechten die ooit in een kookworkshop gemaakt zijn.
+        Daarvoor waren heel wat ingrediënten nodig. Als je die ingrediënten
+        schrapt uit de lange lijst van ingrediënten en je ordent de
+        overblijvende lijst alfabetisch, welk ingrediënt dat voor geen enkel
+        hoofdgerecht gebruikt is, staat dan op plaats 81?
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Antwoord: Naanbrood, oplossing gevonden bvb via:
+<pre><code>SELECT naam, IG.gerecht
+FROM gerecht_in_workshop GW
+  INNER JOIN ingrediënt_in_gerecht IG on GW.gerecht = IG.gerecht AND rol_in_menu = &#39;Hoofdgerecht&#39;
+  RIGHT OUTER JOIN ingrediënt I ON IG.ingrediënt = I.naam
+WHERE IG.gerecht is NULL
+ORDER BY 1</code></pre> </p> </div>  </section> <section class="taak"> <p>
+Wie is de jongste deelnemer aan een kookworkshop die in de evaluatie het
+        woord ‘geweldig’ of ‘fantastisch’ gebruikt heeft? Geef voornaam gevolgd
+        door naam.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Antwoord: Ramiro Bell, met bvb. volgende query:
+<pre><code>SELECT voornaam, naam, geboortedatum, feedback
+FROM deelname D INNER JOIN lid L ON D.lid = L.lidnr
+WHERE feedback LIKE &#39;%geweldig%&#39; OR feedback LIKE &#39;%fantastisch%&#39;
+ORDER BY 3 DESC</code></pre> </p> </div>  </section> <h2>Modelleervraag</h2> <p>
+In deze vraag moet je iets toevoegen aan het model. Je kan dat zelf niet
+      uittesten want je hebt immers enkel <code>SELECT</code> rechten op het schema.
+      Je tekent voor deze vraag iets op het ERD (fysiek datamodel) van het schema
+      en geeft de nodige SQL query’s.
+</p> <section class="taak"> <div> <p>
+We willen bijhouden hoeveel ingrediënten we voor een bepaalde workshop
+          moeten bestellen. We moeten daarvoor bijhouden hoeveel we van elk
+          ingrediënt op welke datum besteld hebben.
+</p> <ol> <li>Teken de nodige uitbreiding aan het schema.</li> <li>
+Schrijf de wijzigingen die nodig zijn in het <code>CREATE</code> script.
+            Zorg er zeker ook voor dat de bestelde aantallen altijd strikt positief
+            zijn. Vermeld alle integriteitsregels.
+</li> <li>
+Voor kookworkshop 7 moeten volgende ingrediënten besteld worden: 600
+            g gember (80 kcal per 100 g), 180 g wasabi (241 kcal per 100 g), 6
+            kg zalm (137 kcal per 100 g) en 7 broccoli’s (35 kcal per stuk).
+            Schrijf de nodige <code>INSERT</code> statements hiervoor.
+</li> </ol> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Je moet een tabel bijmaken:
+<pre><code>CREATE  TABLE kookclub.bestelling (
+  ingrediëntnaam       varchar(30)  NOT NULL ,
+  workshop_id          smallint  NOT NULL ,
+  besteldatum          date NOT NULL ,
+  aantal               smallint  NOT NULL ,
+  CONSTRAINT pk_bestelling PRIMARY KEY ( ingrediëntnaam, workshop_id, besteldatum ),
+  CONSTRAINT fk_bestelling_ingrediënt FOREIGN KEY ( ingrediëntnaam )
+      REFERENCES kookclub.ingrediënt( naam )   ,
+  CONSTRAINT fk_bestelling_kookworkshop FOREIGN KEY ( workshop_id )
+       REFERENCES kookclub.kookworkshop( workshop_id )   ,
+  CONSTRAINT cns_bestelling CHECK ( aantal &gt; 0 )
+);</code></pre> </p> <p>
+De extra informatie toevoegen gaat als volgt: bestelling voor 0,6 kg
+          gember (80 kcal per 100 g), 180 g wasabi (241 kcal per 100 g), 6 kg
+          zalm (137 kcal per 100 g) en 7 broccoli's (35 kcal per stuk) die
+          gebruikt zullen worden in kookworkshop 7 omdat we daar vis op een
+          oosterse manier zullen klaarmaken. Gember, Zalm en Broccoli staan al
+          in de tabel ingrediënt. Wasabi staat er nog niet in, dus eerst moet je
+          dat ingrediënt toevoegen:
+<pre><code>INSERT INTO ingrediënt VALUES (&#39;Wasabi&#39;, &#39;g&#39;, 241);</code></pre> </p> <p>
+Nu kunnen we de bestelling in orde maken:
+<pre><code>INSERT INTO bestelling VALUES (&#39;Gember&#39;, 7, &#39;2021-06-18&#39;, 600);
+INSERT INTO bestelling VALUES (&#39;Wasabi&#39;, 7, &#39;2021-06-18&#39;, 180);
+INSERT INTO bestelling VALUES (&#39;Zalm&#39;, 7, &#39;2021-06-18&#39;, 6000);
+INSERT INTO bestelling VALUES (&#39;Broccoli&#39;, 7, &#39;2021-06-18&#39;, 7);</code></pre> </p> </div>  </section> <h2>Gegeven de query, wat is de vraag?</h2> <section class="taak"> <div> <p>
+Voor deze oefening krijg je een query die het antwoord op een bepaalde
+          vraag is. Wat was de vraag? Geef je antwoord zo volledig mogelijk in
+          vlot Nederlands. Je mag gerust meerdere zinnen gebruiken om die vraag
+          duidelijk te omschrijven.
+</p> <div> <pre><code>SELECT distinct gemeente
+FROM gemeente LEFT OUTER JOIN lid using(postcode)
+  INNER JOIN deelname ON lid.lidnr = deelname.lid
+  INNER JOIN gerecht_in_workshop using(workshop)
+  INNER JOIN ingrediënt_in_gerecht using(gerecht)
+GROUP BY gemeente, deelname.lid
+HAVING COUNT(distinct ingrediënt) &gt; 30
+ORDER BY 1 ASC</code></pre> </div> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Geef een alfabetisch gerangschikte lijst van alle gemeenten waar
+          inwoners aan een of meerder kookworkshops hebben deelgenomen met in
+          totaal meer dan 30 verschillende ingrediënten (over alle kookworkshops
+          van dit lid heen). Als er meerdere van dergelijke inwoners zijn mag de
+          gemeente maar één keer vermeld worden in de lijst. De <code>OUTER JOIN</code> heeft geen effect en wordt niet vertaald in de opgave.
+</p> </div>  </section> <h2>SQL query's</h2> <p>
+Het volgende type oefeningen vraagt de volledige query als antwoord te
+      geven.
+</p> <section class="taak"> <div> <p>
+Geef een overzicht dat per ingrediënt toont in welke thema’s dat
+          ingrediënt gebruikt wordt. Er is een extra kolom die de energie van
+          een ingrediënt in een woord weergeeft: lager dan 100 (kcal) is ‘laag’,
+          tussen 100 en 300 is ‘gemiddeld’ en hoger dan 300 is ‘hoog’. Vermijd
+          herhaling van rijen. Zet de ingrediënten in alfabetische volgorde.
+          Schrijf de query.
+</p> <figure class="center"> <img src="/assets/kookclub/kcal.png" width="500" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT distinct I.naam AS ingrediënt, GT.thema AS &quot;naam thema&quot;, 
+  CASE
+    WHEN energie &lt; 100 THEN &#39;laag&#39;
+    WHEN energie &gt; 300 THEN &#39;hoog&#39;
+    ELSE &#39;gemiddeld&#39;
+  END AS energiegehalte
+FROM ingrediënt I
+    INNER JOIN ingrediënt_in_gerecht IG ON (I.naam = IG.ingrediënt)
+    INNER JOIN gerecht_past_in_thema GT using(gerecht)
+ORDER BY 1</code></pre> </div>  </section> <section class="taak"> <div> <p>
+Geef per thema een overzicht (zie figuur) per gemeente hoeveel
+          deelnemers uit die gemeente komen. Rangschik alfabetisch per thema en
+          binnen één thema volgens dalend aantal leden per gemeente. Schrijf de
+          query.
+</p> <figure class="center"> <img src="/assets/kookclub/ledenperthema.png" width="600" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT thema, gemeente, COUNT (lidnr) AS &quot;aantal leden per gemeente&quot;
+FROM lid
+  INNER JOIN gemeente USING (postcode)
+  INNER JOIN deelname ON (lid = lidnr)
+  INNER JOIN kookworkshop ON (workshop = workshop_id)
+GROUP BY thema, postcode, gemeente
+ORDER BY thema, COUNT(lidnr) DESC</code></pre> <p>
+Een alternatief waarbij gemeente in de <code>GROUP BY</code> weg mag omwille
+          van het niet gebruiken van <code>USING</code>:
+<pre><code>SELECT thema, gemeente, COUNT (lidnr) AS &quot;aantal leden per gemeente&quot;
+FROM lid
+  INNER JOIN gemeente ON gemeente.postcode = lid.postcode
+  INNER JOIN deelname ON (lid = lidnr)
+  INNER JOIN kookworkshop ON (workshop = workshop_id)
+GROUP BY thema, gemeente.postcode
+ORDER BY thema, COUNT(lidnr) DESC</code></pre> </p> </div>  </section> <section class="taak"> <div> <p>
+Hoeveel kcal zitten er in het gerecht ‘Tiramisu met chocolade en
+          banaan’ per ingrediënt? Opgepast, waar de eenheid ‘g’ of ‘ml’ is, is
+          de energie-inhoud het aantal kcal per 100 g of 100 ml. Voor alle
+          andere eenheden is het getal in kcal gewoon de energie per eenheid
+          (stuk, eetlepel, bussel enz.). Hou dus rekening met de eenheden. Het
+          ingrediënt dat de grootste energiebijdrage levert aan dit gerecht
+          staat bovenaan, dan het tweede enz. Zie figuur. Schrijf de query.
+</p> <figure class="center"> <img src="/assets/kookclub/tiramisu-energie.png" width="600" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT IG.ingrediënt, hoeveelheid, eenheid,energie,
+  CASE
+    WHEN eenheid in (&#39;g&#39;,&#39;ml&#39;) THEN energie * hoeveelheid / 100
+    ELSE energie * hoeveelheid
+  END AS totaal
+FROM ingrediënt_in_gerecht IG INNER JOIN ingrediënt I ON IG.ingrediënt = I.naam
+WHERE gerecht = &#39;Tiramisu met chocolade en banaan&#39;
+ORDER BY 5 DESC</code></pre> </div>  </section> <h2>Vragen waarbij je enkel het antwoord moet geven, deel 2</h2> <section class="taak"> <p>
+Geef een alfabetisch gesorteerd overzicht van alle ingrediënten die <em>nog niet</em> in een gerecht gebruikt worden. Welk ingrediënt staat op plaats 100 en
+        wat is de energie-waarde van dit ingrediënt. Je antwoord bevat dus twee delen
+        zoals bvb: “Bloemkool met 25 kcal”.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>Antwoord: snijbiet met 19 kcal. Mogelijke query:</p> <pre><code>SELECT ingrediënt.naam
+FROM ingrediënt LEFT OUTER JOIN ingrediënt_in_gerecht ON (ingrediënt.naam = ingrediënt)
+WHERE gerecht IS NULL
+ORDER BY ingrediënt.naam</code></pre> </div>  </section> <section class="taak"> <p>
+Bekijk alle deelnames aan kookworkshops van mensen uit een gemeente die
+        begint met een ‘N’ of eindigt met een ‘n’. Hoeveel deelnemers uit deze
+        gemeenten hebben een score van minstens 7 gegeven?
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>Antwoord: 10. Mogelijke query:</p> <pre><code>SELECT score, lidnr, gemeente, postcode
+FROM deelname D
+    INNER JOIN lid L ON D.lid = L.lidnr
+    INNER JOIN gemeente using(postcode)
+WHERE (gemeente LIKE &#39;N%&#39; OR gemeente LIKE &#39;%n&#39;) AND score &gt;= 7</code></pre> </div>  </section> <section class="taak"> <p>
+Bekijk de lange lijst van ingrediënten, maar beperk je tot die
+        ingrediënten die in gram (’g’) worden afgemeten. Bereken de gemiddelde
+        energie van deze ingrediënten (dat is per 100 g gemeten, maar voor deze
+        vraag is dat niet belangrijk). Welk ingrediënt dat per g afgemeten
+        wordt, heeft een energie-inhoud die het dichtst ligt bij dit gemiddelde?
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Antwoord: Advokaat (240 Kcal per 100 g, ligt dichtst bij gemiddelde
+          226,5). Dit kan je het eenvoudigst bekomen met twee kleine query's,
+          maar het kan natuurlijk mooier met één query (die een subquery bevat).
+</p> <pre><code>SELECT naam,energie -- eerst vraag je echter avg(energie)
+FROM ingrediënt
+WHERE eenheid = &#39;g&#39;
+ORDER BY 2</code></pre> </div>  </section> <section class="taak"> <p>
+Geef voornaam en naam van het lid met de meeste deelnames. Als er
+        meerdere leden zijn met hetzelfde maximale aantal deelnames, geef je
+        alle namen (voornaam gevolgd door familienaam).
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>Antwoord: Benny Nielsenn, Casey Valentine, Shelley Vincent</p> <pre><code>SELECT naam, voornaam, COUNT(*)
+FROM deelname D INNER JOIN lid L ON D.lid = L.lidnr
+GROUP BY lidnr
+ORDER BY 3 DESC, 1</code></pre> </div>  </section> <h2>Gegeven de query, wat is de vraag, deel 2?</h2> <p>
+Voor deze oefening krijg je een query die het antwoord op een bepaalde
+      vraag is. Wat was de vraag? Geef je antwoord zo volledig mogelijk in vlot
+      Nederlands. Je mag gerust meerdere zinnen gebruiken om die vraag duidelijk
+      te omschrijven.
+</p> <section class="taak"> <p> <pre><code>SELECT G.naam
+FROM thema T
+    INNER JOIN gerecht_past_in_thema GT ON T.naam = GT.thema
+    RIGHT OUTER JOIN gerecht G ON GT.gerecht = G.naam AND
+        T.naam IN (&#39;Mediterraans&#39;,&#39;Italiaans&#39;,&#39;vis&#39;)
+WHERE T.naam is NULL AND G.beschrijving NOT LIKE &#39;%zomer%&#39;
+ORDER BY bereidtijd DESC</code></pre> </p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Dit is een moeilijke oefening, <a href="/NL/SQL_outerjoin/index.html#Rijen-selecteren-die-NIET-aan-een-bepaalde-voorwaarde-voldoen">zie ook de titeltje “Rijen selecteren die NIET aan een bepaalde
+            voorwaarde voldoen in het stukje over OUTER JOIN</a>. Geef een lijst van alle gerechten in de databank die <em>niet</em> als
+          thema Mediterraans, Italiaans of vis hebben en waar in de beschrijving
+          van het gerecht het woord zomer niet voorkomt, gesorteerd volgens dalende
+          duur om het gerecht klaar te maken.
+</p> </div>  </section> <h2>SQL query's, deel 2</h2> <section class="taak"> <div> <p>
+Schrijf een query die voor alle gerechten die beschikken over een
+          ingrediëntenlijst de totale energie-inhoud in kcal berekent. Opgelet:
+          bij ingrediënten die als eenheid ‘g’ of ‘ml’ hebben is de
+          energie-inhoud per 100 g of 100 ml gegeven. Bij alle andere eenheden
+          is de energie-inhoud gegeven per eenheid (‘stuk’, ‘dl’, ‘koffielepel’,
+          …). We willen dit overzicht graag gebruiken om een lijstje te krijgen
+          van alleen ‘lichte’ gerechten die in totaal minder dan 4000 kcal
+          bevatten. Het gerecht met het minste aantal kcal staat bovenaan,
+          daarna het tweede enz. De screenshot toont alleen de eerste twee
+          rijen.
+</p> <figure class="center"> <img src="/assets/kookclub/weinigkcal.png" width="500" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT IG.gerecht,
+  sum(CASE
+    WHEN eenheid in (&#39;g&#39;,&#39;ml&#39;) THEN energie * hoeveelheid / 100
+    ELSE energie * hoeveelheid
+  END) AS &quot;totaal aantal kcal&quot;
+FROM ingrediënt_in_gerecht IG INNER JOIN ingrediënt I ON IG.ingrediënt = I.naam
+GROUP BY IG.gerecht
+HAVING sum(CASE
+    WHEN eenheid in (&#39;g&#39;,&#39;ml&#39;) THEN energie * hoeveelheid / 100
+    ELSE energie * hoeveelheid
+  END) &lt; 4000
+ORDER BY 2</code></pre> </div>  </section> <section class="taak"> <div> <p>
+Bij de inschrijvingen heeft men niet gekeken naar het maximale aantal
+          deelnemers van elke kookworkshop. Dat is natuurlijk stom, want de
+          mensen die ingeschreven zijn nadat het maximale aantal deelnemers
+          bereikt is, moeten verwittigd worden dat de workshop al volzet is.
+          Schrijf een query die de lijst genereert van alle workshops die
+          overboekt zijn. De meest overboekte workshop staat bovenaan, daaronder
+          die met de tweede grootste overboeking enz. De screenshot in de figuur
+          hieronder toont alleen de eerste drie rijen.
+</p> <figure class="center"> <img src="/assets/kookclub/overboekt.png" width="500" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT workshop_id, max_deelnemers, COUNT(*) AS &quot;ingeschreven aantal&quot;
+FROM kookworkshop KW INNER JOIN deelname D ON D.workshop = KW.workshop_id
+GROUP BY workshop_id
+HAVING COUNT(*) &gt; max_deelnemers
+ORDER BY (COUNT(*) - max_deelnemers) DESC</code></pre> </div>  </section> <h2>Vragen waarbij je enkel het antwoord moet geven, deel 3 (+ video)</h2> <p>
+Bij deze oefening hoort telkens een video (in het Nederlands) die wat
+      extra uitleg geeft hoe je aan een dergelijke oefening kan beginnen. Die
+      video vind je telkens bij de oplossing van elke oefening.
+</p> <section class="taak"> <p>
+Maak een lijst van alle leden die nog geen enkele workshop meededen en
+        wonen in een straat die eindigt op ‘pad’. Rangschik deze lijst van oud
+        naar jong. Wat is de voornaam van de persoon die op plaats 7 staat in
+        deze lijst?
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>Antwoord: Angelica. Mogelijke query:</p> <pre><code>SELECT *
+FROM lid L LEFT OUTER JOIN deelname D ON L.lidnr = D.lid
+WHERE straat LIKE &#39;%pad&#39; AND lid is NULL
+ORDER BY 4</code></pre> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" id="kaltura_player" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_zfp1up68&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_w0x7t233" width="640" height="360" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" frameborder="0" title="DQ_vraag1a"></iframe> </div> </div>  </section> <section class="taak"> <p>
+Maak een lijst per gemeente met de gemiddelde score die mensen uit die
+        gemeente gaven aan een kookworkshop. Sorteer deze lijst zodat de hoogste
+        gemiddelde scores bovenaan staan. Binnen eenzelfde gemiddelde score
+        sorteer je alfabetisch. Gemeenten waar niemand een score gaf worden niet
+        opgenomen in deze lijst. Welke gemeente (naam) staat bovenaan?
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Antwoord: Barvaux-Condrox. Mogelijke query:<pre><code>SELECT L.postcode, avg(score), gemeente
+FROM deelname D
+  INNER JOIN lid L ON D.lid = L.lidnr
+  INNER JOIN gemeente G ON G.postcode = L.postcode
+WHERE score IS NOT NULL
+GROUP BY L.postcode, gemeente
+ORDER BY 2 DESC, 3 ASC</code></pre> </p> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" id="kaltura_player" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_3xaz55tq&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_z07gsx31" width="640" height="360" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" frameborder="0" title="DQ_vraag1b"></iframe> </div> </div>  </section> <section class="taak"> <p>
+Bereken het percentage deelnames dat een positieve evaluatie meekreeg.
+        Met ‘positief’ bedoelen we dat de evaluatie minstens één van volgende
+        woorden moet bevatten: ‘goed’, ‘geweldig’ of ‘fantastisch’. Tip: je kan
+        twee vrij korte query's maken die elk een getal uitkomen en dan met je
+        rekenmachine zelf het percentage berekenen. Het kan natuurlijk ook in
+        één query.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Antwoord: 28,75%. Dit zijn 115 goede deelnames:<pre><code>SELECT COUNT(*)
+FROM deelname
+WHERE feedback LIKE &#39;%goed%&#39; or feedback LIKE &#39;%geweldig%&#39; or feedback LIKE &#39;%fantastisch%&#39;</code></pre> </p> <p>
+In totaal zijn er 400 deelnames: <pre><code>SELECT COUNT(*)
+FROM deelname</code></pre> </p> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" id="kaltura_player" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_zw5jy71f&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_o9ydng5o" width="640" height="360" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" frameborder="0" title="DQ_vraag1c"></iframe> </div> </div>  </section> <section class="taak"> <p>
+Maak een lijst van alle ingrediënten die juist twee keer een letter ‘a’
+        bevatten. We houden geen rekening met hoofdletter / kleine letters, dus
+        een woord zoals ‘Aardbei’ voldoet ook aan de voorwaarde, net zoals
+        ‘Gehaktbal’. Sorteer volgens dalende energie-inhoud. Welk ingrediënt
+        staat op plaats 21?
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Antwoord: vegetarische kebab. Mogelijke query:<pre><code>SELECT *
+FROM ingrediënt
+WHERE (lower(naam) LIKE &#39;%a%a%&#39;) AND NOT(lower(naam) LIKE &#39;%a%a%a%&#39;)
+ORDER BY 3 DESC</code></pre> </p> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" id="kaltura_player" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_i047yquz&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_05191a4i" width="640" height="360" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" frameborder="0" title="DQ_vraag1d"></iframe> </div> </div>  </section> <section class="taak"> <p>
+Genereer een overzicht van alle inschrijvingen voor workshops waarvoor
+        de deelnemer een feedback schreef en met een inschrijfdatum voor 1
+        januari 2019. Deze lijst sorteer je alfabetisch op naam. Geef de
+        voornaam en familienaam van de persoon die op plaats 100 staat.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Antwoord: Sonya Osborne. Query: <pre><code>SELECT naam, voornaam, lid, inschrijfdatum, feedback
+FROM deelname D INNER JOIN lid L ON D.lid = L.lidnr
+WHERE feedback IS NOT NULL AND inschrijfdatum &lt; &#39;2019-01-01&#39;
+ORDER BY 1</code></pre> </p> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" id="kaltura_player" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_opqm2k6h&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_s2aw0hwb" width="640" height="360" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" frameborder="0" title="DQ_vraag1e"></iframe> </div> </div>  </section> <section class="taak"> <p>
+Rangschik alle thema’s naar dalend aantal inschrijvingen, zodat het
+        thema waar het meest mensen op inschreven bovenaan staat. Hoeveel
+        inschrijvingen had het thema dat in deze lijst op de vijfde plaats
+        staat?
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Antwoord: 41<pre><code>SELECT thema, COUNT(*)
+FROM deelname D INNER JOIN kookworkshop KW ON workshop = workshop_id
+GROUP BY thema
+ORDER BY 2 DESC</code></pre> </p> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" id="kaltura_player" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_1gqvdreq&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_1l4lgnlh" width="640" height="360" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" frameborder="0" title="DQ_vraag1f"></iframe> </div> </div>  </section> <h2>Databankgegevens aanpassen (+ video)</h2> <section class="taak"> <p>
+De gemeenten Overpelt en Neerpelt zijn recent een fusie aangegaan.
+        Beiden samen vormen nu de gemeente ‘Pelt’. Op de site van de gemeente
+        Pelt lees je: “3900 Overpelt wordt 3900 Pelt en 3910 Neerpelt wordt 3910
+        Pelt”. Jij moet als database-administrator voor de kookclub zorgen dat
+        deze informatie correct in de databank wordt aangepast. Schrijf één
+        query die dit doet. Opgepast: omdat je enkel <code>SELECT</code> rechten
+        hebt op de databank, zal je de query niet kunnen uittesten.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>UPDATE kookclub.gemeente
+SET gemeente = &#39;Pelt&#39;
+WHERE postcode = &#39;3900&#39; OR postcode = &#39;3910&#39;</code></pre> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" id="kaltura_player" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_gka25523&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_8sz9fb1v" width="640" height="360" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" frameborder="0" title="DQ_vraag2"></iframe> </div> </div>  </section> <h2>Gegeven de query, wat is de vraag, deel 3 (+ video)?</h2> <section class="taak"> <p>
+Gegeven volgende query. Omschrijf nauwkeurig en kort (één zin) wat de
+        vraag was waarop de query het antwoord geeft. Begin je antwoord met
+        “Geef een overzicht van alle … ”. Deze oefening is moeilijker dan je op
+        het eerste zicht zou zeggen.
+<pre><code>SELECT naam
+FROM thema T LEFT OUTER JOIN kookworkshop K ON T.naam = K.thema AND max_deelnemers &gt; 35
+WHERE thema IS null</code></pre> </p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+“Geef een overzicht van alle thema's (naam volstaat) die <em>niet</em>
+aan bod komen in een kookworkshop met een maximumcapaciteit van meer dan
+          35 deelnemers.” Alternatief: “Geef een overzicht van alle thema's die nog
+          niet in een kookworkshop aan bod gekomen zijn of enkel aan bod kwamen in
+          een kookworkshop met hoogstens 35 deelnemers.”
+</p> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" id="kaltura_player" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_zcl7x8nb&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_iz6jvvg0" width="640" height="360" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" frameborder="0" title="DQ_vraag3"></iframe> </div> </div>  </section> <h2>Informatie toevoegen aan de databank (+ video)</h2> <section class="taak"> <div> <p>
+Jeroen Meus maakte in zijn kookprogramma ‘Dagelijkse Kost’ onlangs
+          ‘Kaaskroket met ham en asperges’. Dat zag er bijzonder lekker uit. Je
+          wilt dit gerecht dus toevoegen aan de databank. We geven hieronder de
+          volledige omschrijving. Jij moet in de juiste tabellen de juiste
+          regels toevoegen. <em>Informatie die al in de databank aanwezig is, mag je niet nog eens
+            toevoegen</em>, want dan antwoordt de databankserver met een foutmelding. Als er
+          informatie ontbreekt die toch nodig is, dan verzin je zelf iets
+          passends. Opgepast: omdat je enkel <code>SELECT</code> rechten hebt op
+          de databank, zal je de queries niet kunnen uittesten.
+</p> <p>
+We voegen ‘Kaaskroket met ham en asperges’ toe. Dit gerecht wordt
+          beschreven als ‘Asperges in een kroket, samen met ham en
+          Flandrienkaas’. Het kost een uur om dit gerecht te bereiden. Je hebt
+          volgende ingrediënten nodig:
+</p> <ul> <li>10 asperges (per stuk levert die een energie van 18 kcal)</li> <li>150 g boter (100 g boter levert 737 kcal)</li> <li>één citroen (1 citroen heeft 35 kcal energie)</li> <li>200 g ham (100 g ham levert 335 kcal)</li> <li>0,3 kg Flandrienkaas (100 g levert 365 kcal energie)</li> </ul> <p>
+Dit gerecht past in de thema’s ‘klassieker’ en ‘Belgisch’. Schrijf
+          alle benodigde queries om al deze informatie toe te voegen aan de
+          databank.
+</p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Qua ingrediënten moet je enkel de Flandrienkaas toevoegen:<pre><code>INSERT INTO kookclub.ingrediënt VALUES (&#39;Flandrienkaas&#39;, &#39;g&#39;, 365)</code></pre> </p> <p>
+Vervolgens nieuw gerecht toevoegen:<pre><code>INSERT INTO kookclub.gerecht VALUES 
+  (&#39;Kaaskroket met ham en asperges&#39;,&#39;Asperges in een kroket, samen met ham en Flandrienkaas&#39;, 60);</code></pre> </p> <p>
+Vervolgens de tussentabel tussen beide:<pre><code>INSERT INTO kookclub.ingrediënt_in_gerecht VALUES (&#39;Kaaskroket met ham en asperges&#39;,&#39;Asperge&#39;,10);
+INSERT INTO kookclub.ingrediënt_in_gerecht VALUES (&#39;Kaaskroket met ham en asperges&#39;,&#39;Boter&#39;,150);
+INSERT INTO kookclub.ingrediënt_in_gerecht VALUES (&#39;Kaaskroket met ham en asperges&#39;,&#39;Citroen&#39;,1);
+INSERT INTO kookclub.ingrediënt_in_gerecht VALUES (&#39;Kaaskroket met ham en asperges&#39;,&#39;Ham&#39;,200);
+INSERT INTO kookclub.ingrediënt_in_gerecht VALUES (&#39;Kaaskroket met ham en asperges&#39;,&#39;Flandrienkaas&#39;,300);</code></pre> </p> <p>
+Thema klassieker bestaat nog niet, dus eerst toevoegen:<pre><code>INSERT INTO kookclub.thema VALUES (&#39;klassieker&#39;,&#39;een gouwe ouwe&#39;);</code></pre> </p> <p>
+Tenslotte belgisch en klassieker koppelen:<pre><code>INSERT INTO kookclub.gerecht_past_in_thema VALUES (&#39;Kaaskroket met ham en asperges&#39;,&#39;belgisch&#39;);
+INSERT INTO kookclub.gerecht_past_in_thema VALUES (&#39;Kaaskroket met ham en asperges&#39;,&#39;klassieker&#39;);</code></pre> </p> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" id="kaltura_player" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_3wbmiwyc&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_1t3ef5xh" width="640" height="360" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" frameborder="0" title="DQ_vraag4"></iframe> </div> </div>  </section> <h2>SQL query's, deel 3 (+ video)</h2> <section class="taak"> <div> <p>
+Schrijf de SQL-query die volgend overzicht genereert: een lijst van
+          alle gemeentes met in totaal drie inschrijvingen voor kookworkshops.
+          We willen alleen die gemeenten die minstens drie maal de kleine letter
+          ‘e’ bevatten in de naam. Rangschik het resultaat in omgekeerd
+          alfabetische volgorde.
+</p> <figure class="center"> <img src="/assets/kookclub/3deelnames.png" width="500" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Alternatief: ook groeperen op gemeente en postcode mag ook, postcode
+          is specifieker.<pre><code>SELECT G.postcode, COUNT(*) AS &quot;aantal deelnames&quot;, G.gemeente
+FROM gemeente G
+  INNER JOIN lid L ON G.postcode = L.postcode
+  INNER JOIN deelname D ON L.lidnr = D.lid
+WHERE gemeente LIKE &#39;%e%e%e%&#39;
+GROUP BY G.postcode
+HAVING COUNT(*) = 3
+ORDER BY 3 DESC</code></pre> </p> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" id="kaltura_player" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_1l5ub9xy&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_szonio0j" width="640" height="360" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" frameborder="0" title="DQ_vraag5"></iframe> </div> </div>  </section> <section class="taak"> <p>
+Stel: je maakt alle gerechten die als thema ‘Italiaans’ of ‘BBQ’ (of
+        beide samen) hebben. Maak nu een overzicht per ingrediënt met per lijn
+        de naam, hoeveelheid energie (in kcal per stuk, teentje, 100 g, 100 ml,
+        …), de eenheid waarin geteld wordt, de totale hoeveelheid van dit
+        ingrediënt die je nodig hebt om al deze gerechten klaar te maken en de
+        hoeveelheid energie in kcal die dat vertegenwoordigt. Orden zo dat het
+        ingrediënt met het grootste hoeveelheid kcal bovenaan staat. Schrijf de
+        query.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT ingrediënt, energie, eenheid, sum(hoeveelheid) AS &quot;totale hoeveelheid&quot;,
+  CASE
+    WHEN eenheid = &#39;g&#39; or eenheid = &#39;ml&#39; THEN energie*sum(hoeveelheid)/100
+    ELSE energie*sum(hoeveelheid)
+  END AS &quot;totale energie&quot;
+FROM ingrediënt_in_gerecht IG
+  INNER JOIN gerecht_past_in_thema GT ON IG.gerecht = GT.gerecht
+  INNER JOIN ingrediënt I ON I.naam = IG.ingrediënt
+WHERE thema IN (&#39;Italiaans&#39;,&#39;BBQ&#39;)
+GROUP BY ingrediënt, energie, eenheid
+ORDER BY 5 DESC</code></pre> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" id="kaltura_player" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_t6iwgaz1&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_jpxq1lti" width="640" height="360" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" frameborder="0" title="DQ_vraag6"></iframe> </div> </div>  </section> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

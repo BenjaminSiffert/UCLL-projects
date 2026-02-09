@@ -1,9 +1,7 @@
 import os
 import random
 
-# ----------------------------
 # Klassen Location en Game
-# ----------------------------
 
 class Location:
     def __init__(self, longitude, latitude, name, country):
@@ -107,13 +105,11 @@ class Game:
         print(f"\nGame over! Final score for {user}: {self.get_score()}")
 
 
-# ----------------------------
 # Speel het spel
-# ----------------------------
 if __name__ == "__main__":
     current_dir = os.path.dirname(__file__)
     file_path = os.path.join(current_dir, "locations.txt")  # correct pad naar het bestand
 
     geoguesser = Game()  # eerst het Game-object maken
     geoguesser.load_locations_from_file(file_path)
-    geoguesser.play_new_game("Ruben")
+    geoguesser.play_new_game("Benjamin")

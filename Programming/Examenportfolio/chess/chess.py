@@ -1,15 +1,11 @@
 import os
 
-# ========================
 # FILE PATHS
-# ========================
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MOVEMENT_FILE = os.path.join(BASE_DIR, "movements.txt")
 OUTPUT_FILE = os.path.join(BASE_DIR, "output.txt")  # <- correct bestand
 
-# ========================
 # PIECE
-# ========================
 class Piece:
     def __init__(self, code):
         self.code = code
@@ -23,9 +19,7 @@ class Piece:
     def get_player(self):
         return self.code[1]
 
-# ========================
 # BOARD
-# ========================
 class Board:
     def __init__(self):
         self.board = {}
@@ -111,17 +105,13 @@ class Board:
             f.write(self.display_board_state())
         print(f"Board saved to: {abs_path}")  # bevestiging
 
-# ========================
 # HELPER FUNCTION
-# ========================
 def process_chess_moves(movement_file_name, output_file_name):
     board = Board()
     moves = Board.read_movement_file(movement_file_name)
     board.process_movements(moves)
     board.save_state(output_file_name)
 
-# ========================
 # MAIN
-# ========================
 if __name__ == "__main__":
     process_chess_moves(MOVEMENT_FILE, OUTPUT_FILE)

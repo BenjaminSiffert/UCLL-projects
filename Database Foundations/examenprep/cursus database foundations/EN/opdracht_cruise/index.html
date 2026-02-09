@@ -1,0 +1,161 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>Groepsopdracht cruisereizen</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">Nothing is impossible. The word itself says “I’m Possible”</span> <br>
+&mdash;Audrey Hepburn
+</p> </blockquote> <h1>Group work modelling</h1> <h2>Assignment</h2> <p>
+Within this course, you learned what a database is, how to model it,
+      implement it, and how to write queries to add and extract data in and out
+      of the database. In this project you will go through the entire process
+      from data model to queries for a specific case. The case is described
+      below, it is up to you to develop the requested database according to the
+      learned process.
+</p> <p>
+This project will be realized by <em> groups of maximum 4 students</em>.
+      The groups will be determined by the lecturers. The deadline for
+      submission of your result is on <strong>December 13, 2024 at 11:59 p.m.</strong>. You need to submit the result via the assignment ‘Project Assignment’
+      which you can find on Toledo. This project counts for 5 points. A project
+      that is not submitted by the deadline will result in a 0. Retakes are not
+      possible.
+</p> <p>
+For the second exam chance, the points on the group assignment do not
+      carry over and the exam consequently counts for 18 points. After all,
+      there are two points on the portfolio and those are retained. For more
+      info: see ECTS sheet (link on Toledo or via your ISP) and Toledo.
+</p> <h2>To be handed in</h2> <p>You need to work out the following things:</p> <ol> <li>
+A <em>conceptual data model</em> in which you develop the case below. The
+        conceptual data model needs to be drawn in draw.io and submitted in pdf format
+        with the name ‘DF_conceptual_team_XX.pdf’ where you replace XX with your
+        team number.
+</li> <li>
+A <em>logical data model</em> that contains the translation from your conceptual
+        data model to a relational database model. The logical data model needs to
+        be drawn in draw.io and submitted in pdf format with the name ‘DF_logical_team_XX.pdf’.
+</li> <li>
+A <em>physical data model</em> that contains the translation from your logical
+        data model to a database in PostgreSQL. You need to create the physical data
+        model preferably in DBSchema and submit the resulting script with the name
+        ‘DF_create_database_team_XX.sql’. Also provide a .png of your schema (in
+        DBSchema: Model &gt; Export as ... &gt; PNG image) with the name ‘DF_physical_team_XX.png’.
+</li> <li>
+A second script that adds <em>data</em> to the created tables. This script,
+        named ‘DF_insert_data_team_XX.sql’, populates the database.
+</li> <li>
+A third script ‘DF_delete_database_team_XX.sql’, that clears the created
+        schema. It <em>deletes</em> the schema. You may not use a <code>drop cascade</code>, but must delete all the tables separately in the correct order.
+</li> <li>
+Five <em>queries</em> that extract a result from the database (<a href="#Queries">see below</a>). You collect the different queries in one script
+        ‘DF_query_team_XX.sql’.
+</li> <li>
+A <em>video</em> of maximum 15 minutes named ‘DF_video_team_XX’ In which
+        you give a demo of your final results (described above). The format of the
+        video must be playable in <a href="http://www.videolan.org/vlc/">VLC</a>. In this video, first of all, you explain your models and your
+        reasoning behind them. After showing the physical data model you build
+        the whole database through pgAdmin by using your scripts (table creation
+        and data). Then you show the execution of your queries and finally you
+        delete the schema with your delete script. Test your video recording
+        setup well in advance (software, video format, microphone, ...)!
+</li> </ol> <p>
+Bundle all of the files above into one ‘DF_project_team_XX.zip’ file.
+      Submit this .zip file via Toledo (Assignments &gt; Project (group)). One
+      submission per group is sufficient.
+</p> <h2>Cruise holidays</h2> <section class="info"> <p>
+The case below describes a company, people, objects and processes. We
+        intentionally left out a lot of details. What information does one want
+        to track of a ship, passenger, activity, ... ? Make meaningful choices
+        yourself and motivate them.
+</p> </section> <p>
+A shipping company operates a number of cruise ships and organises cruise
+      holidays with them. For this assignment, it is a good idea to check out
+      some cruise holiday providers and read up a bit on this world.
+</p> <figure class="center"> <img src="/assets/groepswerk/schip.jpg" alt=""> </figure> <p>
+A number of details are kept of each ship, such as the name, the number of
+      passengers, etc. The aim for a ship is to do as many cruise holidays as
+      possible and lie idle as little as possible (although some occasional
+      maintenance is necesarry of course).
+</p> <p>
+One specific cruise holiday is carried out with one ship. One, of course,
+      always tries to come up with a catchy name for the holiday. The holiday
+      follows a fixed sailing route with a departure and arrival date. The trip
+      can be performed several times. For example, the voyage ‘Around Iceland’
+      will be done as many as seven times in 2025, at different times and not
+      necessarily with the same ship.
+</p> <p>
+Such a shipping route visits several ports, in a specific order. Your
+      database should be able to answer, for example, the following question:
+      “Give for cruise voyage ‘MSC-Scandinavia-026a’ start and arrival date, the
+      name of the ship and a list of all ports in the correct order.” This trip
+      appears to depart on July 7, 2025 from Antwerp with the ship ‘Icon of the
+      Seas’. The ship will then enter these ports: Amsterdam, Hamburg,
+      Copenhagen, Oslo, Geirangerfjord, Trondheim, South Queensferry and
+      Newcastle to end in Amsterdam on 17 July 2025.
+</p> <p><img src="/assets/groepswerk/bestemmingen.png" alt=""></p> <p>
+Not every port is big enough (deep actually) to accommodate such a large
+      ship. Sometimes, if the ship's depth is greater than the depth of the
+      port, the ship has to remain moored outside of the port and passengers for
+      an excursion are brought ashore by a smaller boat. So it is important to
+      know the depth of each ship.
+</p> <p>
+The aim is to get as many passengers as possible on a cruise, without
+      exceeding the maximum capacity of the cruise ship. The company must keep
+      sufficient details of every passenger (make your own motivated choice of
+      what all might be required). It is possible for several people to book
+      together (think of a family, a group of friends, an association, ...), but
+      there is always only one booking per group. The person who made that
+      booking is the first point of contact for the shipping company for
+      questions, invoices, etc. For example, I should be able to find in the
+      database that Per Olov Enquist from Stockholm is a loyal customer of our
+      company. He has already done a total of 5 cruises, the last one being the
+      voyage ‘Culture in the Mediterranean’ from early August 2023 (departure in
+      Barcelona). He did that cruise in the company of three friends, for which
+      passenger Viveca Sten from Gothenburg was the main booker.
+</p> <p><img src="/assets/groepswerk/cruise1.png" alt=""></p> <p>
+On such a cruise, most things are included in the price, but some things
+      can be booked extra. For example, on that last trip Per Olov Enquist
+      consulted the doctor on board (€50) and did a paid day trip in Venice
+      (€185) on 7 August 2023. Those costs will therefore be passed on to the
+      main booker Viveca Sten, who will find that in detail on the final
+      invoice.
+</p> <p>
+At some ports, many people board buses that take them sightseeing. In
+      Reykjavik, for example, many passengers visit Geysir to watch Strokkur, or
+      bathe in the warm volcanic waters of The Blue lagoon. The town of Akureyri
+      in Northern Iceland is a good base for spotting whales from small boats.
+      For every port, there should be a list of interesting sights that are at
+      most a few hours' bus ride away from the port.
+</p> <p><img src="/assets/groepswerk/cruiseCabins.png" alt=""></p> <p>
+Perhaps a passenger prefers to stay on the ship, where there is no
+      shortage of comfort. Each ship has a lot of different room types. The more
+      expensive rooms obviously have a balcony with sea views, the cheaper ones
+      have to make do with a bit less. There are single rooms, but also rooms
+      for 2, 3, ... passengers. Who knows, the ship may also have special family
+      rooms where the children can share the room with their parents? For each
+      room type, there are many rooms, all of which have a unique code. Thus I
+      can find that on his last cruise trip in the Mediterranean Sea, Per Olov
+      Enquist travelled in room A306. That is a more expensive room of the
+      ‘Balcony’ type for two people.
+</p> <h2>Data Generation</h2> <p>
+You need to fill all tables with <em>sufficient</em> data. That data should
+      look <em>realistic</em>. Usually, a combination of manual work (typing in
+      data yourself) and automatic data generation (via DBSchema's data
+      generator or online tools like Mockaroo) delivers the best results. What
+      is "sufficient", by the way? Hard to put a specific number on that ("You
+      must have at least ... rows in that table"). We would say: When querying
+      (see next point), you should be able to get meaningful results. For
+      example, the <a href="/EN/SQL_tennis/">tennis player database</a> is really
+      not large enough (only 14 players, 2 teams, 8 fines). The <a href="/EN/SQL_kookclub/">cooking club</a>, on the other hand, is sufficiently large (173 partially hand-coded
+      ingredients, 500 automatically generated members, 10 manually entered
+      dishes, 1178 communities found via a CSV file on the site of bpost, ...)
+</p> <h2>Queries</h2> <p>
+Compile 5 sufficiently <em>complex</em> and <em>meaningful</em> queries to
+      query your database. Try to use all SQL material: <code>SELECT</code>,
+<code>WHERE</code>, inner and outer <code>JOINS</code>, <code>GROUP BY</code>, <code>HAVING</code>, <code>ORDER BY</code>, limit number of rows, etc.
+</p> <p>We emphasized two words here:</p> <ol> <li> <em>complex</em>: we really do expect queries that employ the whole
+        arsenal of what we saw in the SQL classes and not just a statement where
+        you select something from a table.
+</li> <li> <em>meaningful</em>: justify why for the shipping company the result of
+        this query is important. Introduce each query with some explanation,
+        e.g. ‘For the shpping company it is important to get an overview per ...
+        because ...’.
+</li> </ol> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

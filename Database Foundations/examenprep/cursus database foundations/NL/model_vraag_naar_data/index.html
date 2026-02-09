@@ -1,0 +1,248 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>Modelleren: van vraag naar data</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">The great thing about a database is that you can ask it a question
+          that you hadn't thought of before and get an answer.</span> <br>
+&mdash; Michael Stonebraker
+</p> </blockquote> <h1>Van vraag naar data</h1> <p>
+In dit hoofdstuk willen we even stilstaan bij hoe datasets en databanken
+      tot stand komen. Je moet uit dit hoofdstuk het volgende onthouden:
+</p> <section class="leerdoel"> <ul> <li>datamodelleren als een stap in de analyse van IT toepassingen;</li> <li>een stapsgewijze aanpak voor de ontwikkeling van een databank;</li> <li>conceptueel, logisch en fysiek datamodel.</li> </ul> </section> <h2>Start met een vraag</h2> <p>
+In <a href="/NL/SQL_intro/">het inleidend hoofdstukje SQL</a> hebben we al
+      kort toegelicht hoe we, gebruik makende van SQL, een bestaande dataset kunnen
+      bevragen. In de volgende hoofdstukken gaan jullie hier nog verder in op de
+      mogelijkheden die SQL te bieden heeft. Parallel willen we een andere uitdaging
+      toelichten, namelijk <em>het bouwen van datasets en databanken</em>. We
+      gaan in op volgende vragen:
+</p><ul> <li>hoe komen datasets en databanken tot stand?</li> <li>welk proces leidt tot een goed opgebouwde databank?</li> <li>wat bepaalt of een databank goed gebouwd is?</li> </ul>  <p>
+Vooraleer we bekijken hoe datasets en databanken tot stand komen, bekijken
+      we een vergelijkbaar proces, namelijk het bouwen van een huis. Stel dat je
+      een huis zou willen laten bouwen, hoe ga je dan te werk? In eerste
+      instantie start je met <em>een vraag of nood</em> om iets te bouwen. Je wilt
+      bijvoorbeeld een huis voor jouw gezin bouwen. Van zodra je weet dat je een
+      huis gaat bouwen, neem je contact op met een <em>architect</em>. De
+      architect gaat samen met jou nadenken van wat er exact gebouwd moet
+      worden, door heel wat vragen te stellen om goed te begrijpen hoe jouw huis
+      eruit moet zien.
+</p> <p>
+Ondertussen gaat de architect, gebruik makende van zijn technische
+      expertise, erover waken dat tijdens het ontwerpen van het huis een aantal <em>basisprincipes en goede praktijken</em>
+gerespecteerd worden. Na jullie overleg tekent de architect een grondplan.
+</p> <figure class="center"> <img src="/assets/vraag_naar_data/grondplan.jpeg" alt=""> </figure> <p>
+Dit grondplan wordt <em>samen met jou besproken</em> om zeker te zijn dat de
+      interpretatie van de architect overeenkomt met jouw verwachtingen. In latere
+      fases zal de architect van dit plan meer gedetailleerde versies maken zodat
+      aannemers, elektriciens, loodgieters, … weten hoe jouw huis gemaakt moet worden.
+      Dit gedetailleerde grondplan wordt goed bewaard zodat er een overzicht is waar
+      bepaalde constructie-elementen (waterleidingen, elektriciteit, steunbalken,
+      …) zich bevinden.
+</p> <h2>Vraag naar data</h2> <p>
+Voor de bouw van een databank loopt het proces gelijkaardig. <em>
+Een databank start typisch met een vraag om data bij te houden</em>, bijvoorbeeld data die binnen software verzameld wordt. Een architect
+      (die hebben we ook in IT) of een analist zal samen met gebruikers en
+      ontwikkelaars nadenken welke data er in een databank terecht moet komen.
+      Op basis van die gesprekken wordt er door de analist een <em>datamodel</em> uitgetekend dat besproken wordt met de relevante partijen.
+</p><p>
+Dit model wordt dan in een aantal stappen verder in detail uitgewerkt tot
+      een <em>bouwplan</em> voor een databank. Dit bouwplan laat de ontwikkelaars
+      van de databank toe om de databank te bouwen. Het laat de ontwikkelaars van
+      de software ook toe om van start te gaan met de ontwikkeling van de toepassing.
+      Want van zodra er afspraken zijn over de structuur van de databank, kan je
+      als ontwikkelaar jouw code schrijven die met deze structuur aan de slag gaat,
+      zonder dat de databank gebouwd is. Later wanneer de databank gebouwd is, kan
+      de code <em>getest</em> worden. Tenslotte vormen de modellen een belangrijke
+      bron voor
+<em>documentatie</em> voor analisten en ontwikkelaars voor de <em>
+verdere ontwikkeling en onderhoud van de systemen</em>.
+</p> <h2>Analyse</h2> <p>
+De ontwikkeling van een IT oplossing loopt (idealiter) volgens een
+      stappenplan. Er bestaan heel wat verschillende gestandaardiseerde
+      varianten van zo'n stappenplan, wat we later in de opleiding
+      ontwikkelingsmethodologieën zullen noemen. Een ontwikkelingsmethodologie
+      kan lineair of iteratief zijn, en bestaat uit een aantal fases.
+</p> <p>
+Een belangrijke fase die in zowat elke ontwikkelingsmethodologie voor IT
+      toepassingen terugkomt, is de analyse-fase of kortweg <em>analyse</em>.
+      Binnen de analyse-fase gaan we de vraag naar een IT toepassing vertalen
+      naar een aantal functionele en technische vereisten. Het resultaat van
+      deze fase noemen we de <em>(behoefte-)analyse.</em> </p> <p>
+De analyse is een essentiële fase waarin we het probleem, het te
+      automatiseren proces, de achterliggende logica, ... goed proberen te
+      begrijpen voor we starten met de implementatie. We gaan in deze fase
+      documentatie doornemen, interviews afnemen, workshops organiseren, ... om
+      zelf informatie te verzamelen. Vervolgens gaan we die informatie op een
+      bepaalde manier structureren. Er bestaan heel wat verschillende methodes
+      die binnen een analyse gebruikt worden, waarvan je er sowieso enkele
+      binnen dit OPO en in de verdere opleiding zal ontdekken.
+</p> <p>
+Het deelproces van de analyse waarbij we de <em>
+vereisten voor informatie en bijgevolg data in kaart brengen</em>, noemen we
+<em>datamodelleren.</em> Als onderdeel voor de vraag naar software, gaan we
+      evalueren welke vraag er bestaat om data persistent bij te houden.
+</p> <p>
+In latere vakken wordt dieper ingegaan op het concept
+      ontwikkelmethodologie. Jullie gaan verschillende varianten (o.a. agile,
+      DevOps, waterval, rapid application development) meer in de diepte
+      bestuderen.
+</p> <h2>Datamodelleren</h2> <p>
+Datamodelleren verloopt in een aantal stappen. In elke stap proberen we
+      een bepaalde vraag te beantwoorden (de specifieke vragen komen hieronder
+      aan bod). Het resultaat van elke stap resulteert in een datamodel, waarbij
+      we al dan niet verder bouwen op een datamodel van een eerdere stap. <em>
+Elke stap resulteert in een datamodel en bijbehorende documentatie</em>.
+</p> <p>
+Een datamodel is <em>
+een visuele en schematische voorstelling van de data die we in een
+        databank willen opnemen.
+</em> Het bevat de verschillende stukjes data die samen de databank vormen
+      en de verbanden die er tussen deze stukjes bestaan. Om het datamodel uit te
+      tekenen, maken we gebruik van een <em>gestandaardiseerde notatie.</em> </p> <p>
+Er zijn bepaalde voordelen aan het gebruik van een gestandaardiseerde
+      notatie. In eerste instantie bevordert het de <em>leesbaarheid</em> van het
+      datamodel. Als er duidelijke afspraken zijn welke symbolen gebruikt worden
+      en hoe je ze moet interpreteren, kan iedereen die de notatie kent het datamodel
+      lezen en interpreteren. De datamodellen kunnen zo makkelijk uitgewisseld worden.
+</p> <p>
+Een tweede voordeel is dat de notatie ontwikkeld is om <em>complexe concepten op een eenvoudige manier voor te kunnen stellen.</em> Het vereenvoudigt en versnelt het ontwerpen van een datamodel. Neem hier
+      nog bij dat er heel wat tools zijn die toelaten om deze datamodellen digitaal
+      te maken, en je kan snel en efficiënt te werk gaan.
+</p> <p>
+Aangezien datamodelleren van een databank in stappen verloopt, en elke
+      stap resulteert in een datamodel, zullen we voor een databank meerdere
+      datamodellen hebben. We spreken hier over lagen waarbij elk datamodel een
+      bepaalde laag vormt en zoals eerder gezegd een bepaalde vraag beantwoordt.
+</p> <p>
+In ons proces onderscheiden we drie types (lagen) van datamodellen:
+      conceptueel, logisch en fysiek.
+</p> <figure class="center"> <img src="/assets/vraag_naar_data/datamodel-lagen.png" alt="Lagen datamodel"> </figure> <h3>Conceptueel datamodel</h3> <p>
+De eerste stap is het uittekenen van een conceptueel datamodel waarbij we
+      een antwoord definiëren op de vraag <em>
+“Welke informatie is relevant voor de beoogde IT toepassing?”</em>. In dit datamodel creëren we een beeld op de realiteit van de gebruikers <em>
+zonder hierbij technische details of technische beperkingen mee in
+        rekening te nemen</em>. De focus ligt daarentegen op de relevante concepten en bedrijfslogica
+      (‘business logic’).
+</p><p>
+Het conceptueel datamodel laat ook toe het bereik (‘scope’) van het
+      datamodel goed af te bakenen, zodat alle betrokkenen duidelijk zicht
+      hebben op wat van belang is. Het geeft een beeld op wat er meegenomen
+      wordt in de toepassing, en wat er niet meegenomen wordt.
+</p> <p>
+Bij het uittekenen van het conceptueel model proberen we de volgende
+      vragen te beantwoorden:
+</p> <ul> <li><em>welke concepten</em> zijn belangrijk voor onze applicatie?</li> <li><em>hoe</em> gaan we die concepten <em>beschrijven</em>?</li> <li>welke <em>verbanden</em> liggen er tussen deze concepten?</li> </ul> <p>
+Het conceptueel datamodel komt typisch tot stand als een <em>
+samenwerking tussen analisten en gebruikers</em>. De gebruikers beschrijven tijdens workshops, interviews, … welke
+      informatie relevant is.
+</p> <p>
+De analist verzamelt deze informatie en bundelt deze in een conceptueel
+      datamodel. Dit datamodel dient als <em>
+een communicatiemiddel tussen de verschillende betrokken partijen</em>. Door het eenvoudige karakter van het conceptueel datamodel kunnen
+      gebruikers makkelijk evalueren of de interpretatie van de analisten
+      correct is. Anderzijds bevat het voldoende informatie voor de analisten om
+      hier verder mee aan de slag te gaan.
+</p> <p>
+Heel belangrijk: op dit niveau wordt er nog <em>niet</em> gesproken over technologie,
+      enkel high-level welke informatie relevant is voor de gebruikers. Dat maakt
+      het conceptueel datamodel ook zo waardevol: na deze stap kan het ontwikkelteam
+      van de toepassing nog alle richtingen uit.
+</p> <p>
+Onderstaand conceptueel datamodel vertelt volgend verhaal: “Een student
+      (met een aantal gegevens zoals r-nummer enz.) volgt minstens één OPO,
+      terwijl dit OPO (code, aantal studiepunten SP enz.) door meerdere
+      studenten kan gevolgd worden. Eventueel is het ook mogelijk dat er een OPO
+      is dat door geen enkele student gekozen wordt.”. Deze tekening kan ook
+      door niet-technische mensen gelezen worden en kan zo als basis dienen voor
+      een gesprek.
+</p> <figure class="center model"> <img src="/assets/vraag_naar_data/studentOPOconceptueel.svg" alt=""> </figure> <p> <a href="/NL/model_conceptueel/">
+We gaan later dieper in op het conceptueel datamodel en hoe dit tot
+        stand komt.
+</a> </p> <h3>Logisch datamodel</h3> <p>
+Van zodra we zicht hebben op de informatie en bijgevolg de concrete data,
+      feiten of gegevens die voor de gebruikers relevant zijn, proberen we de
+      volgende vraag te beantwoorden: <em>
+“Welk databankmodel is het meest geschikt voor de ontwikkeling van onze
+        databank?”</em>. Er bestaan namelijk verschillende data<em>bank</em>modellen (niet te
+      verwarren met datamodellen) waarbij elk van de databankmodellen een manier
+      definieert om data te structureren. Elk databankmodel heeft zijn voor- en
+      nadelen of specifieke toepassingen, en een goede overweging is
+      noodzakelijk.
+</p> <p>
+De keuze voor een bepaald databankmodel wordt typisch gemaakt in
+      samenspraak tussen de analisten (met zicht op de data die gemodelleerd
+      wordt), de architect (met zicht op de brede technische omgeving waarin de
+      toepassing wordt ontwikkeld) en de ontwikkelaars (met zicht op de
+      technologie die voor de toepassing gebruikt zal worden). De impact van de
+      keuze is niet alleen relevant voor de databank, maar <em>
+legt ook beperkingen op voor het DBMS en de technologie die gebruikt
+        worden</em>.
+</p><p>
+Na de keuze voor een bepaald databankmodel <em>
+vertaalt de analist het conceptuele datamodel naar een logisch datamodel</em> rekening houdend met de specifieke regels van het databankmodel. Sommige
+      databankmodellen gaan bijvoorbeeld een beperking leggen op het type van relaties
+      dat er tussen de data kan bestaan. In dit geval gaan we tijdens de omzetting
+      de niet ondersteunde types van relaties omzetten naar relatietypes die wel
+      ondersteund worden. Ongetwijfeld klinkt dit allemaal wat abstract, maar we
+      komen hier later uitgebreid op terug.
+</p> <p>
+In heel wat gevallen zal gekozen worden voor een <em>
+relationeel databankmodel</em>. In het geval van deze keuze wordt het logisch datamodel dan ook een
+<em>relationeel datamodel</em> genoemd. We leggen binnen dit vak de focus op
+      het relationeel databankmodel en komen hier in een later hoofdstuk uitgebreid
+      op terug.
+</p> <p>
+In de volgende figuur vind je de vertaling van het conceptueel model naar
+      een logisch model. Er is gekozen voor een relationeel model. Het is al een
+      stuk technischer (drie tabellen, primaire en vreemde sleutel, … zie
+      later), maar laat toch nog bepaalde details weg omdat er nog niet
+      specifiek gekozen is voor welk DBMS.
+</p> <figure class="center model"> <img src="/assets/vraag_naar_data/studentOPOlogisch.svg" alt=""> </figure> <p>
+Voor relationele datamodellen zijn er ook normen gedefinieerd, we noemen
+      deze <em>normaalvormen</em>. Er bestaan verschillende niveaus van
+      normaalvormen. Elke normaalvorm bestaat uit een aantal technische
+      criteria. Elk niveau legt bijkomende criteria op. Een datamodel dat aan de
+      criteria van een normaalvorm voldoet, voldoet aan de normaalvorm. De
+      criteria zijn gedefinieerd om mogelijke fouten in het gebruik van de
+      databank te voorkomen. Door aan te geven dat een datamodel een bepaalde
+      normaalvorm volgt, geef je dus een garantie dat bepaalde regels binnen het
+      datamodel gerespecteerd worden. We komen hier later op terug.
+</p> <p>
+Het logisch datamodel is net omwille van de omzetting naar een specifiek
+      databankmodel <em>al een stukje technischer</em> dan het conceptueel datamodel.
+      Dit maakt de leesbaarheid van het datamodel ook wat moeilijker voor niet-IT
+      medewerkers. Toch bevat het datamodel nog <em>
+te weinig technische informatie voor de ontwikkelaars
+</em> van de databank, zodat een bijkomende stap nodig is, namelijk de omzetting
+      voor een specifiek DBMS. Dus op naar het fysiek datamodel …
+</p> <p> <a href="/NL/model_logisch/">Ook aan het logisch model is een volledig hoofdstuk gewijd.</a> </p> <h3>Fysiek datamodel</h3> <p>
+In de laatste stap ligt de focus op de vraag <em>
+“Welk DBMS gaan we gebruiken om de data op te slaan?”</em>. In de ontwikkeling van het fysiek datamodel worden beslissingen genomen
+      hoe de data fysiek gestructureerd zal worden binnen de databank, rekening
+      houdend met het gekozen DBMS. Elk DBMS heeft zo zijn eigen mogelijkheden
+      en uitdagingen waar een ontwikkelteam gebruik van kan maken of rekening
+      mee moet houden. Daarnaast zijn er ook heel wat overwegingen die gemaakt
+      moeten worden naar performantie, beveiliging, … Al deze technische
+      beslissingen komen samen in het fysiek datamodel.
+</p> <p> <em>
+In deze fase gaan architecten, database administrators en ontwikkelaars
+        evalueren welk DBMS gebruikt zal worden</em>. In heel wat gevallen ligt deze keuze al vast aangezien de meeste
+      organisaties in hun architectuur al een keuze hebben gemaakt. Het
+      combineren van verschillende DBMS in dezelfde architectuur betekent
+      bijkomende complexiteit en kosten, dus dat wordt in de meeste gevallen
+      vermeden waar mogelijk.
+</p> <p>
+Van zodra de keuze voor een DBMS vast ligt, gaan database administrators
+      en ontwikkelaars de <em>structuur</em> van de databank evalueren en <em>
+technische details</em> bepalen hoe de data concreet opgeslagen zal worden. Deze analyse resulteert
+      in het fysiek datamodel waarin al deze informatie vervat zit. Het fysiek datamodel
+      laat de ontwikkelaars toe om de nodige structureren te implementeren en de
+      databank op te bouwen.
+</p> <p>
+De laatste figuur vertaalt het vorige (logische) relationele datamodel
+      naar een fysiek datamodel, specifiek voor PostgreSQL. De tekening bevat nu
+      ook concrete details, zoals datatypes (<code>char(8)</code>, <code>smallint</code>, …). Ze is trouwens gemaakt met een andere tool, die met een specifieke
+      server kan communiceren (DBSchema, zie later).
+</p> <figure class="center model"> <img src="/assets/vraag_naar_data/studentOPOfysiek.png" alt=""> </figure> <p> <a href="/NL/model_fysiek/">
+We komen in een later hoofdstuk meer in detail terug op het fysiek
+        datamodel.
+</a> </p> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

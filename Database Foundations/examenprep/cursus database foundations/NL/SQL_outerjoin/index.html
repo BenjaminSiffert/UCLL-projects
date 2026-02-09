@@ -1,0 +1,222 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>SQL: OUTER JOIN</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">You can’t complain about the sea if you suffer shipwreck for the
+          second time.</span> <br>
+&mdash;IJslands gezegde
+</p> </blockquote> <h1>Tabellen combineren met OUTER JOIN</h1> <p>
+Ook hier starten we met een filmpje, nl. het vervolg op het filmpje van
+      het vorig hoofdstuk.
+</p> <div class="iframewrapper"> <iframe class="preview-iframe" width="560" height="315" src="https://www.youtube.com/embed/pqPVIuzS0ZQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> </div> <h2>De nood aan een OUTER JOIN</h2> <p>Maak als inleiding volgende oefening.</p> <section class="taak"> <div> <p>
+Onze opleidingsverantwoordelijke wil een overzicht van alle lectoren
+          met hun lectornummer, voornaam, naam en de naam van het OPO waarvan ze
+          coördinator zijn. Sorteer op familienaam alfabetisch. Je moet de
+          figuur hieronder bekomen.
+</p> <figure class="center"> <img src="/assets/join/outerjoin_1.png" width="600" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Niet zo moeilijk: <pre><code>SELECT lector_id, L.voornaam, L.naam, OPO.naam
+FROM lector L INNER JOIN opleidingsonderdeel OPO ON L.lector_id = OPO.coordinator
+ORDER BY 3</code></pre> </p> </div>  </section> <p>
+We overlopen nog eens de stappen die het RDBMS zet bij het uitvoeren van
+      deze query:
+</p> <ol> <li>
+Als eerste wordt de <code>FROM</code> uitgevoerd. Het gaat hier om een <code>INNER JOIN</code> van twee tabellen en dus wordt eerst het cartesisch product gemaakt: elke
+        rij van de lectortabel wordt gekoppeld aan elke rij van de OPOtabel.
+</li> <li>
+Niet alle combinaties in dit cartesisch product zijn <em>zinvol</em>:
+        enkel die waar het lectornummer (in de ene tabel heet dat ‘lector_id’,
+        in de andere ‘coordinator’) overeenkomt blijven behouden, want die
+        voldoen aan de joinconditie ON L.lector_id = OPO.coordinator.
+</li> <li>
+Er is geen <code>WHERE</code> component, dus er vallen geen rijen meer weg
+        uit het resultaat.
+</li> <li>Ook de <code>GROUP BY</code> (en <code>HAVING</code>) ontbreekt.</li> <li>
+Tenslotte worden de resultaatrijen alfabetisch gerangschikt op
+        familienaam via de <code>ORDER BY</code> component.
+</li> </ol> <p>
+Je trekt fier met de gevraagde lijst naar de opleidingsverantwoordelijke,
+      die jammer genoeg niet helemaal tevreden is met het resultaat. “Ik wou
+      eigenlijk dat <em>alle</em> lectoren in de lijst staan, ook zij die van geen
+      enkel OPO coördinator zijn” hoor je hem zeggen. De <code>INNER JOIN</code>
+in je SQL-query toont echter <em>alleen</em> de lectoren die in beide tabellen
+      voorkomen, dus enkel de coördinatoren van OPO’s.
+</p> <p>
+Als je toch <em>alle</em> lectoren in de lijst wilt opnemen, moeten de ontbrekende
+      lectoren <em>toegevoegd worden</em> aan het resultaat van de <code>INNER JOIN</code>. Dat is precies wat een
+<code>OUTER JOIN</code> doet. Je hoeft enkel het woord <code>INNER</code> te
+      vervangen door
+<code>LEFT OUTER</code> of <code>RIGHT OUTER</code> (of eventueel <code>FULL OUTER</code>):<pre><code>SELECT lector_id, L.voornaam, L.naam, OPO.naam
+FROM lector L LEFT OUTER JOIN opleidingsonderdeel OPO ON L.lector_id = OPO.coordinator
+ORDER BY 3</code></pre> </p> <p>
+Waarom <code>LEFT</code>? Deze join bevat twee tabellen: eentje <em>links</em> van het woord <code>JOIN</code> (nl. ‘lector’) en eentje <em>rechts</em>
+van het woord JOIN (nl. ‘opleidingsonderdeel’). Na de gewone <code>INNER JOIN</code> ontbreken nog enkele lectoren uit de lectortabel. Omdat die tabel links van
+      het woord
+<code>JOIN</code> staat, wordt dit dus een <code>LEFT OUTER JOIN</code>.
+</p> <p>
+Deze code is volledig evenwaardig met deze variant:<pre><code>SELECT lector_id, L.voornaam, L.naam, OPO.naam
+FROM opleidingsonderdeel OPO RIGHT OUTER JOIN lector L ON L.lector_id = OPO.coordinator
+ORDER BY 3</code></pre> </p> <p>
+We hebben immers gewoon de volgorde waarin de twee tabellen geschreven
+      staan omgewisseld. Dat heeft geen enkele invloed op de <code>INNER JOIN</code> die eerst gebeurt, maar je moet dus wel het woord <code>LEFT</code> vervangen
+      door <code>RIGHT</code>. De volgende figuur toont het resultaat. In
+      vergelijking met de eerdere figuur zijn er een <em>aantal rijen toegevoegd</em>. Zo is er bvb. lector Elke Crabbé die van geen enkel OPO coördinator is.
+      Aangezien zij niet in de tabel ‘opleidingsonderdeel’ voorkomt, kan er ook
+      geen informatie over de naam van het OPO gegeven worden. <em>Daarom staat er null (geen waarde) in de laatste kolom</em> (<span style="color:orange">oranje pijl</span>).
+</p> <figure class="center"> <img src="/assets/join/outerjoin_2.png" width="600" alt=""> </figure> <section class="taak"> <div> <p>
+Leg uit waarom volgende twee query’s exact hetzelfde resultaat geven: <pre><code>-- query 1
+SELECT lector_id, L.voornaam, L.naam, OPO.naam
+FROM opleidingsonderdeel OPO LEFT OUTER JOIN lector L ON L.lector_id = OPO.coordinator
+ORDER BY 3
+
+-- query 2
+SELECT lector_id, L.voornaam, L.naam, OPO.naam
+FROM opleidingsonderdeel OPO INNER JOIN lector L ON L.lector_id = OPO.coordinator
+ORDER BY 3</code></pre> </p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Van query 2 met de <code>INNER JOIN</code> ken je het resultaat al. Query
+          1 is een <code>LEFT OUTER JOIN</code>. <strong>
+Elke <code>OUTER JOIN</code> begint eerst als een gewone <code>INNER JOIN</code> </strong>. Als die gedaan is, wordt er gekeken welke rijen uit de
+          linkertabel ontbreken. Die worden dan toegevoegd. Hier is de
+          linkertabel echter de tabel ‘opleidingsonderdeel’. <em>Elke</em> rij van
+          deze tabel is al vertegenwoordigd in de <code>INNER JOIN</code> (waarom?),
+          dus er wordt geen enkele rij meer toegevoegd. Beide query's geven daarom
+          hetzelfde resultaat.
+</p> </div>  </section> <h2>JOIN en GROUP BY</h2> <p> <code>JOIN</code> is zonder probleem te combineren met andere componenten,
+      dus ook met <code>GROUP BY</code> en <code>HAVING</code>.
+</p> <section class="taak"> <p>
+We werken volgend voorbeeld uit. Probeer je alle stapjes zelf uit? Er
+        zal een aantal keer iets fout lopen. Zoek altijd eerst zelf de fout.
+</p>  </section> <p>
+Maak een lijst van alle docenten met het aantal OPO’s waarvoor ze
+      coördinator zijn. Ook lectoren die van geen enkel OPO coördinator zijn,
+      moeten in de lijst opgenomen worden. Sorteer de lijst alfabetisch op naam.
+</p> <p>Analyseer de opgave:</p> <ul> <li>
+Je moet informatie combineren uit de lectortabel en de OPOtabel, dus we
+        hebben een <code>(INNER) JOIN</code> nodig.
+</li> <li>
+De zin ‘ook lectoren die van geen enkel OPO coördinator zijn ...’ wijst
+        op een <code>OUTER JOIN</code>.
+</li> <li> <em>Per lector</em> moet er samenvattende informatie gegeven worden, dus
+        we hebben een
+<code>GROUP BY</code> nodig.
+</li> <li>Aantallen tellen doe je met <code>COUNT()</code>.</li> </ul> <p>
+Om te voorspellen wat we zouden moeten bekomen, vertrekken we van de
+      bekende code die de figuur in de sectie hierboven genereerde:<pre><code>SELECT lector_id, L.voornaam, L.naam, OPO.naam
+FROM opleidingsonderdeel OPO RIGHT OUTER JOIN lector L ON L.lector_id = OPO.coordinator
+ORDER BY 3</code></pre> </p> <p>
+Bekijk de lijst in die figuur. Lector ‘Gerben Adriaens’ is van één OPO
+      coördinator, ‘Goedele Bogers’ van twee, ‘Elke Crabbé’ geen enkel enz.
+</p> <p>
+Pas deze code aan met een <code>GROUP BY</code>:<pre><code>SELECT lector_id, L.voornaam, L.naam, OPO.naam
+FROM opleidingsonderdeel OPO RIGHT OUTER JOIN lector L ON L.lector_id = OPO.coordinator
+GROUP BY lector_id
+ORDER BY 3</code></pre> </p> <p>
+Je krijgt een foutmelding (denk even na waarom):<pre><code>ERROR: column &quot;opo.naam&quot; must appear in the GROUP BY clause or be used
+in an aggregate function
+LINE 2: SELECT lector_id, L.voornaam, L.naam, OPO.naam</code></pre> </p> <p>
+Waarom komt er een foutmelding over ‘OPO.naam’? Als je het <a href="/NL/SQL_groupby_having/">hoofdstuk over GROUP BY</a> hebt verwerkt, zou je het antwoord op die vraag moeten kunnen geven. <em>Door de informatie te groeperen in doosjes per lector, gaat de
+        detailinformatie over de OPO’s verloren</em>. Het enige wat je nog kan opvragen is informatie uit de zogenaamde
+      ‘aggregatiefuncties’ <code>MIN()</code>, <code>MAX()</code>, <code>AVG()</code>, <code>COUNT()</code> en <code>SUM()</code>.
+</p> <section class="opgepast"> <p>
+Er is echter iets vreemd aan de hand. Waarom komt er geen foutmelding
+        over L.voornaam en L.naam? We hadden toch uitgelegd dat je in de <code>SELECT</code> enkel de kolommen kan vermelden die in de <code>GROUP BY</code> staan (en
+        ook aggregatiefuncties)? Waarom krijg je dan <em>geen</em> foutmelding voor
+        L.voornaam en L.naam?
+</p> <p>
+De reden is dat je hier <em>groepeert op de primaire sleutel</em> van de
+        lectortabel. Je bent dus zeker dat er één doosje zal gemaakt worden per lector.
+        In dat doosje zit maar één lectornaam, lectorvoornaam enz, maar wel meerdere
+        OPO’s. Daarom kan je wel de kolommen L.naam en L.voornaam opvragen, maar
+        niet OPO.naam.
+</p> </section> <p>
+Je moet dus in de code een aggregatiefunctie gebruiken. In dit geval wordt
+      dat het tellen van een aantal keer dat iets voorkomt, dus een <code>COUNT()</code>. Pas de code aan tot:<pre><code>SELECT lector_id, L.voornaam, L.naam, COUNT(*)
+FROM opleidingsonderdeel OPO RIGHT OUTER JOIN lector L ON L.lector_id = OPO.coordinator
+GROUP BY lector_id
+ORDER BY 3</code></pre> </p> <p>Je bekomt dit <em>(fout!)</em> resultaat:</p> <figure class="center"> <img src="/assets/join/outerjoin_3.png" width="600" alt=""> </figure> <p>
+Er is een probleem met deze figuur (en dus met onze code). Vergelijk even
+      met de vorige figuur. Gerben heeft wel degelijk 1 OPO, Goedele is
+      coördinator van twee OPO’s, maar Elke Crabbé is van geen enkel OPO
+      coördinator. Het resultaat van onze code is echter dat Elke Crabbé van één
+      OPO coördinator is (zie <span style="color: orange">oranje pijl</span>
+in de figuur). Wat loopt er fout?
+</p> <section class="opgepast"> <p>
+De fout zit in de de aggregatiefunctie <code>COUNT(*)</code>. Deze
+        functie (met <code>*</code>) <em>telt alle rijen, ook die met één of meerdere <code>NULL</code> waarden</em>. De rij met de info van Elke Crabbé wordt dus effectief geteld. Dit
+        probleem is gelukkig eenvoudig op te lossen. In plaats van de <code>*</code> vermeld je <em>de kolom die van belang is voor wat je wilt tellen</em>. Hier gaat het dus concreet om ‘OPO.naam’. Een waarde <code>NULL</code> in dit veld zal niet meetellen. Je beëindigt dus de <code>SELECT</code> met <code>COUNT(OPO.naam)</code>:<pre><code>SELECT lector_id, L.voornaam, L.naam, COUNT(OPO.naam)
+FROM opleidingsonderdeel OPO RIGHT OUTER JOIN lector L ON L.lector_id = OPO.coordinator
+GROUP BY lector_id
+ORDER BY 3</code></pre> </p> </section> <h2>Rijen selecteren die NIET aan een bepaalde voorwaarde voldoen</h2> <p>
+Opmerking: dit is een <strong>behoorlijk moeilijk stuk</strong>.
+      Oefeningen die op dit principe steunen, zijn best wel pittig!
+</p> <p>
+Je krijgt een nieuwe vraag van de opleidingsverantwoordelijke: “Ik wil
+      graag een lijst van alle lectoren die GEEN coördinator zijn van één of
+      meerdere OPO’s.”.
+</p> <p>
+Fluitje van een cent, natuurlijk! Met de <code>OUTER JOIN</code> van vorige
+      sectie kreeg je een lijst van alle coördinatoren, aangevuld met de lectoren
+      die niet in de OPOtabel voorkomen en dus geen coördinator zijn. Die ‘toegevoegde’
+      lectoren herken je aan het ontbreken van een waarde voor de kolom met de OPOnaam.
+      Rijen filteren nadat de <code>FROM</code> uitgevoerd is, doe je met de <code>WHERE</code> component. De query wordt dus:<pre><code>SELECT lector_id, L.voornaam, L.naam, OPO.naam
+FROM lector L LEFT OUTER JOIN opleidingsonderdeel OPO ON L.lector_id = OPO.coordinator
+WHERE naam = NULL -- principe is OK, code niet! Zie opdracht hieronder
+ORDER BY 3</code></pre> </p> <section class="taak"> <p>
+We hebben met opzet twee fouten in de <code>WHERE</code> component van bovenstaande
+        query gestoken. Verbeter die zodat de query correct wordt uitgevoerd en je
+        een lijst bekomt met vier lectoren: Elke, Maarten, Patrick en Lut.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Fout 1: ‘naam’ is dubbelzinnig. Gaat het om de naam van de lector of
+          de naam van het OPO? Tweede fout: vergelijken met <code>NULL</code> mag
+          nooit met ‘=’ maar moet met het woord ‘IS’. De correcte <code>WHERE</code> component is: <code>WHERE OPO.naam IS NULL</code>.
+</p> </div>  </section> <h3>Oefening</h3> <section class="taak"> <div> <p>
+Maak een lijst van alle lectoren die geen coördinator zijn van een OPO
+          dat 6 SP telt. Orden alfabetisch op naam en daarna op voornaam. Je
+          moet het resultaat uit deze figuur bekomen:
+</p> <figure class="center"> <img src="/assets/join/outerjoin_4.png" alt="" width="400"> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Tip 1: begin deze oefening met meer kolommen dan alleen voornaam en
+          naam (mogelijk zelfs met alle kolommen!).
+</p> <p>
+Tip 2: We willen alle lectoren die <em>geen</em> 6 SP OPO coördineren.
+          Hoe kan je alle lectoren bekomen die <em>wel</em> een 6 SP OPO coördineren?
+          Denk na over hoe je dit kan omdraaien. De vorige oefening kan je misschien
+          op weg zetten naar een oplossing?
+</p> <p>De oplossing:</p> <pre><code>SELECT l.naam, l.voornaam
+FROM opleidingsonderdeel o RIGHT OUTER JOIN lector l ON
+  o.coordinator = l.lector_id AND o.studiepunten = 6
+WHERE o.studiepunten IS NULL
+ORDER BY 1, 2</code></pre> </div>  </section> <h2>FULL OUTER JOIN</h2> <p>
+Hierboven werd uitgelegd dat een <code>OUTER JOIN</code> een <code>INNER JOIN</code> is waar alle ontbrekende elementen uit één tabel (die aan de <code>LEFT</code> of de <code>RIGHT</code> zijde) worden toegevoegd. Er bestaat ook een <code>FULL OUTER JOIN</code> wat in essentie <em>
+het toevoegen betekent van de ontbrekende elementen uit zowel de linker-
+        als de rechtertabel
+</em>. In ons voorbeeld met slechts twee tabellen (lectoren en OPO’s)
+      kunnen we echter geen zinvolle <code>FULL OUTER JOIN</code> maken. Dit komt
+      later in de oefeningen aan bod. In het filmpje bij het begin van dit hoofdstuk
+      wordt het wel goed uitgelegd.
+</p> <h2>Samenvattend overzicht JOIN</h2> <p>
+Hieronder vind je nog eens een overzicht van alle verschillende types <code>JOIN</code>
+die we gezien hebben. Per type wordt opgelijst hoe de set van rijen waarmee
+      de rest van de query wordt uitgevoerd, wordt opgebouwd.
+</p> <ul> <li>
+Impliciete JOIN <code>A,B</code>: Elke rij van tabel A wordt
+        gecombineerd met elke rij van tabel B.
+</li> <li> <code>A INNER JOIN B</code>: Elke rij van tabel A wordt gecombineerd met
+        elke rij van tabel B waarbij de combinatie voldoet aan de
+        join-voorwaarde.
+</li> <li> <code>A LEFT OUTER JOIN B</code>: Elke rij van tabel A wordt
+        gecombineerd met elke rij van tabel B waarbij de combinatie voldoet aan
+        de join-voorwaarde. Hierbij komen alle rijen van tabel A die niet
+        voldoen aan de join-voorwaarde aangevuld met null-waarden voor alle
+        kolommen van tabel B.
+</li> <li> <code>A RIGHT OUTER JOIN B</code>: Elke rij van tabel A wordt
+        gecombineerd met elke rij van tabel B waarbij de combinatie voldoet aan
+        de join-voorwaarde. Hierbij komen alle rijen van tabel B die niet
+        voldoen aan de join-voorwaarde aangevuld met null-waarden voor alle
+        kolommen van tabel A.
+</li> <li> <code>A FULL OUTER JOIN B</code>: Elke rij van tabel A wordt
+        gecombineerd met elke rij van tabel B waarbij de combinatie voldoet aan
+        de join-voorwaarde. Hierbij komen alle rijen van tabel A die niet
+        voldoen aan de join-voorwaarde aangevuld met null-waarden voor alle
+        kolommen van tabel B. Hierbij komen alle rijen van tabel B die niet
+        voldoen aan de join-voorwaarde aangevuld met null-waarden voor alle
+        kolommen van tabel A.
+</li> </ul> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

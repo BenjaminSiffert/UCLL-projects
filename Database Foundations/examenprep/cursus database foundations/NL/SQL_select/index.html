@@ -1,0 +1,311 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>SQL: SELECT</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">One of the easiest ways to get noticed or hired as a junior developer
+          in the tech industry is by documenting everything you are learning.
+          Build great projects, but don't forget to document your journey along
+          the way.</span> <br>
+&mdash;Olawale Daniel
+</p> </blockquote> <h1>De SELECT clause in detail</h1> <p></p> <section class="leerdoel"> <ul></ul> </section> <p>
+Dit hoofdstuk en de vier volgende zijn eigenlijk één geheel. We bekijken
+      de verschillende componenten van een query in meer detail. De eerste twee
+      hoofdstukken SQL lieten je al kennismaken met <code>SELECT</code>, <code>FROM</code>, <code>WHERE</code>, <code>GROUP BY</code>, <code>HAVING</code> en <code>ORDER BY</code>. Nu is het tijd om wat dieper in deze clauses te duiken.
+</p> <p>
+In dit hoofdstuk bekijken we enkele mogelijkheden van <code>SELECT</code>.
+      Als voorbeeld gebruiken we een uitgebreide versie van de tabel
+      ‘opleidingsonderdeel’ die in de <a href="/NL/SQL_intro/">introductie SQL</a> al gebruikt werd. Moeten we het nog zeggen? <em>
+Dit is een werktekst. Lezen is fijn, doen is nog fijner. Test dingen uit
+        en maak oefeningen.
+</em> </p> <p>
+We gebruiken in dit hoofdstuk een eenvoudig schema met slechts één tabel.
+      Dit schema komt overeen met het volgend conceptueel model:
+</p> <figure class="center"> <img src="/assets/select/opo_conceptueel.svg" alt=""> </figure> <p>
+Het entiteittype ‘opleidingsonderdeel’ heeft acht attributen. Het
+      attribuut ‘opocode’ is het sleutelattribuut.
+</p> <p>
+Je vindt de tabel ‘opleidingsonderdeel’ in het schema ‘uclloket’ in de
+      databank ‘df’. Om deze tabel tot bij jullie te krijgen waren volgende
+      stappen nodig (we komen hier later op terug). Deze stappen zijn enkel ter
+      illustratie. Je kan ze niet zelf uitvoeren want je hebt geen
+      schrijfrechten in de databank ‘df’.
+</p> <ol> <li>
+Ik open een query tool in de databank ‘df’ en voer deze code uit: <pre><code>CREATE SCHEMA uclloket</code></pre> </li> <li>
+Alle collega’s en studenten moeten toegang krijgen tot dit schema:<pre><code>GRANT USAGE on schema uclloket to student;
+GRANT USAGE on schema uclloket to lector;</code></pre> </li> <li>
+Vervolgens maak ik de tabel ‘opleidingsonderdeel’ aan:<pre><code>CREATE TABLE uclloket.opleidingsonderdeel (
+  opocode char(6) NOT NULL ,
+  studiepunten smallint NOT NULL ,
+  naam varchar(100) NOT NULL ,
+  van date NOT NULL ,
+  tot date ,
+  taal char(2) NOT NULL ,
+  semester smallint NOT NULL ,
+  coordinator char(8) NOT NULL ,
+  CONSTRAINT pk_opleidingsonderdeel_opocode PRIMARY KEY ( opocode )
+);</code></pre> </li> <li>
+Iedereen moet SELECT rechten krijgen. Het is niet de bedoeling dat
+        studenten deze tabel gaan aanpassen, rijen verwijderen of updaten enz.
+        De rechten blijven dus beperkt tot enkel SELECT:<pre><code>grant select on all tables in schema uclloket to student;
+grant select on all tables in schema uclloket to lector;</code></pre> </li> <li>
+Tenslotte werden er 21 rijen toegevoegd via een import van een .CSV
+        bestand. Dat had ook met <code>INSERT INTO</code> gekund natuurlijk.
+</li> </ol> <h2>Iets opvragen</h2> <p>
+Met <code>SELECT</code> kan je iets vragen aan een databaseserver. Dat kan
+      zelfs een kleine berekening zijn:<pre><code>SELECT 3*4; -- geeft 12
+SELECT sqrt(200); -- geeft als resultaat de wortel uit 200, nl. 14.142...
+SELECT TRUE AND FALSE; -- resultaat is FALSE</code></pre> </p> <p>
+Wel een beetje onnozel om een databankserver te gebruiken als
+      rekenmachine, maar het kan dus wel.
+</p> <section class="taak"> <p>
+Je kan in SQL wiskundige functies gebruiken (denk aan de functies die op
+        je rekenmachine staan zoals sin, cos, …). Hierboven vind je één
+        voorbeeld: <code>SELECT sqrt(200)</code> berekent de vierkantswortel van
+        200. Zoek de SQL-functie waarmee je een getal naar boven afrondt. Een goede
+        bron hiervoor is <a href="https://www.postgresql.org/docs/current/functions-math.html">https://www.postgresql.org/docs/current/functions-math.html</a>.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT ceil(2.1) -- geeft: 3
+SELECT ceiling(2.1) -- alternatief, doet juist hetzelfde
+SELECT ceil(-2.1) -- geeft: -2 (opgepast met negatieve getallen: -2 &gt; -2.1)</code></pre> </div>  </section> <h2>Kolommen selecteren</h2> <p>
+Wat ons meer interesseert, is <em>informatie halen uit gegevens</em> die in
+      een databank opgeslagen zijn. Dat deden we al bij de inleidende voorbeelden,
+      dus we kunnen hier kort zijn.
+</p> <p>
+Door middel van de <code>*</code> kan je <em>alle</em> kolommen van een tabel
+      opvragen:<pre><code>SELECT *
+FROM opleidingsonderdeel</code></pre> </p> <p>
+De databankserver begint met de <code>FROM</code> clause te bekijken. De volledige
+      tabel ‘opleidingsonderdeel’ wordt in het werkgeheugen van de server geladen.
+      Dan bekijkt de server de <code>SELECT</code> clause. De ster <code>*</code> geeft aan dat alle kolommen getoond moeten worden.
+</p> <p>
+Stel dat we alleen de kolommen met de naam van een opo en het semester
+      waarin het gegeven werd willen zien, dan kan dat als volgt:<pre><code>SELECT naam, semester
+FROM opleidingsonderdeel</code></pre> </p> <h2>Alias voor een kolomnaam</h2> <p>
+Soms wil je een <em>andere hoofding</em> voor een getoonde kolom. Stel dat
+      we volgende query uitvoeren om een overzicht te krijgen van de begindatum waarop
+      elk OPO voor het eerst gegeven is:<pre><code>SELECT naam, van
+FROM opleidingsonderdeel</code></pre> </p> <p>
+Boven de tweede kolom zal de naam ‘van’ staan. Misschien wil je daar
+      liever het woord ‘startdatum’ als kolomtitel? Dat kan heel eenvoudig met
+      een <em>alias</em>. Die geef je m.b.v. het woord <code>AS</code>.
+</p> <pre><code>SELECT naam, van AS startdatum
+FROM opleidingsonderdeel</code></pre> <div class="opgepast"> <p>
+Pas op als je in de hoofding verschillende <em>woorden met een spatie ertussen</em> wilt gebruiken. Dan moet je deze alias tussen <em>dubbele aanhalingstekens</em> te zetten als volgt:<pre><code>SELECT naam, van AS &quot;startdatum OPO&quot;
+FROM opleidingsonderdeel</code></pre> </p> </div> <section class="opgepast"> <p>
+Een aandachtspunt en een bron van verwarring in SQL is het gebruik van
+        enkele en dubbele aanhalingstekens:
+</p> <ul> <li>
+Enkele aanhalingstekens ('…') gebruik je in SQL voor strings of
+          datums.
+</li> <li>
+Dubbele aanhalingstekens ("…") zijn gereserveerd voor namen
+          (zogenaamde ‘identifiers’) van tabellen, schema's en aliassen met
+          speciale karakters (zoals een spatie, koppelteken enz.). Er zijn tools
+          (zoals DBSchema, <a href="/NL/SQL_DBschema/">zie later</a>) die in de
+          code die ze genereren altijd namen van tabellen en schema's tussen
+          dubbele aanhalingstekens zetten.
+</li> </ul> <p>
+Meer info bvb. op <a href="https://www.prisma.io/dataguide/postgresql/short-guides/quoting-rules">https://www.prisma.io/dataguide/postgresql/short-guides/quoting-rules</a> </p> </section> <h2>Nieuwe kolommen bijmaken</h2> <p>
+Je hoeft je niet te beperken tot de kolommen die in de databank voorkomen.
+      Het is niet zo moeilijk om nieuwe kolommen bij te maken, al dan niet
+      gebaseerd op bestaande kolommen.
+</p> <h3>Constante tekst of getal</h3> <p>
+Als je als kolom een string of een getal zet, dan wordt dit voor elke rij
+      in het resultaat herhaald.
+</p> <section class="taak"> <p>
+Beschrijf het resultaat van volgende query:<pre><code>SELECT opocode, naam, &#39;Toegepaste informatica&#39;
+FROM opleidingsonderdeel</code></pre> </p>  <button>Toon / verberg oplossing</button> <div class="oplossing">
+Je krijgt een overzicht van alle rijen van de tabel met opocode en naam
+        en een nieuwe kolom ‘Toegepaste informatica’ die voor elke rij herhaald
+        wordt.
+</div>  </section> <section class="taak"> <p>
+Pas de code van de vorige oefening aan zodat er boven de kolom met de
+        herhaalde tekst ‘Toegepaste informatica’ als kolomhoofding het woord
+        ‘Opleiding’ staat. Wijzig daarna de query zodat de kolomhoofding
+        ‘Opleiding Proximus’ toont.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT opocode, naam, &#39;Toegepaste informatica&#39; AS Opleiding
+FROM opleidingsonderdeel
+ 
+-- versie 2 met spaties in de hoofding
+SELECT opocode, naam, &#39;Toegepaste informatica&#39; AS &quot;Opleiding Proximus&quot;
+FROM opleidingsonderdeel</code></pre> </div>  </section> <h3>Rekenen</h3> <p>
+Een studiepunt komt ruwweg overeen met 25 uur werk, alles inbegrepen
+      (lessen bijwonen, studeren, opdrachten maken, studeren voor examen, examen
+      afleggen, …). De volgende query maakt een nieuwe kolom ‘werkuren’ op basis
+      van de gegeven kolom studiepunten:
+</p> <pre><code>SELECT opocode, naam, studiepunten * 25 AS werkuren
+FROM opleidingsonderdeel</code></pre> <section class="taak"> <p>
+Laat zelf eens ‘AS werkuren’ weg in bovenstaande query om te zien wat de
+        (lelijke) standaard kolomhoofding wordt.
+</p>  </section> <h3>Strings aan elkaar plakken</h3> <p>
+Je kan meerdere kolommen combineren tot één kolom. Voor studentencoaches
+      is het nuttig dat de naam van een OPO altijd gevolgd wordt door het aantal
+      SP tussen haakjes, zoals bvb. “Database Foundations (6)”.
+</p> <p>
+Met het dubbele ‘pipe’ karakter (<code>||</code>) kan je kolommen en tekst
+      aan elkaar plakken. De gevraagde combinatie van naam en SP kan door
+      volgende query gerealiseerd worden. Let goed op het verschil tussen enkele
+      en dubbele aanhalingstekens.
+</p> <pre><code>SELECT opocode, naam || &#39; (&#39; || studiepunten || &#39;)&#39; AS &quot;OPO (studiepunten)&quot;
+FROM opleidingsonderdeel</code></pre> <h3>Stringfuncties</h3> <p>
+Hoog tijd dat we even de fantastische documentatie van PostgreSQL
+      bekijken. Die is zeer uitgebreid. Op sommige vragen over SQL-functies
+      zullen de lectoren je trouwens voorstellen om het antwoord zelf in de
+      documentatie op te zoeken. <a href="https://en.wikipedia.org/wiki/RTFM">RTFM</a>, dus!
+</p> <p>
+Ik vertrek meestal bij de indexpagina <a href="https://www.postgresql.org/docs/current/bookindex.html">https://www.postgresql.org/docs/current/bookindex.html</a>. Bij de ‘S’ van string vind ik een aantal verwijzingen naar <a href="https://www.postgresql.org/docs/current/functions-string.html">https://www.postgresql.org/docs/current/functions-string.html</a>. Blader eens door de lange lijst met functies. We geven twee voorbeelden
+      van stringfuncties.
+</p> <h4>Wisselen tussen hoofdletters en kleine letters</h4> <p>
+Met de functies <code>lower()</code> en <code>upper()</code> kan je wisselen
+      tussen kleine letters (‘lower case’, letterlijk ‘onderkast’) en hoofdletters
+      (‘upper case’, letterlijk bovenkast, zie foto hieronder voor de <a href="https://en.wikipedia.org/wiki/Letter_case">oorsprong</a> van deze benamingen). Zeker als we in het volgend hoofdstuk willen zoeken
+      naar strings (in de <code>WHERE</code> clause) is het meestal een veilige optie
+      om eerst alles om te zetten naar kleine letters want strings in SQL zijn hoofdlettergevoelig
+      (‘casesensitive’). De string 'Van Hee' is niet dezelfde als 'Van hee'.
+</p> <figure class="center"> <img src="/assets/select/letterkast.jpeg" alt=""> <figcaption>
+Foto: De meest gebruikte letters (dus de kleine letters) liggen in de
+        onderkast, de minder vaak gebruikte (hoofdletters) in de bovenkast.
+</figcaption> </figure> <p>
+De volgende query toont alle namen van OPO’s in kleine letters:
+<pre><code>SELECT opocode, lower(naam)
+FROM opleidingsonderdeel</code></pre> </p> <h4>Substring</h4> <p>
+Een tweede basisbewerking met strings is <em>een deel uit de string selecteren</em>. Dat kan met de stringfunctie <code>substring()</code>. De volgende
+      query geeft enkel het cijfergedeelte van de lectorcode (kolom
+      coordinator), dus zonder de ‘u’:
+</p> <pre><code>SELECT opocode, substring(coordinator from 2) -- begin pas bij letter 2 tot op het einde
+FROM opleidingsonderdeel</code></pre> <section class="taak"> <div> <p>
+Het zal je wel al opgevallen zijn dat alle opocodes beginnen met ‘MBI’
+          (in elk geval toch in de opleiding TI). Alle lectoren hebben een
+          nummer dat begint met ‘u’. Schrijf een query die de opocode en de
+          coördinator toont, maar zonder de beginletter(s) die altijd het zelfde
+          zijn, zoals onderstaande figuur laat zien. Let je ook op de
+          kolomhoofdingen?
+</p> <figure class="center"> <img src="/assets/select/zonderbeginletters.png" width="300" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT substring(opocode from 4) AS &quot;korte opocode&quot;,
+  substring(coordinator from 2) AS &quot;lector(verkort)&quot;
+FROM opleidingsonderdeel</code></pre> </div>  </section> <h3>CASE</h3> <p>
+Stel: in plaats van een kolom met studiepunten willen we enkel een kolom
+      tonen met de waarden ‘klein’ (voor OPO’s met 4 of minder SP), ‘middel’
+      (OPO’s met 5 of 6 SP) en ‘groot’ voor OPO’s met meer dan 6 SP. Die kolom
+      zal gebaseerd zijn op de kolom ‘studiepunten’ en wordt gemaakt met een <code>CASE</code> structuur.
+</p> <p>
+We verwijzen naar de documentatie. Via de indexpagina vinden we ‘CASE:
+      conditional expressions’ op de pagina <a href="https://www.postgresql.org/docs/current/functions-conditional.html">https://www.postgresql.org/docs/current/functions-conditional.html</a>. Je vindt hier de volgende structuur (en voorbeelden):
+</p> <pre><code>CASE
+  WHEN condition THEN result
+  [WHEN ...]
+  [ELSE result]
+END</code></pre> <p>Toegepast op het gevraagde geeft dat volgende mogelijke query:</p> <pre><code>SELECT naam,
+  CASE
+    WHEN studiepunten &lt;= 4 THEN &#39;klein&#39;
+    WHEN studiepunten &lt;= 6 THEN &#39;middel&#39; -- nakijken of &gt; 4 hoeft dus niet meer
+    ELSE &#39;groot&#39;
+  END AS omvang
+FROM opleidingsonderdeel</code></pre> <p>
+De eerste voorwaarde die klopt zorgt voor het toekennen van een waarde in
+      de kolom. De rest van de lijnen in de <code>CASE</code> worden dan overgeslagen.
+      Merk ook op dat we een alias (<code>AS</code>) gebruiken omdat de
+      kolomhoofding anders gewoon ‘case’ toont.
+</p> <p> <em>Witruimte</em> (inspringen met tabs of spaties) is niet belangrijk voor
+      de databankserver, maar wel <em>
+belangrijk voor mensen die je code moeten lezen
+</em> (zoals lectoren die je opdrachten moeten verbeteren :-).
+</p> <section class="taak"> <div> <p>
+OPO's die geen einddatum hebben noemen we ‘nieuwe’ OPO's in
+          tegenstelling tot de ‘oude’ OPO's die niet meer gegeven worden en een
+          einddatum hebben in onze tabel. Schrijf de query die het resultaat van
+          onderstaande figuur genereert. Moeten we het nog zeggen? Let op de
+          kolomhoofdingen …
+</p> <figure class="center"> <img src="/assets/select/oudnieuw.png" alt="nieuwe kolom met de tekst oud of nieuw" width="400"> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT naam, opocode,
+  CASE
+    WHEN tot is null THEN &#39;nieuw&#39;
+    ELSE &#39;oud&#39;
+  END AS &quot;oud of nieuw&quot;
+FROM opleidingsonderdeel</code></pre> </div>  </section> <h2>Distinct</h2> <p>
+Geef een overzicht van alle mogelijke talen die in de tabel gebruikt
+      worden in OPO’s. De query hiervoor is niet moeilijk om op te stellen:
+</p> <pre><code>SELECT taal
+FROM opleidingsonderdeel</code></pre> <p>
+Het resultaat bevat evenveel rijen als er rijen in de tabel zijn. Dat is
+      niet echt wat we willen. Om <em>herhaling te vermijden</em> gebruik je <code>DISTINCT</code> achter het woord <code>SELECT</code>:
+</p> <pre><code>SELECT DISTINCT taal
+FROM opleidingsonderdeel</code></pre> <p>
+Opgelet: de <em>volledige</em> combinatie van alle kolommen die achter het
+      woord <code>DISTINCT</code> komen moet verschillend zijn. Pas de query aan
+      tot:
+</p> <pre><code>SELECT DISTINCT taal, coordinator
+FROM opleidingsonderdeel</code></pre> <p>
+We krijgen nu meer rijen dan daarnet, maar wel minder dan het volledige
+      aantal rijen omdat er sommige coördinatoren meerder OPO’s in dezelfde taal
+      hebben. Kijk bvb na in de oorspronkelijke volledige tabel dat coördinator
+      ‘u0012047’ drie keer voorkomt met als taal nederlands. De combinatie van
+      taal en coördinator is dus drie keer hetzelfde. Door het keyword <code>DISTINCT</code> zal deze rij maar één keer getoond worden.
+</p> <section class="taak"> <p>
+Genereer een lijst met per OPO elke lector en het aantal SP van elke
+        OPO. Tel hoeveel rijen er zijn. Zorg er nu voor dat er geen dubbels in
+        deze lijst staan, dus als lector u0012047 twee OPO’s geeft van 6 SP mag
+        deze regel maar één keer in de lijst staan.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>-- de lijst zonder dubbels (voor de volledige lijst verwijder je distinct)
+SELECT distinct coordinator,studiepunten
+FROM opleidingsonderdeel</code></pre> </div>  </section> <h2>Werken met een datum</h2> <p>
+Het datatype <code>date</code> is zeer belangrijk in een databank. Niet voor
+      niets bestaan er tientallen functies die een datum kunnen manipuleren. We bekijken
+      er hier slechts enkele. Bovendien is er niet enkel <code>date</code> als datatype,
+      maar ook <code>timestamp</code>, <code>time</code> en <code>interval</code> (zie documentatie op <a href="https://www.postgresql.org/docs/current/datatype-datetime.html">https://www.postgresql.org/docs/current/datatype-datetime.html</a>).
+</p> <p>
+Voorlopig beperken we ons tot het datatype <code>date</code>. De <a href="https://www.postgresql.org/docs/current/functions-datetime.html">documentatie</a> geeft een overzicht van de <code>date/time</code> functies die PostgreSQL
+      aanbiedt.
+</p> <h3>Extract … from</h3> <p>
+Een datum bevat het jaar, de maand en de dag. Een tijd bovendien ook uren,
+      minuten, seconden enz. Met de functie <a href="https://www.postgresql.org/docs/current/functions-datetime.html#FUNCTIONS-DATETIME-EXTRACT"><code>EXTRACT</code></a> kan je een stuk uit een datum (of tijd) halen. Een klein voorbeeld uit de
+      OPOlijst om dit te verduidelijken:
+</p> <pre><code>SELECT opocode, EXTRACT(year FROM van) AS &quot;start academiejaar&quot;
+FROM opleidingsonderdeel</code></pre> <p>
+Deze query toont een lijst van alle OPO’s met code en het jaartal waarin
+      dat OPO voor het eerst gegeven is. De lijst met mogelijkheden is nogal
+      uitgebreid: month, week, day, hour, … (zie <a href="https://www.postgresql.org/docs/current/functions-datetime.html#FUNCTIONS-DATETIME-EXTRACT">documentatie</a>).
+</p> <h3>Rekenen met een datum</h3> <p>
+Je kan een datum verhogen of verlagen met een integer, data van elkaar
+      aftrekken enz. (<a href="https://www.postgresql.org/docs/current/functions-datetime.html">documentatie</a>).
+</p> <h4>Voorbeeld 1: data van elkaar aftrekken</h4> <p>
+De volgende query berekent voor elk OPO hoeveel dagen het zal lopen of
+      gelopen heeft. Als we einddatum niet kennen, kan het resultaat natuurlijk
+      niet berekend worden en krijg je de waarde <code>NULL</code>:
+</p> <pre><code>SELECT opocode, tot - van AS &quot;aantal dagen&quot;
+FROM opleidingsonderdeel</code></pre> <p>
+Blijkbaar is het OPO met code ‘MBI68A’ het vak met de langste looptijd,
+      nl. 5477 dagen.
+</p> <h4>Voorbeeld 2: functies age() en now()</h4> <p>
+Een tweede voorbeeld laat twee functies zien: <code>age()</code> en <code>now()</code>. Hoe oud ben ik vandaag als ik op 7 mei 1967 geboren ben?
+</p> <pre><code>SELECT age(now(),&#39;1967-05-07&#39;)
+-- alternatief is: SELECT age(CURRENT_DATE, &#39;1967-05-07&#39;)
+-- tweede alternatief: SELECT age(timestamp &#39;1967-05-07&#39;)</code></pre> <h2>Veranderen van datatype</h2> <p>
+Een klassiek probleem in getypeerde programmeertalen is het omzetten van
+      een waarde naar een ander datatype. Je wilt een integer optellen bij een
+      kommagetal, een getal converteren naar een string, … In het Engels spreekt
+      men dan over ‘to cast’.
+</p> <p>
+Het laatste voorbeeld in het vorige deeltje waarin de leeftijd berekend
+      werd is een voorbeeld van een <em>automatische cast</em>. Volgens de
+      documentatie waar we al een paar keer naar verwezen, werkt de functie <code>age()</code> in de eerste versie van de query op twee <code>timestamps</code>. We
+      schreven echter <code>age(now(),'1967-05-07')</code>. De functie <code>now()</code> levert een <code>timestamp</code>, maar het tweede argument
+      (’1967-05-07’) is een <code>date</code> en geen <code>timestamp</code>.
+      PostgreSQL zal echter stilzwijgend van deze <code>date</code> een <code>timestamp</code> maken (door als tijdstip middernacht te nemen).
+</p> <h3>CAST … AS</h3> <p>
+Vaak moet je echter <em>zelf</em> waarden casten. Dat kan met twee soorten
+      syntax: ofwel met de <code>CAST(... AS ...)</code> functie, ofwel met de notatie
+<code>::</code>. We geven enkele eenvoudige voorbeelden:
+</p> <pre><code>-- cast een string naar een geheel getal
+SELECT CAST(&#39;123&#39; AS integer)
+SELECT &#39;123&#39;::integer -- andere notatie, maar doet hetzelfde als de CAST
+
+-- cast een geheel getal naar een numeric
+SELECT CAST(1234 AS numeric(8,3))
+SELECT 1234::numeric(8,3) -- andere notatie, maar doet hetzelfde
+
+-- een getal naar een string
+SELECT CAST(1234 AS char(6)). -- maakt de string &#39;1234  &#39;</code></pre> <h3>TO_CHAR</h3> <p>
+Het laatste voorbeeld hierboven (getal naar string) is een beetje vreemd.
+      Meestal wil je de waarden in een kolom naar een string converteren <em>met een bepaald formaat</em>, bvb. een datum in Europese notatie met schuine strepen tussen dag,
+      maand en jaar. Hiervoor bestaat de functie <code>TO_CHAR()</code> (<a href="https://www.postgresql.org/docs/current/functions-formatting.html">documentatie</a>). Enkele voorbeelden:
+</p> <pre><code>SELECT TO_CHAR(date &#39;1967-05-07&#39;, &#39;dd/mm/yyyy&#39;); -- resultaat: &#39;07/05/1967&#39;
+SELECT TO_CHAR(date &#39;1967-05-07&#39;, &#39;day dd month yyyy&#39;); -- resultaat: &#39;sunday 07 may 1967&#39;
+SELECT TO_CHAR(148.5, &#39;9999.9999&#39;); -- geeft de string &#39; 148.5000&#39;</code></pre> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

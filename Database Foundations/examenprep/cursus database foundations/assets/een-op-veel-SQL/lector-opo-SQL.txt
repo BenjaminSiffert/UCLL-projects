@@ -1,0 +1,76 @@
+1. Vervang rxxxxxxx overal in de code hieronder door je eigen r-nummer (search en replace in een editor)
+
+2. Maak de tabel lector:
+CREATE  TABLE rxxxxxxx.lector ( 
+	lector_id            char(8)  NOT NULL ,
+	naam                 varchar(50)  NOT NULL ,
+	voornaam             varchar(40)  NOT NULL ,
+	email                varchar(70)  NOT NULL ,
+	straat               varchar(100)  NOT NULL ,
+	nummer               varchar(10)   ,
+	gemeente             varchar(60)  NOT NULL ,
+	geboortedatum        date  NOT NULL ,
+	van                  date  NOT NULL ,
+	tot                  date   ,
+	geslacht             char(1)  NOT NULL ,
+	CONSTRAINT pk_lector_lector_id PRIMARY KEY ( lector_id )
+ );
+ 
+ 3. Maak de tabel opleidingsonderdeel:
+ CREATE  TABLE rxxxxxxx.opleidingsonderdeel ( 
+	opocode              char(6)  NOT NULL ,
+	studiepunten         smallint  NOT NULL ,
+	naam                 varchar(100)  NOT NULL ,
+	van                  date  NOT NULL ,
+	tot                  date   ,
+	taal                 char(2)  NOT NULL ,
+	semester             smallint  NOT NULL ,
+	coordinator          char(8)  NOT NULL ,
+	CONSTRAINT pk_opleidingsonderdeel_opocode PRIMARY KEY ( opocode ),
+	CONSTRAINT fk_opleidingsonderdeel_lector FOREIGN KEY ( coordinator ) REFERENCES rxxxxxxx.lector( lector_id )   
+ );
+ 
+ 4. Vul de tabel lector met data:
+ INSERT INTO rxxxxxxx.lector( lector_id, naam, voornaam, email, straat, nummer, gemeente, geboortedatum, van, tot, geslacht ) VALUES ( 'u0042352', 'Adriaens', 'Gerben', 'gerben.adriaens@ucll.be', 'Ankerstraat', '12', '1330 Rixensart', '1984-02-16', '2017-09-01', null, 'M');
+INSERT INTO rxxxxxxx.lector( lector_id, naam, voornaam, email, straat, nummer, gemeente, geboortedatum, van, tot, geslacht ) VALUES ( 'u0057764', 'Bogers', 'Goedele', 'goedele.bogers@ucll.be', 'Elzasgang', null, '2830 Willebroek', '1979-09-09', '2006-11-20', null, 'V');
+INSERT INTO rxxxxxxx.lector( lector_id, naam, voornaam, email, straat, nummer, gemeente, geboortedatum, van, tot, geslacht ) VALUES ( 'u0061789', 'Drappier', 'Gwen', 'gwen.drappier@ucll.be', 'Gildenstraat', '107', '2820 Bonheiden', '1994-11-19', '2021-02-01', null, 'V');
+INSERT INTO rxxxxxxx.lector( lector_id, naam, voornaam, email, straat, nummer, gemeente, geboortedatum, van, tot, geslacht ) VALUES ( 'u0032987', 'Morren', 'Kurt', 'kurt.morren@ucll.be', 'Hallengang', '3A', '3640 Ophoven', '1988-04-25', '2019-09-15', null, 'M');
+INSERT INTO rxxxxxxx.lector( lector_id, naam, voornaam, email, straat, nummer, gemeente, geboortedatum, van, tot, geslacht ) VALUES ( 'u0010568', 'Luyten', 'Patrick', 'patrick.luyten@ucll.be', 'Windmolenstraat', '39 bus 5', '3000 Leuven', '1986-12-30', '2014-10-01', '2015-08-30', 'M');
+INSERT INTO rxxxxxxx.lector( lector_id, naam, voornaam, email, straat, nummer, gemeente, geboortedatum, van, tot, geslacht ) VALUES ( 'u0118738', 'Lahbib', 'Sven', 'sven.lahbib@ucll.be', 'Verloren Kost', '1', '3370 Vertrijk', '1974-05-07', '2001-11-15', '2022-08-30', 'M');
+INSERT INTO rxxxxxxx.lector( lector_id, naam, voornaam, email, straat, nummer, gemeente, geboortedatum, van, tot, geslacht ) VALUES ( 'u0041234', 'Simoens', 'Pieter', 'pieter.simoens@ucll.be', 'Snoekenpad', '68', '3370 Neervelp', '1967-03-01', '1995-09-01', null, 'M');
+INSERT INTO rxxxxxxx.lector( lector_id, naam, voornaam, email, straat, nummer, gemeente, geboortedatum, van, tot, geslacht ) VALUES ( 'u0034567', 'Van Acker', 'Lut', 'lut.vanacker@ucll.be', 'Sint-Annastraat', '17', '3118 Werchter', '1996-06-30', '2018-09-01', '2021-08-31', 'V');
+INSERT INTO rxxxxxxx.lector( lector_id, naam, voornaam, email, straat, nummer, gemeente, geboortedatum, van, tot, geslacht ) VALUES ( 'u0058108', 'Vander Elst', 'Griet', 'griet.vanderelst@ucll.be', 'Tiensestraat', '248', '3290 Diest', '1981-02-16', '2008-02-01', null, 'V');
+INSERT INTO rxxxxxxx.lector( lector_id, naam, voornaam, email, straat, nummer, gemeente, geboortedatum, van, tot, geslacht ) VALUES ( 'u0058164', 'Venmans', 'David', 'david.venmans@ucll.be', 'Vismarkt', '17B', '3000 Leuven', '1990-10-10', '2016-03-21', null, 'M');
+INSERT INTO rxxxxxxx.lector( lector_id, naam, voornaam, email, straat, nummer, gemeente, geboortedatum, van, tot, geslacht ) VALUES ( 'u0058111', 'De Sutter', 'Els', 'els.desutter@ucll.be', 'Blandenstraat', '58', '3020 Winksele', '1980-03-28', '2009-09-01', null, 'V');
+INSERT INTO rxxxxxxx.lector( lector_id, naam, voornaam, email, straat, nummer, gemeente, geboortedatum, van, tot, geslacht ) VALUES ( 'u0209876', 'Crabbé', 'Elke', 'elke.crabbe@ucll.be', 'Wijnpersstraat', '188', '3111 Wezemaal', '1972-12-17', '1998-01-20', '2004-07-16', 'V');
+INSERT INTO rxxxxxxx.lector( lector_id, naam, voornaam, email, straat, nummer, gemeente, geboortedatum, van, tot, geslacht ) VALUES ( 'u0058120', 'Hamou-Moussa', 'Mo', 'mo.hamou-moussa@ucll.be', 'Kerkstraat', '49', '3201 Langdorp', '1987-02-01', '2020-09-01', null, 'M');
+INSERT INTO rxxxxxxx.lector( lector_id, naam, voornaam, email, straat, nummer, gemeente, geboortedatum, van, tot, geslacht ) VALUES ( 'u0058101', 'Janssen', 'Inge', 'inge.janssen@ucll.be', 'Sint-Servatiusstraat', '7', '3012 Wilsele', '1993-08-23', '2019-02-01', null, 'V');
+INSERT INTO rxxxxxxx.lector( lector_id, naam, voornaam, email, straat, nummer, gemeente, geboortedatum, van, tot, geslacht ) VALUES ( 'u0012047', 'De Smet', 'Bram', 'bram.desmet@ucll.be', 'Frans Nensstraat', '81', '3000 Leuven', '1977-05-21', '2008-04-26', null, 'M');
+INSERT INTO rxxxxxxx.lector( lector_id, naam, voornaam, email, straat, nummer, gemeente, geboortedatum, van, tot, geslacht ) VALUES ( 'u0058112', 'Köse', 'Abdullah', 'abdullah.kose@ucll.be', 'Nobelstraat', '3', '3001 Heverlee', '1992-07-01', '2017-03-05', null, 'M');
+INSERT INTO rxxxxxxx.lector( lector_id, naam, voornaam, email, straat, nummer, gemeente, geboortedatum, van, tot, geslacht ) VALUES ( 'u0005897', 'Lemmens', 'Maarten', 'maarten.lemmens@ucll.be', 'Frans Vermeylenstraat', '15 bus 2', '3290 Schaffen', '1966-01-30', '1994-09-01', null, 'M');
+INSERT INTO rxxxxxxx.lector( lector_id, naam, voornaam, email, straat, nummer, gemeente, geboortedatum, van, tot, geslacht ) VALUES ( 'u0015529', 'Janssens', 'Greet', 'greet.janssens@ucll.be', 'Ambachtenlaan', '6B', '3053 Haasrode', '1972-01-27', '1998-10-09', null, 'V');
+
+
+5. Vul nu de OPOtabel m.b.v. deze CSV code (save onderstaande regels in een apart bestand en importeer dat CSV bestand)
+opocode,studiepunten,naam,van,tot,taal,semester,coördinator
+MBI71A,3,Probleemoplossend denken,2016-09-15,2022-09-14,nl,1,u0012047
+MBI65X,4,Webontwikkeling 1,2017-09-15,2022-09-14,nl,1,u0012047
+MBI66X,4,Webontwikkeling 2,2017-09-15,2022-09-14,nl,2,u0015529
+MBI20X,3,MobieleToepassingen,2018-09-15,2023-09-14,nl,5,u0057764
+MBI26A,6,Computersystemen,2013-09-15,2022-09-14,nl,6,u0041234
+MBI02H,6,Programming 1,2022-09-15,,nl,1,u0058120
+MBI03H,6,Back-end Development,2022-09-15,,nl,2,u0015529
+MBI07H,6,Computer Systems,2022-09-15,,nl,1,u0118738
+MBI14H,6,IT & Society,2022-09-15,,nl,3,u0061789
+MBI21H,9,Bachelorproef,2022-09-15,,nl,6,u0042352
+MBI04A,3,Algoritmisch denken,2017-09-15,2022-09-14,nl,1,u0057764
+MBI12A,3,Security,2017-09-15,2022-09-14,nl,5,u0058111
+MBI81X,5,Object Oriented System Analysis,2017-09-15,2022-09-14,en,3,u0058101
+MBI01H,6,Front-end Development,2022-09-15,,nl,1,u0012047
+MBI20A,3,Communicatie in het Frans 1,2010-09-15,2016-09-14,fr,1,u0058164
+MBI21A,3,Communicatie in het Frans 2,2010-09-15,2016-09-14,fr,3,u0058164
+MBI05X,3,Communicatie in het Frans 2 (sem 2),2010-09-15,2016-09-14,fr,4,u0058164
+MBI19A,3,Communicatie in het Engels 1,2010-09-15,2016-09-14,en,1,u0032987
+MBI25A,4,Computernetwerken 2,2014-09-15,2017-09-14,nl,3,u0058112
+MBI14X,4,Bedrijfsbeheer 2,2010-09-15,2016-09-14,nl,4,u0058108
+MBI68A,20,Stage,2008-09-15,2023-09-14,nl,6,u0058108

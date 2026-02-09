@@ -1,0 +1,92 @@
+section.taak,
+.opgepast,
+section.info,
+.film {
+  margin: 1em 0;
+  padding: 1em;
+  background-color: #f8f8f8;
+  border-radius: var(--afronding);
+  box-shadow: 0 0 5px #999;
+  border-left: 8px solid var(--titelkleur);
+  overflow: auto;
+}
+
+section.taak>*:first-child::before {
+  /* content: url(/assets/person-svgrepo-com.svg);*/
+  content: url(/assets/edit-03-svgrepo-com.svg)
+}
+
+section.info>*:first-child::before {
+  content: url(/assets/information-info-svgrepo-com.svg)
+}
+
+.opgepast::before {
+  content: url(/assets/triangle-danger-f-svgrepo-com.svg);
+}
+
+section.film>p:first-child::before {
+  content: url(/assets/movie-player-svgrepo-com.svg);
+}
+
+button {
+  font-family: inherit;
+  margin: 1rem 0;
+  padding: 5px 20px;
+  border-radius: var(--afronding);
+  border: 1px solid #999;
+  font-size: 1rem;
+  background-color: #333;
+  color: var(--linkkleur);
+  transition: 0.5s;
+  box-shadow: 0 0 8px #f8f8f8;
+
+  &:hover {
+    color: #fff;
+    box-shadow: 0 0 8px #444;
+  }
+
+  &:active {
+    box-shadow: 0 0 8px var(--achtergrondkleur);
+  }
+}
+
+section.taak button {
+  float: right;
+}
+
+section.taak .oplossing {
+  clear: right;
+  display: none;
+  transition: 3s;
+}
+
+section.taak.toon .oplossing {
+  display: block;
+}
+
+.tekst-rechts {
+  text-align: right;
+}
+
+#teller,
+.groot {
+  width: 4em;
+  padding: 0.5em;
+  background-color: #ccc;
+  border-radius: var(--afronding);
+  text-align: center;
+  font-size: 2rem;
+}
+
+#teller {
+  float: left;
+  margin-right: 10px;
+}
+
+.model {
+  background-color: #fff;
+  border-radius: var(--afronding);
+  box-shadow: 0 0 5px #eee;
+  margin-bottom: 10px;
+  padding: 10px 5px
+}

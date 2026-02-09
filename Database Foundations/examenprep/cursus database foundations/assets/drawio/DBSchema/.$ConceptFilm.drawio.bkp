@@ -1,0 +1,127 @@
+<mxfile host="Electron" modified="2024-11-11T09:16:56.737Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/23.0.2 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="FBL50fRycbXpSV_vhwYM" version="23.0.2" type="device">
+  <diagram name="Pagina-1" id="k4ZpURiHo3OGlQFggUP1">
+    <mxGraphModel dx="2074" dy="1214" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-34" style="edgeStyle=none;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Noto Sans;fontSize=11;fontColor=default;endArrow=none;endFill=0;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" edge="1" parent="1" source="_hh0AibnPqlTnwH4ol8v-1" target="_hh0AibnPqlTnwH4ol8v-30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-35" style="edgeStyle=none;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Noto Sans;fontSize=11;fontColor=default;endArrow=none;endFill=0;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" edge="1" parent="1" source="_hh0AibnPqlTnwH4ol8v-1" target="_hh0AibnPqlTnwH4ol8v-31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-36" style="edgeStyle=none;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Noto Sans;fontSize=11;fontColor=default;endArrow=none;endFill=0;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" edge="1" parent="1" source="_hh0AibnPqlTnwH4ol8v-1" target="_hh0AibnPqlTnwH4ol8v-32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-37" style="edgeStyle=none;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Noto Sans;fontSize=11;fontColor=default;endArrow=none;endFill=0;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" edge="1" parent="1" source="_hh0AibnPqlTnwH4ol8v-1" target="_hh0AibnPqlTnwH4ol8v-33">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-1" value="Film" style="whiteSpace=wrap;html=1;align=center;fillColor=#d5e8d4;strokeColor=#82b366;fontFamily=Noto Sans;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="780" y="600" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-8" value="(0,M)" style="edgeStyle=none;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Noto Sans;fontSize=11;fontColor=default;endArrow=none;endFill=0;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" edge="1" parent="1" source="_hh0AibnPqlTnwH4ol8v-2" target="_hh0AibnPqlTnwH4ol8v-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-2" value="Regisseur" style="whiteSpace=wrap;html=1;align=center;fillColor=#d5e8d4;strokeColor=#82b366;fontFamily=Noto Sans;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="510" y="330" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-3" value="Acteur" style="whiteSpace=wrap;html=1;align=center;fillColor=#d5e8d4;strokeColor=#82b366;fontFamily=Noto Sans;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="330" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-5" value="(0,N)" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;fontFamily=Noto Sans;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" edge="1" parent="1" source="_hh0AibnPqlTnwH4ol8v-4" target="_hh0AibnPqlTnwH4ol8v-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-6" value="(0,M)" style="edgeStyle=none;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Noto Sans;fontSize=11;fontColor=default;endArrow=none;endFill=0;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" edge="1" parent="1" source="_hh0AibnPqlTnwH4ol8v-4" target="_hh0AibnPqlTnwH4ol8v-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-4" value="Speelt in" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;align=center;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Noto Sans;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="900" y="450" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-9" value="(1,1)" style="edgeStyle=none;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Noto Sans;fontSize=11;fontColor=default;endArrow=none;endFill=0;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" edge="1" parent="1" source="_hh0AibnPqlTnwH4ol8v-7" target="_hh0AibnPqlTnwH4ol8v-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-7" value="Regisseert" style="shape=rhombus;perimeter=rhombusPerimeter;whiteSpace=wrap;html=1;align=center;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Noto Sans;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="620" y="450" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-11" style="edgeStyle=none;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Noto Sans;fontSize=11;fontColor=default;endArrow=none;endFill=0;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" edge="1" parent="1" source="_hh0AibnPqlTnwH4ol8v-10" target="_hh0AibnPqlTnwH4ol8v-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-10" value="Id" style="ellipse;whiteSpace=wrap;html=1;align=center;fontStyle=4;fontFamily=Noto Sans;fontSize=11;fontColor=default;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="450" y="360" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-15" style="edgeStyle=none;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Noto Sans;fontSize=11;fontColor=default;endArrow=none;endFill=0;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" edge="1" parent="1" source="_hh0AibnPqlTnwH4ol8v-12" target="_hh0AibnPqlTnwH4ol8v-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-12" value="Id" style="ellipse;whiteSpace=wrap;html=1;align=center;fontStyle=4;fontFamily=Noto Sans;fontSize=11;fontColor=default;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="700" y="630" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-14" style="edgeStyle=none;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Noto Sans;fontSize=11;fontColor=default;endArrow=none;endFill=0;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" edge="1" parent="1" source="_hh0AibnPqlTnwH4ol8v-13" target="_hh0AibnPqlTnwH4ol8v-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-13" value="Id" style="ellipse;whiteSpace=wrap;html=1;align=center;fontStyle=4;fontFamily=Noto Sans;fontSize=11;fontColor=default;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="1145" y="360" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-19" style="edgeStyle=none;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Noto Sans;fontSize=11;fontColor=default;endArrow=none;endFill=0;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" edge="1" parent="1" source="_hh0AibnPqlTnwH4ol8v-16" target="_hh0AibnPqlTnwH4ol8v-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-16" value="Geboortedatum" style="ellipse;whiteSpace=wrap;html=1;align=center;fontFamily=Noto Sans;fontSize=11;fontColor=default;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="380" y="300" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-20" style="edgeStyle=none;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Noto Sans;fontSize=11;fontColor=default;endArrow=none;endFill=0;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" edge="1" parent="1" source="_hh0AibnPqlTnwH4ol8v-17" target="_hh0AibnPqlTnwH4ol8v-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-17" value="Nationaliteit" style="ellipse;whiteSpace=wrap;html=1;align=center;fontFamily=Noto Sans;fontSize=11;fontColor=default;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="480" y="260" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-21" style="edgeStyle=none;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Noto Sans;fontSize=11;fontColor=default;endArrow=none;endFill=0;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" edge="1" parent="1" source="_hh0AibnPqlTnwH4ol8v-18" target="_hh0AibnPqlTnwH4ol8v-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-18" value="Naam" style="ellipse;whiteSpace=wrap;html=1;align=center;fontFamily=Noto Sans;fontSize=11;fontColor=default;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="610" y="280" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-26" style="edgeStyle=none;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Noto Sans;fontSize=11;fontColor=default;endArrow=none;endFill=0;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" edge="1" parent="1" source="_hh0AibnPqlTnwH4ol8v-22" target="_hh0AibnPqlTnwH4ol8v-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-22" value="Geboortedatum" style="ellipse;whiteSpace=wrap;html=1;align=center;fontFamily=Noto Sans;fontSize=11;fontColor=default;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="910" y="290" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-27" style="edgeStyle=none;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Noto Sans;fontSize=11;fontColor=default;endArrow=none;endFill=0;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" edge="1" parent="1" source="_hh0AibnPqlTnwH4ol8v-23" target="_hh0AibnPqlTnwH4ol8v-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-23" value="Nationaliteit" style="ellipse;whiteSpace=wrap;html=1;align=center;fontFamily=Noto Sans;fontSize=11;fontColor=default;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="250" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-28" style="edgeStyle=none;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Noto Sans;fontSize=11;fontColor=default;endArrow=none;endFill=0;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" edge="1" parent="1" source="_hh0AibnPqlTnwH4ol8v-24" target="_hh0AibnPqlTnwH4ol8v-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-24" value="Naam" style="ellipse;whiteSpace=wrap;html=1;align=center;fontFamily=Noto Sans;fontSize=11;fontColor=default;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="1115" y="270" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-29" style="edgeStyle=none;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Noto Sans;fontSize=11;fontColor=default;endArrow=none;endFill=0;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" edge="1" parent="1" source="_hh0AibnPqlTnwH4ol8v-25" target="_hh0AibnPqlTnwH4ol8v-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-25" value="Geslacht" style="ellipse;whiteSpace=wrap;html=1;align=center;fontFamily=Noto Sans;fontSize=11;fontColor=default;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="310" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-30" value="Titel" style="ellipse;whiteSpace=wrap;html=1;align=center;fontFamily=Noto Sans;fontSize=11;fontColor=default;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="720" y="670" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-31" value="Jaar" style="ellipse;whiteSpace=wrap;html=1;align=center;fontFamily=Noto Sans;fontSize=11;fontColor=default;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="800" y="690" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-32" value="Lengte" style="ellipse;whiteSpace=wrap;html=1;align=center;fontFamily=Noto Sans;fontSize=11;fontColor=default;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="870" y="660" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-33" value="Rating" style="ellipse;whiteSpace=wrap;html=1;align=center;fontFamily=Noto Sans;fontSize=11;fontColor=default;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="925" y="620" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-39" style="edgeStyle=none;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;endArrow=none;endFill=0;" edge="1" parent="1" source="_hh0AibnPqlTnwH4ol8v-38" target="_hh0AibnPqlTnwH4ol8v-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_hh0AibnPqlTnwH4ol8v-38" value="Rol" style="ellipse;whiteSpace=wrap;html=1;align=center;fontFamily=Noto Sans;fontSize=11;fontColor=default;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="480" width="70" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

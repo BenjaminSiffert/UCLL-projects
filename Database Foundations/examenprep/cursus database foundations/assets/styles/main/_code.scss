@@ -1,0 +1,43 @@
+@use '../rwd';
+
+p code {
+    text-indent: 0;
+}
+
+pre {
+    line-height: 1.4;
+    margin: 1em 0;
+
+    code {
+        font-size: 12px;
+        line-height: 1.3;
+
+        @include rwd.middel {
+            font-size: 14px; /* Safari berekent dit fout indien in rem */
+        }
+
+        @include rwd.groter {
+            font-size: 16px;
+        }
+    }
+}
+
+code {
+    color: var(--titelkleur);
+    font-family: "Inconsolata", Consolas, Monaco, "Andale Mono", monospace;
+    background-color: #eee;
+    border-radius: var(--afronding);
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 0 3px;
+    font-size: 1.1rem;
+    line-height: 1.2;
+
+    a & {
+        border: 2px solid var(--linkkleur);
+    }
+
+    a:hover & {
+        border: 2px solid #eee;
+    }
+}

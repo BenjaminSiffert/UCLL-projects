@@ -1,0 +1,220 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>Groepsopdracht dierenartsenpraktijk</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">Nothing is impossible. The word itself says “I’m Possible”</span> <br>
+&mdash;Audrey Hepburn
+</p> </blockquote> <h1>Groepswerk modelleren</h1> <h2>Opdracht</h2> <p>
+Binnen dit vak hebben jullie geleerd wat een databank is, hoe jullie deze
+      kunnen modelleren, implementeren en vervolgens query's schrijven om data
+      in de databank toe te voegen en eruit te halen. Met dit project gaan
+      jullie het volledige proces van datamodel tot query's realiseren voor een
+      specifieke case. De case is onderaan beschreven, aan jullie om de
+      gevraagde databank uit te werken volgens het aangeleerde proces.
+</p> <p>
+Dit project wordt gerealiseerd door een <em>groep van maximum 4 studenten</em>. De groepen worden bepaald door de lectoren. De deadline voor het
+      indienen van jullie resultaat ligt op <strong>12 december 2025 om 23u59</strong>. Jullie dienen het resultaat in via de opdracht ‘Project opdracht’ die
+      jullie op Toledo terugvinden. Dit project staat op 5 punten. Een project
+      dat niet tegen de deadline wordt ingeleverd, resulteert in een 0.
+      Herkansing is niet mogelijk.
+</p> <p>
+Als je tweede zit hebt door dit OPO, vervallen de punten op de
+      groepsopdracht en staat het examen bijgevolg op 18 punten. Er zijn immers
+      twee punten op het portfolio dat je de eerste weken samenstelde en die
+      blijven behouden. Voor meer info: zie ECTS fiches (link op Toledo of via
+      je ISP).
+</p> <h2>In te leveren</h2> <p>Jullie werken volgende dingen uit:</p> <ol> <li>
+Een <em>conceptueel datamodel</em> waarin jullie onderstaande case uitwerken.
+        Het conceptueel datamodel wordt in draw.io uitwerkt en in pdf-formaat ingeleverd
+        met als naam ‘DF_conceptueel_team_XX.pdf’ waarbij je XX vervangt door jouw
+        teamnummer.
+</li> <li>
+Een <em>logisch datamodel</em> dat de vertaling doet van jullie conceptueel
+        datamodel naar een relationeel databankmodel. Het logische datamodel wordt
+        in draw.io uitwerkt en in pdf-formaat met als naam ‘DF_logisch_team_XX.pdf’
+        ingeleverd.
+</li> <li>
+Een <em>fysiek datamodel</em> dat de vertaling doet van jullie logisch datamodel
+        naar een databank in PostgreSQL. Jullie werken het fysiek datamodel bij voorkeur
+        uit in DBSchema en leveren het hieruit resulterende script in met als naam
+        ‘DF_create_database_team_XX.sql’. Aansluitend leveren jullie ook een .png
+        van jullie schema in (in DBSchema: Model &gt; Export as ... &gt; PNG image)
+        met als naam ‘DF_fysiek_team_XX.png’.
+</li> <li>
+Een tweede script dat <em>data</em> toevoegt aan de gecreëerde tabellen.
+        Dit script, met als naam ‘DF_insert_data_team_XX.sql’, vult de database op.
+</li> <li>
+Een derde script ‘DF_delete_database_team_XX.sql’, dat de aangemaakte
+        database <em>opruimt</em>. Jullie mogen geen gebruik maken van een <code>drop cascade</code>, maar moeten alle tabellen in de juiste volgorde afzonderlijk
+        verwijderen.
+</li> <li>
+Vijf <em>query's</em> die een resultaat uit de databank halen (<a href="#Query's">zie onderaan</a>). Jullie verzamelen de verschillende query's in één script
+        ‘DF_query_team_XX.sql’.
+</li> <li>
+Een maximaal 15 minuten durende <em>video</em> met als naam ‘DF_video_team_XX’
+        waarin jullie een demo geven van bovenstaande eindresultaten. Het formaat
+        van de video moet kunnen afgespeeld worden in <a href="http://www.videolan.org/vlc/">VLC</a>. In deze video toon je eerst je modellen en leg je uit hoe alles in
+        elkaar zit. Vanaf het fysieke datamodel bouw je de hele databank live op
+        in pgAdmin enkel door code te gebruiken. Dan toon je het uitvoeren van
+        de query's en tenslotte breek je het hele schema terug tabel voor tabel
+        af. Test één en ander ruim op voorhand technisch uit (software,
+        videoformaat, microfoon, …)!
+</li> </ol> <p>
+Jullie bundelen het geheel van de bovenstaande bestanden in één
+      ‘DF_project_team_XX.zip’ bestand. Dit .zip bestand leveren jullie in via
+      Toledo (Opdrachten &gt; Project (groep)). Eénmaal indienen per groep is
+      voldoende.
+</p> <h2>Dierenartsenpraktijk</h2> <section class="info"> <p>
+Onderstaand case beschrijft een bedrijf, mensen, objecten en processen.
+        We laten met opzet heel wat details weg. Welke informatie wil men
+        bijhouden? Je maakt hier zelf zinvolle keuzes en motiveert die.
+</p> </section> <p>
+Dierenartsenpraktijk ‘Connect’ in Haasrode is een eerstelijnsprakijk. Dat
+      wil zeggen dat ze geen complexe operaties uitvoeren, maar dat je voor al
+      de rest bij hen terecht kan:
+</p> <ul> <li>ziekte</li> <li>vaccinatie</li> <li>jaarlijkse controle</li> <li>sterilisatie en castratie</li> <li>tandverzorging</li> <li>medicatie</li> <li>verkoop van dierenvoeding en advies</li> <li>hospitalisatie</li> <li>beeldvorming</li> <li>labo-onderzoek</li> <li>dierenverzorging</li> <li>doorverwijzing naar een tweedelijnspraktijk</li> <li>…</li> </ul> <p>
+Momenteel werken er 7 dierenartsen in de praktijk, elk met hun eigen
+      specialisatie naast de algemene basiszorg. Daarnaast zijn er twee
+      dierenverzorgers en één medewerker die instaat voor administratie,
+      boekhouding en de dagelijkse werking van de praktijk. Van elk
+      personeelslid worden de gebruikelijke gegevens bijgehouden (naam, adres,
+      telefoonnummer enz.). Voor de dierenartsen wordt bovendien ook hun
+      specialisatie geregistreerd (dierensoorten, labo- of
+      beeldvormingstechnieken …).
+</p> <p>
+De praktijk biedt ook een beperkt assortiment dierenvoeding en -producten
+      aan, vooral gespecialiseerd (en dus wat duurder) aanbod.
+</p> <p>
+Mensen kunnen uitsluitend op afspraak langskomen met hun huisdier. Dat kan
+      sowieso tijdens de openingsuren van de praktijk (9-12 en 13-18 uur), maar
+      ook daarbuiten is er altijd een dierenarts bereikbaar. In het weekend kan
+      je met je dier alleen terecht bij een dierenarts van wacht. Een lijst met
+      telefoonnummers geeft aan wie wanneer bereikbaar is.
+</p> <figure class="center"> <img src="/assets/groepswerk/Veterinary-Specialties.jpg" alt=""> </figure> <p>
+Hieronder vertellen we een verhaal met heel wat gegevens (namen, data,
+      producten, …) zodat je een idee krijgt van wat er komt kijken bij zo'n
+      dierenartsenpraktijk. Je moet immers een databank ontwerpen die de hele
+      werking van deze praktijk ondersteunt. Alle gegevens uit het onderstaand
+      verhaal moeten in je uiteindelijke databank effectief ook terug te vinden
+      zijn. Uiteraard moet je zelf nog heel wat data genereren om de databank
+      met voldoende realistische data te vullen zodat de query's een zinvol
+      resultaat geven. Waar gegevens ontbreken (naam, uur, datum, product …),
+      vul je die zelf aan met je eigen creatieve verzinsels.
+</p> <p>
+Wij, de lectoren van het OPO Database Foundations, zijn geen dierenartsen,
+      dus het is zogoed als zeker dat in het verhaal hieronder dingen staan die
+      medisch niet kloppen.
+</p> <p>
+Het is vandaag 3 september 2025, 9 uur. Het gezin Desmedt (Kerkstraat 23,
+      3053 Haasrode, tel. 0455123456, wim.desmedt@gmail.com) heeft een afspraak
+      voor poes Maurice. Dit is een Bengaal (kattenras) die rond januari 2022
+      geboren is. Deze poes is op 28 augustus om 15 uur op consultatie gekomen
+      met bloed in de urine. Dierenarts Els Martens onderzocht toen Maurice en
+      besloot dat de poes last had van een ernstige blaasontsteking. Maurice
+      moet een hele week medicatie nemen tegen de ontsteking, nl. Cefalexine. De
+      consultatie van vorige week kostte € 70 (€ 50 voor de consultatie zelf en
+      € 20 voor de medicatie). Nu zijn we een week later en onderzoekt
+      dierenarts Geert Vanaken Maurice. Karen Desmedt, de oudste dochter van het
+      gezin, vertelt dat Maurice de laatste twee dagen terug zijn vrolijke zelve
+      is en dat hij normaal plast. Dierenarts Geert onderzoekt de poes en merkt
+      inderdaad dat de medicatie geholpen heeft. Om het risico op verdere
+      blaasontstekingen te verminderen geeft hij de raad om voldoende drinken en
+      natvoer aan te bieden. Bovendien zou het geen kwaad kunnen om over te
+      stappen op speciale voeding, zoals "Hill’s Prescription Diet c/d
+      Multicare" die het risico op de vorming van blaasgruis sterk vermindert.
+      Karen vindt dat een prima suggestie een koopt een verpakking van 12 kg
+      (kostprijs € 80,29). Samen met de kost voor de controle (€ 40) betaalt ze
+      dus € 120,29.
+</p> <p>
+Zoals je in het bovenstaande merkt hebben dieren vaak een naam die bijna
+      zeker niet uniek is. Daarom wordt elk dier gekoppeld aan een uniek baasje
+      (gezin of persoon). Het gezin Desmedt heeft trouwens nog een ara
+      (papegaai) genaamd Willy. Die had een snavelprobleem, maar dat is tijdens
+      een consultatie op 23 maart 2025 vakkundig opgelost door dierenverzorger
+      Ruth Bertels.
+</p> <p>
+Karen Desmedt maakt vooraleer ze de praktijk verlaat nog een afspraak voor
+      hond Bobby voor de jaarlijkse controle. Ze krijgt een afspraak op
+      donderdag 18 september om 16 uur bij dierenarts Sara Vanderelst.
+</p> <figure class="center"> <img src="/assets/groepswerk/dierenartspraktijk-lokeren.png" alt=""> </figure> <p>
+De praktijk is vrij groot, zodat er tot vier dierenartsen of verzorgers
+      tegelijk een consultatie kunnen doen. Zo is vandaag (remember: 3 september
+      2025) hond Nero op bezoek voor een tandverzorging. Nero is de 6 jaar oude
+      border collie van Katrien Aerts (katrien.aerts@telenet.be, 0455795632,
+      Langestraat 215a, Kessel-Lo). Het gaat hier over een professionele
+      gebitsreiniging (tandsteen verwijderen, tanden polijsten, trekken van
+      slechte kiezen) wat onder narcose gebeurt, want een hond kan daarvoor
+      onvoldoende stilliggen. Dat is dus ook werk voor een dierenarts en niet
+      voor een dierenverzorger. Dierenarts Aïsha El Founti is gespecialiseerd in
+      gebitsverzorging. Omwille van de narcose wordt ze bijgestaan door
+      verzorger Ruth Bertels. Zo'n gebitsverzorging is best ook een lange en
+      dure procedure (2 uur als er een extractie nodig is, € 350). Omwille van
+      de narcose moet hond Nero een aantal uur in de praktijkopvang blijven
+      zodat men zeker is dat alles in orde is na de reiniging. Om 16 uur mag
+      Katrien Nero terug ophalen.
+</p> <p>
+Het is ondertussen 10 uur. Geertje Bernaerts (geertje.bernaerts@vjk.be,
+      0455999666, Frederik Lintstraat 32, leuven) komt aan het onthaal een zak
+      "royal canin mini puppy" brokjes ophalen. Sofie Casterman die
+      verantwoordelijk is voor onthaal, planning en administratie overhandigt de
+      bestelde dierenvoeding en rekent af (€ 14,99).
+</p> <p>
+Om 10:25 uur heeft dierenarts Els Martens alweer een nieuwe patiënt op
+      bezoek. Eigenaar Bart Mertens (bmertens@skynet.be, geen telefoon,
+      Blandenstraat 25 Haasrode) heeft Fluffy meegebracht. Het
+      lievelingskonijntje van de kinderen eet sinds een dag niet meer en geeft
+      een lusteloze indruk. Els vreest dat er een ernstig probleem is met het
+      maagdarmstelsel (darmstilstand? trommelzucht?) en stelt voor om het
+      konijntje in de praktijk te houden zodat het van nabij opgevolgd kan
+      worden. Ze maakt direct een afspraak met Bart om de volgende dag om 13.45
+      uur langs te komen om de toestand te bespreken.
+</p> <p>
+Ondertussen doet dierenarts Walter Malfliet vandaag huisbezoeken. Typisch
+      gaat het hierbij dan over wat grotere dieren (geit, schaap, paard, …). De
+      familie Vekemans (Griet Vekemans, griet.vekemans@icloud.com, 0455112233,
+      Konijnenhoekstraat 6B, Blanden) heeft een pony ('White shadow’) die zich
+      bezeerde aan een afsluiting. Om 11.05 uur komt Walter aan bij de weide
+      waar de pony staat. De schade valt gelukkig mee: een beetje ontsmetting en
+      enkele draadjes zouden normaal gezien moeten volstaan. Een huisbezoek is
+      sowieso al € 20 duurder. Daardoor komt het te betalen bedrag op € 85 (€ 65
+      voor de consultatie + € 20 voor huisbezoek). Griet betaalt dit direct via
+      bancontact. Dierenarts Walter maakt meteen met haar een afspraak dat hij
+      vrijdag 5 augustus rond 15:30 uur even langs komt om te zien of de wonde
+      naar wens geneest.
+</p> <figure class="center"> <img src="/assets/groepswerk/pony-weide.jpg" alt=""> </figure> <p>
+Dierenarts Els Martens heeft om 11:00 uur vandaag een minder prettige
+      consultatie die er jammer genoeg bij hoort. Kater Garfield van het gezin
+      Snellings (Peter Snellings, psnel@hotmail.com, 016 489786, Parkstraat 123,
+      Leuven) is ondertussen 23 jaar oud. Het beestje is zogoed als doof en
+      blind, kan zichzelf niet meer verzorgen en is incontinent. Het heeft bijna
+      geen levenskwaliteit meer en de familie en Els zijn tot het besluit
+      gekomen dat euthanasie de beste oplossing is. Garfield krijgt een spuitje
+      en slaapt rustig in in de armen van baasje Peter. Peter beslist dat hij de
+      dode poes niet meeneemt naar huis, maar dat de dierenarts zal zorgen dat
+      het kadaver verantwoord opgeruimd wordt. Dat brengt de totale kost voor
+      consultatie, medicatie en verwerking op € 135.
+</p> <h2>Datageneratie</h2> <p>
+Je vult alle tabellen met <em>voldoende</em> data. Die data moet er <em>realistisch</em>
+uitzien. Meestal is een combinatie van handwerk (zelf data intypen) en automatische
+      datageneratie (via de datagenerator van DBSchema of online tools zoals Mockaroo)
+      een goed idee. Wat is trouwens ‘voldoende’? Moeilijk om daar een getal op te
+      plakken (“Je moet minstens … rijen hebben in die tabel”). We zouden zeggen:
+      bij de query's (zie volgend puntje) moet je een zinvol resultaat kunnen bekomen.
+      Zo is bijvoorbeeld de <a href="/NL/SQL_tennis/">spelersdatabank</a> echt onvoldoende
+      groot om voor deze opdracht te kunnen dienen (slechts 14 spelers, 2 teams,
+      8 boetes). De <a href="/NL/SQL_kookclub/">kookclub</a> daarentegen is wel voldoende
+      groot (173 deels handgecodeerde ingrediënten, 500 automatisch gegenereerde
+      leden, 10 manueel ingevoerde gerechten waarvoor we inspiratie vonden bij Jeroen
+      Meus, 1178 gemeenten via een CSV-bestand op de site van bpost gevonden, …)
+</p> <h2>Query's</h2> <p>
+Stel nu 5 voldoende <em>uitgebreide</em> en <em>zinvolle</em> query's op om
+      jouw databank te bevragen. Probeer alle SQL-leerstof te gebruiken: <code>SELECT</code>,
+<code>WHERE</code>, inner en outer <code>JOINS</code>, <code>GROUP BY</code>, <code>HAVING</code>, <code>ORDER BY</code>, aantal rijen beperken enz.
+</p> <p>We hebben hier twee woorden beklemtoond:</p> <ol> <li> <em>uitgebreid</em>: we verwachten echt wel query's die het hele
+        arsenaal van wat we zagen in de lessen SQL aanwenden en niet zomaar een
+        overzicht waarbij je één of twee tabellen gebruikt.
+</li> <li> <em>zinvol</em>: motiveer waarom voor de praktijk het resultaat van deze
+        query belangrijk is. Je leidt dus elke query in met wat uitleg, bvb.
+        ‘Voor de praktijk is het belangrijk om een overzicht te krijgen per …
+        want …’.
+</li> </ol> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

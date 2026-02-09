@@ -1,0 +1,480 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>SQL: introductie</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">The best teachers do not simply spout information at their students
+          and hope for the best. The best teachers are those who set
+          expectations responsibly and ensure that students adopt a resilient,
+          “can-do” frame of mind.</span> <br>
+&mdash; Walter Shields, SQL QuickStart Guide: The Simplified Beginner's Guide
+        to Managing, Analyzing, and Manipulating Data With SQL
+</p> </blockquote> <h1>Intro SQL</h1> <p>
+In dit hoofdstuk duik je voor het eerst in een databank. Je leert al
+      doende de basisstructuur van een relationele databank en hoe je structuur
+      en inhoud kan manipuleren. Alles wat we zien in dit hoofdstuk wordt verder
+      uitgediept en uitgelegd in de komende hoofdstukken.
+<em>
+Het is expliciet de bedoeling dat je de instructies in dit hoofdstuk ook
+        uitvoert op de databankserver.
+</em> </p> <p>Vragen? Wij zijn er om je te helpen.</p> <h2>Onze eerste tabel: lijst van OPO’s</h2> <p>
+Onze opleiding Toegepaste informatica bestaat uit een lange lijst van
+      OPO’s (<b>OP</b>leidings<b>O</b>nderdelen). Sommige zijn verplicht, andere
+      zijn keuze-OPO’s. Jouw ISP (<b>I</b>ndividueel
+<b>S</b>tudie<b>P</b>rogramma) maakt een selectie uit deze lijst. De
+      opleiding verandert echter geregeld. De lijst van alle OPO’s moet ook die
+      OPO’s vermelden die vroeger wel in het opleidingsprogramma zaten, maar nu
+      niet meer. Zo beschikken we over een overzicht van alle huidige OPO’s en
+      een archief van alle vorige in één tabel.
+</p> <p>
+In dit voorbeeld vereenvoudigen we de werkelijkheid een heel stuk zodat we
+      alle stappen aan bod kunnen laten komen zonder dat het te complex wordt.
+</p> <h2>Wat wil je bijhouden?</h2> <p>
+Vooraleer je begint te coderen moet je eerst nadenken. Wat wil ik juist
+      bijhouden? Waarvoor moet de data dienen?
+</p> <p>
+Bekijk even <a href="https://onderwijsaanbod.leuven.ucll.be/opleidingen/n/SC_56804144.htm" class="uri">het onderwijsaanbod van Toegepaste informatica</a>. Je vindt hier alle OPO’s van onze bacheloropleiding <em>van dit jaar</em>. Bovendien is er een archief waarop je alle OPO’s van voorgaande jaren
+      ook terugvindt. Dit overzicht is heel erg verschillend van dat van
+      2021–22, want we zijn in academiejaar 2022–23 met een volledig vernieuwde
+      opleiding gestart.
+</p> <p>Bekijk eens één van je OPO’s, bvb. ‘Front-end Development’:</p> <img class="blok" src="/assets/introSQL/ECTS.png" alt="ECTS fiche van het OPO front-end development"> <p>
+Welke informatie vind je hier terug? Vanzelfsprekend gaan we ons in dit
+      inleidend voorbeeld erg beperken tot de basis.
+</p> <p>
+We willen vooral dat die info die nuttig is om je ISP samen te stellen
+      hier voorzien wordt. We kiezen voor volgende gegevens:
+</p> <ul> <li> <p>
+Elke OPO wordt uniek geïdentificeerd door een <em>OPO-code</em>. Bij
+          ‘Front-end Development’ is dat ‘MBI01H’. Als je naar andere OPO’s
+          kijkt, merk je dat deze code telkens uit 6 karakters bestaat.
+</p> </li> <li> <p>
+Vanzelfsprekend is het nogal onpraktisch om telkens met codes te
+          spreken. Daarom voorzien we voor elk OPO ook een <em>naam</em> zoals ‘Front-end
+          Development’.
+</p> </li> <li> <p>
+Belangrijk voor het opstellen van ISP’s is het <em>aantal studiepunten</em> (SP) per OPO. De meeste OPO’s hebben 6 SP.
+</p> </li> <li> <p>
+Vanaf dit jaar beginnen we met een opleiding in het Engels. Hetzelfde
+          OPO wordt nu zowel in het Nederlands als in het Engels gegeven. Die
+          twee versies krijgen elk een andere OPOcode, maar toch is het handig
+          om in onze lijst de <em>taal</em> op te nemen.
+</p> </li> <li> <p>
+In welk <em>semester</em> wordt het OPO gegeven? Sommige OPO’s (zoals stage)
+          kunnen in verschillende semesters opgenomen worden. Voor je ISP is het
+          ook handig als je een overzicht per semester kan krijgen. Laten we deze
+          waarde gebruiken als combinatie van fase (1, 2 of 3) en semester (1 of
+          2). Zo betekent de waarde 4 dat dit een OPO is uit fase 2, tweede semester.
+</p> </li> <li> <p>
+OPO’s komen en gaan. Een paar jaar geleden zag het programma van 1TI
+          er totaal anders uit. Zo was er bvb. een OPO ‘Probleemoplossend
+          denken’ dat gedurende een vijftal jaar gegeven is en nu dus verdwenen
+          is uit het programma. We zullen een manier moeten verzinnen om in onze
+          lijst ook deze informatie te verzamelen zodat we <em>per jaar</em> kunnen
+          reconstrueren welke OPO’s er in dat jaar allemaal gegeven werden.
+</p> </li> <li> <p>
+Elk OPO heeft een <em>coördinator</em> en lectoren die het geven. OPO’s
+          worden meestal door meerdere lectoren gegeven (in het eerste jaar vaak
+          5 per OPO). Dat zullen we <a href="/NL/SQL_eenopveel/">later</a> toevoegen
+          in ons model want dat is momenteel in deze inleiding wat te moeilijk. Wat
+          we wel kunnen toevoegen is de coördinator, want dat is juist 1 lector.
+          Net zoals studenten hebben lectoren een unieke code van 1 letter (‘u’)
+          gevolgd door 7 cijfers. In een ander stuk van het grotere schema dat we
+          later zullen maken kan je dan per lector alle informatie vinden (naam,
+          mailadres enz.).
+</p> </li> </ul> <p>
+De gegevens uit de lijst hierboven worden de <em>kolommen</em> (verticaal)
+      van de tabel. Per OPO komt er dan een <em>rij</em> (horizontaal) in de tabel.
+</p> <h2>Enkele eenvoudige datatypes</h2> <p>
+Een databank zoals PostgreSQL gebruikt verschillende datatypes. Vooraleer
+      we met SQL aan de slag kunnen gaan, moeten we eerst iets vertellen over
+      datatypes. <em>Elk datatype heeft zijn specifiek doel en eigenschappen.</em> Het is belangrijk dat je op voorhand goed nadenkt over het meest geschikte
+      datatype. In deze inleiding beperken we ons tot een kleine selectie van datatypes.
+</p> <h3>char()</h3> <p>
+Soms weet je op voorhand dat de waarde van een bepaald attribuut (kolom)
+      een <em>tekst</em> is. Men spreekt dan over ‘alfanumerieke waarden’: letters
+      en cijfers, geïnterpreteerd als karakters. Als die tekst <em>
+altijd hetzelfde aantal karakters
+</em> heeft, dan is het datatype <code>char</code> in dit geval het meest geschikte.
+      Een OPOcode bestaat altijd uit zes karakters (bij TI: ‘MBI’ gevolgd door twee
+      cijfers en tenslotte nog een letter). We gebruiken dus best
+<code>char(6)</code> als datatype.
+</p> <p>
+Analoog wordt elke lector uniek geïdentificeerd met een code die bestaat
+      uit een ‘u’ gevolgd door zeven cijfers, bvb ‘u0012047’ (a.k.a. Jan Van
+      Hee). Hiervoor ligt dus <code>char(8)</code> voor de hand als datatype.
+</p> <p>
+Voor het bewaren van de taal van een OPO is dit datatype ook geschikt.
+      Elke taal kan namelijk voorgesteld worden via ISO 639-1 codes (<a href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes" class="uri">https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes</a>). Nederlands (‘nl’), Engels (‘en’), Frans (‘fr’), … en dus is een <code>char(2)</code> een goede keuze.
+</p> <h3>varchar()</h3> <p>
+Van sommige kolommen weet je wel dat ze <em>tekst</em> bevatten, maar niet
+      op voorhand <em>hoe lang die tekst is.</em> Je zou nog steeds <code>char</code> kunnen gebruiken, maar dat heeft als nadeel dat je altijd deze geheugenruimte
+      reserveert. Stel dat je voor de naam van een OPO als datatype <code>char(100)</code> gebruikt, want het is mogelijk dat er nieuwe OPO’s bijkomen die een hele
+      lange naam of beschrijving hebben. Een OPO als ‘Database foundations’ gebruikt
+      maar 20 van de gereserveerde 100 bytes. Dat is inefficiënt geheugengebruik.
+</p> <p>
+Voor dit soort van data gebruik je best <code>varchar(100)</code>. Het
+      getal 100 geeft de maximumlengte van de string.
+</p><p>
+De totale geheugenruimte die een waarde nu inneemt is het aantal karakters
+      plus 1 of 2 bytes voor informatie over de lengte. In dit geval zou
+      ‘Database foundations’ dus 21 bytes (lengte = 20 + 1 extra byte)
+      geheugenruimte in beslag nemen.
+</p> <p>
+Maar “elk voordeel heb zijn nadeel” (<a href="https://nl.wikipedia.org/wiki/Cruijffiaans">of was het omgekeerd?</a>): <code>varchar</code> is efficiënter qua geheugen, maar is wel trager dan
+<code>char</code>. Bovendien is <code>char</code> geschikter voor data die
+      dikwijls verandert. Voor de kleine tabellen die wij zullen maken in dit OPO
+      heeft de snelheid natuurlijk geen belang. Maar het is wel degelijk een belangrijke
+      afweging die in grote databanken moet gemaakt worden.
+</p> <h3>integer</h3> <p>
+Voor <em>gehele getallen</em> volstaat momenteel het datatype <code>integer</code> (4 bytes, van − 2147483648 tot 2147483647). Dat is natuurlijk wat overkill
+      voor de kolom ‘studiepunten’. PostgreSQL kent ook <code>smallint</code> dat
+      maar 2 bytes in beslag neemt en getallen toelaat tussen -32768 en +32767. Dat
+      is eigenlijk de betere keuze hier, dus laten we daar maar voor gaan.
+</p> <p>
+Als vuistregel kies je altijd voor het datatype met het kleinste
+      geheugengebruik, dat toch voldoet aan de vereisten. <a href="https://www.postgresql.org/docs/current/datatype-numeric.html">Meer over de verschillende getal-datatypes vind je in de documentatie
+        van postgresql</a>.
+</p> <h3>date</h3> <p>
+Werken met datums is een belangrijk onderdeel van een database. In dit
+      inleidend voorbeeld moeten we kunnen aangeven wanneer een OPO gestart is
+      en tot welke datum het een deel van de opleiding was. Er zijn erg veel
+      manieren om een datum in te voeren, dus we houden het hier simpel. Als het
+      OPO ‘webontwikkeling 1’ gestart is op 16 september 2015, dan kunnen we die
+      datum invoeren in <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601 formaat</a> als ‘2015-09-16’.
+</p> <h2>Schema aanmaken</h2> <p>
+Een databankserver zoals PostgreSQL kan heel wat databases bevatten. Elke
+      databank kan bestaan uit verschillende schema’s. Voor deze opdracht maken
+      we eerst een nieuw schema.
+</p> <section class="taak"> <div> <p>Voer volgende stappen uit in pgAdmin.</p> <ol> <li><p>Open de pooling_62526 connectie.</p></li> <li> <p>
+Open de databank die overeenkomt met je reeks (bvb. 1TI5 als je in
+              reeks 5 zit).
+</p> </li> <li> <p>
+Klik rechts op ‘Schemas’ en kies ‘Query Tool’. In dit venster kan
+              je nu SQL-code (zogenaamde ‘statements’ of ‘query’s’) uitvoeren.
+</p> </li> <li> <p>
+Maak een nieuw schema aan voor deze oefening in de databank die
+              hoort bij je reeks. De naam van het schema is je r- of s-nummer
+              (waarbij de code toont hoe ik het voor mijn account zou doen,
+              gebruik natuurlijk je eigen studentennummer ipv mijn u-nummer).
+              Tik deze code in en voer uit met het driehoek symbool ▸
+              (sneltoets: F5, onthou dit best want je gaat dit commando dikwijls
+              gebruiken).
+</p> <pre><code>CREATE SCHEMA u0012047 -- gebruik je eigen r- of s-nummer! (commentaar begint met -- in SQL)</code></pre> <p>
+SQL-statements worden meestal in <em>hoofdletters</em> geschreven (‘CREATE’),
+              maar verplicht is dat niet. Het is best om <em>geen spaties</em> te
+              gebruiken in namen van schema’s. Het kan wel, maar dan moet je deze
+              naam tussen dubbele aanhalingstekens ("…") zetten. Liever niet, dus.
+              Ook <em>geen hoofdletters of koppelteken</em>
+want ook dan zijn dubbele aanhalingstekens verplicht. Als er geen fouten
+              zijn antwoordt de databankserver iets in deze zin:
+</p> <pre><code>CREATE SCHEMA
+Query returned successfully in 293 msec.</code></pre> </li> <li> <p> <em>Je moet nu de lijst met schema’s verversen</em>. Klik rechts
+              op Schemas en kies ‘Refresh…’. Jouw nieuw schema staat nu bij in
+              de lijst. Prima!
+</p> </li> </ol> </div>  </section> <section class="film"> <p>
+Soms zegt een bewegend beeld meer dan gewone tekst. Daarom hebben we het
+        creëren van het schema en de tabel even in onderstaande video gegoten.
+</p> </section> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_e0rhsz3v&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_dh9tcblb" width="1280" height="720" allowfullscreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation" frameborder="0" title="Kaltura Player"></iframe> </div> <h2>Tabel aanmaken in dit schema</h2> <p>
+Een databankschema bestaat meestal uit vele tabellen die met elkaar
+      verbonden zijn door zogenaamde sleutels. In dit inleidend voorbeeld
+      beperken we ons tot slechts één tabel met de naam ‘opleidingsonderdeel’.
+      De tabel heeft acht kolommen.
+</p> <p> <strong>Vanaf hier is het een goed idee om dingen die je intypt ook te bewaren
+        in een apart .txt bestand.</strong> Op het einde van deze les vragen we je om rijen te deleten en de tabel te
+      droppen. Dan ben je natuurlijk alles kwijt en daarom is het logisch om je werk
+      in een tekstbestand te bewaren, bvb eentje voor elke les.
+</p> <h3>Code voor CREATE</h3> <section class="taak"> <div> <p>
+Typ de code in het codeblok hieronder in (in dezelfde query tool) De
+          uitleg volgt na de code. I.v.m. code overtypen volgende bedenking. Je
+          kan die code ook copy/pasten uit deze tekst. We zouden willen aanraden
+          om dat niet te doen. Er is zoiets als <a href="https://en.wikipedia.org/wiki/Muscle_memory" class="uri">‘spiergeheugen’</a> wat je in IT niet mag onderschatten. Door iets rustig in te typen train
+          je je hersenen op een manier die niet gebeurt bij een kopie.
+</p> <pre><code>CREATE  TABLE opleidingsonderdeel (
+  opocode              char(6)  NOT NULL ,
+  studiepunten         smallint  NOT NULL ,    
+  naam                 varchar(100)  NOT NULL , 
+  van                  date  NOT NULL ,    
+  tot                  date ,    
+  taal                 char(2)  NOT NULL ,    
+  semester             smallint  NOT NULL ,    
+  coordinator          char(8)  NOT NULL ,    
+  CONSTRAINT pk_opleidingsonderdeel_opocode PRIMARY KEY ( opocode ) 
+);</code></pre> </div>  </section> <p>Enkele opmerkingen over deze SQL-code:</p> <ul> <li> <p>
+Gebruik je voor de naam van een tabel <em>enkelvoud</em> (‘opleidingsonderdeel’)
+          of <em>meervoud</em> (‘opleidingsonderdelen’)? De meningen daarover zijn
+          verdeeld. Wij gaan gewoonlijk voor de enkelvoudsvorm. Op zich maakt het
+          niet zoveel uit welke vorm je kiest, als je maar <em>consequent</em> bent.
+</p> </li> <li> <p> <em>Witruimte, inspringen en spaties</em> zijn niet belangrijk voor de
+          computer maar wel voor de mensen die de code moeten lezen.
+</p> </li> <li> <p>
+Over de <em>datatypes</em> hadden we het hoger al: <code>char</code>, <code>varchar</code>, <code>smallint</code>, <code>date</code>.
+</p> </li> <li><p>Tussen elk attribuut (kolom) komt een <em>komma</em>.</p></li> <li> <p>
+De toevoeging <code>NOT NULL</code> betekent dat als je een nieuwe rij
+          (nieuw OPO) toevoegt aan de tabel, dat dit veld dan <em>verplicht</em>
+ingevuld moet worden. Er is maar één veld dat mag leeg blijven en dat is
+          het veld ‘tot’. Dat is ook logisch: een OPO zoals ‘Database foundations’
+          (nieuw vanaf academiejaar 2022–23) zal hopelijk toch wel een aantal jaar
+          blijven lopen. We weten nog niet wanneer het zal stoppen. Elk huidig OPO
+          heeft dus een lege waarde in de kolom ‘tot’.
+</p> </li> <li> <p>
+De laatste regel voegt een belangrijke <em>voorwaarde</em> (‘CONSTRAINT’)
+          toe, met de naam ‘pk_opleidingsonderdeel_opocode’: de kolom ‘opocode’ is
+          de <em>primaire sleutel</em>. Dat wil zeggen dat deze waarde elke rij
+          op een unieke manier identificeert. Als je in het schema een nieuwe
+          rij probeert toe te voegen met dezelfde opocode geeft de
+          databankserver een foutmelding en blijft de data-integriteit bewaard.
+          Over sleutels hebben we het uitgebreid in het hoofdstuk over <a href="/NL/model_logisch/">het logisch datamodel</a>.
+</p> </li> <li>
+Verschillende SQL-statements worden gescheiden door een puntkomma (;).
+        Ook al bevat deze code maar één (lang) statement, toch zullen de meeste
+        developers er standaard een <code>;</code> achter plaatsen.
+</li> </ul> <section class="taak"> <p>
+Na de <code>;</code> voer je de code uit (F5).
+</p>  </section> <p>Als alles goed is, antwoordt de databankserver met:</p> <pre><code>CREATE TABLE
+Query returned successfully in 1 secs 151 msec.</code></pre> <section class="opgepast"> <p>
+De eerste student uit de reeks die deze code uitvoert zal inderdaad deze
+        melding krijgen. <em>Alle volgende studenten echter krijgen een fout in deze stijl:</em> </p> <pre><code>ERROR:  relation &quot;opleidingsonderdeel&quot; already exists
+SQL state: 42P07</code></pre> <p>
+In een volgende sectie onderzoeken we deze veel gemaakte fout en krijg
+        je twee oplossingen aangereikt.
+</p> </section> <h3>Het juiste schema kiezen</h3> <p>
+We hebben je met opzet een fout laten maken die iedereen minstens één keer
+      moet (en zal) maken. <em>Elke tabel die je aanmaakt komt automatisch in het schema ‘public’
+        terecht.</em> Kijk het maar na … Je zal zien dat de tabel ‘opleidingsonderdeel’ daar staat.
+      Dat is de reden waarom iedereen – behalve de eerste student – de foutmelding
+      krijgt dat er al een tabel met die naam bestaat. Iedereen zit in ‘public’ te
+      werken en probeert een tabel met een reeds bestaande naam aan te maken in hetzelfde
+      schema.
+</p> <p>Er zijn twee oplossingen voor dit probleem:</p> <ol> <li> <p> <em>
+Laat de naam van een tabel altijd vooraf gaan door de naam van het
+            schema.
+</em> Concreet betekent dat voor mij (gebruik zelf de naam van je eigen
+          schema, dus met je r-nummer) dat ik het CREATE statement moet aanpassen
+          tot:
+</p> <pre><code>CREATE  TABLE u0012047.opleidingsonderdeel (
+  opocode              char(6)  NOT NULL ,
+  ...
+);</code></pre> <p>
+Deze oplossing wordt door veel mensen gesuggereerd als ‘best practice’
+          en veel softwaretools (we zullen later DBSchema gebruiken) doen het
+          systematisch op deze manier.
+</p> </li> <li> <p>
+Een <em>alternatief</em> is dat je eerst bovenaan je code het <code>search_path</code> definieert. Mijn code wordt dan (vergeet de ; niet tussen twee SQL statements):
+</p> <pre><code>SET search_path to u0012047;
+CREATE  TABLE opleidingsonderdeel (
+  opocode              char(6)  NOT NULL ,
+  ...
+);</code></pre> </li> </ol> <section class="taak"> <p>
+Herhaal nu het bovenstaande <code>CREATE</code> statement uit de vorige sectie
+        om de tabel in je <em>eigen</em> schema aan te maken.
+</p>  </section> <p></p> <h2>Data toevoegen met INSERT INTO</h2> <p>
+Onze tabel staat klaar. De kolommen zijn gedefinieerd. Het enige wat
+      ontbreekt is data (rijen). Laten we een OPO toevoegen, bvb. het OPO waar
+      je nu mee bezig bent: Database Foundations. Zoek alle info op in de ECTS
+      fiche van dit OPO (vind je o.a. via Toledo of via <a href="https://onderwijsaanbod.leuven.ucll.be/opleidingen/n/SC_56804144.htm">het onderwijsaanbod</a>). Er zijn twee manieren om de gewenste info toe te voegen als een rij in
+      ons schema: <em>met</em> of <em>zonder</em> vermelding van de kolomnaam.
+</p> <h3>Met vermelding van alle kolommen die een waarde moeten krijgen</h3> <section class="taak"> <p>
+Typ volgende code in en voer ze uit (en voor de laatste keer: vervang
+        mijn schemanaam door de naam van je eigen schema). Je kan natuurlijk ook
+        je <code>search_path</code> goed zetten en dan hoef je niet telkens de naam
+        van het schema voor de naam van de tabel typen.
+<pre><code>INSERT INTO u0012047.opleidingsonderdeel(opocode, studiepunten, naam, van, taal, semester,
+coordinator) VALUES (&#39;MBI10H&#39;, 6, &#39;Database Foundations&#39;, &#39;2022-09-15&#39;, 1, &#39;u0092735&#39;);
+-- commentaar: De coordinator is Rudi Swennen, dit is zijn personeelsnr
+-- wat je bvb vindt via een zoekopdracht bij teams chat</code></pre> </p>  </section> <p>
+Tekst en datums zet je tussen <em>enkele</em> aanhalingstekens. De studiepunten
+      en het semester zijn een geheel getal, dus zonder aanhalingstekens.
+</p> <section class="opgepast"> <em>Je krijgt echter een foutmelding van de databankserver terug</em>.
+      Probeer die te interpreteren en pas de query aan zodat het wel lukt om
+      deze info toe te voegen.
+</section> <p>
+Als de server antwoordt met ‘successfully’ kan je nakijken wat de inhoud
+      van de volledige tabel nu is met het <code>SELECT</code> commando (waar we
+<a href="/NL/SQL_select/">later in deze cursussite</a> uitgebreid op terugkomen):
+</p> <pre><code>SELECT * -- de ster * betekent: geef de volledige rij weer
+FROM u0012047.opleidingsonderdeel</code></pre> <p>De server antwoordt met het volgende overzicht:</p> <img class="blok" src="/assets/introSQL/eersteInsert.png" alt="Resultaat na één insert statement"> <p>
+Merk op dat het veld ‘tot’ de waarde <code>NULL</code> heeft. Dit betekent
+      dat er <em>geen waarde</em> is voor dit veld.
+</p> <h3>Zonder vermelding van de kolommen</h3> <p>
+Er is een <em>kortere manier</em> om een rij toe te voegen, waar de waarde
+<code>NULL</code> wel erg belangrijk is. Laten we als voorbeeld het OPO ‘Programming
+      1’ toevoegen. Doe dat met volgende code:
+</p> <pre><code>INSERT INTO u0012047.opleidingsonderdeel
+VALUES (&#39;MBI02H&#39;, 6, &#39;Programming 1&#39;, &#39;2022-09-15&#39;, NULL, &#39;nl&#39;, 1, &#39;u0118171&#39;);
+-- De coordinator is Karen Baerts u0118171</code></pre> <p>
+Zie je wat het grote verschil is? Je hoeft de kolomnamen niet meer
+      allemaal op te noemen, maar nu moet je wel expliciet de waarde <code>NULL</code> invullen voor de kolom ‘tot’. Kijk na via <code>SELECT * FROM ...</code>
+dat ook dit OPO toegevoegd is aan je schema.
+</p> <h3>Opdracht</h3> <section class="taak"> <p>
+Voeg nu zelf een aantal (minstens 10) OPO’s toe aan je schema. Zorg dat
+        je ook minstens één OPO uit <em>semesters 2, 3, 4, 5 en 6</em> hebt. Voeg
+        ook liefst een OPO in een <em>andere taal</em> toe (e.g. Français pour le
+        boulot, Visuele gebruikersomgevingen, … bedenk desnoods zelf maar iets).
+        Er moeten ook enkele OPO’s toegevoegd worden met
+<em>minder of meer dan 6 SP</em>. Er is ook <a href="https://www.ucll.be/nl/programmagids-en-ects-fiches">een archief van oude ECTS-fiches</a>. Voeg ook enkele <em>oude OPO’s</em>
+toe die nu niet meer gegeven worden. Voor deze OPO’s zal je een einddatum
+        moeten invullen voor het veld ‘tot’. Kies daarvoor bvb. 14 september van
+        het jaar waar dit OPO gestopt is. Een voorbeeld: het OPO ‘Probleemoplossend
+        Denken’ werd gegeven tot en met academiejaar 2021–22, dus de waarde van ‘tot’
+        wordt ’2022-09-14’. Voor de waarde van het veld ‘van’ kies je maar een 15de
+        september een aantal jaren terug in de tijd. Zolang de data er realistisch
+        uitziet is het prima.
+</p> <p>
+Belangrijke tip: straks zullen we de volledige tabel vernietigen. <strong>Hou dus al je query’s die je schrijft om nieuwe rijen toe te voegen
+          bij in een .txt bestand.</strong> </p> </section> <section class="info"> <p>
+Zolang je pgAdmin niet sluit, vind je alle vorige query’s onder het
+        tabblad ‘Query History’.
+</p> </section> <h2>Data bekijken met SELECT</h2> <p>
+Je gebruikte hierboven al <code>SELECT * FROM tabelnaam</code> om de <em>volledige</em> inhoud van je tabel te bekijken. Ik voegde in totaal 11 OPO’s toe aan mijn
+      tabel. Deze 11 rijen laten toe om voor het vervolg van deze tekst verschillende
+      mogelijke query’s te laten zien.
+</p> <img class="blok" src="/assets/introSQL/11OPOs.png" alt=""> <section class="info"> <p>
+Je kan deze tabel bekijken in de databank ‘df’, schema ‘sql_intro’. Elke
+        student kreeg <code>USAGE</code> rechten op het schema en <code>SELECT</code> rechten op de tabel. Je kan dus in deze tabel geen rijen toevoegen, updaten
+        of deleten. Daarom werk je in je eigen schema en tabel, waar je dat allemaal
+        wel kan. Het thema <em>rechten</em> komt in een <a href="/NL/SQL_privileges/">later hoofdstuk</a> aan bod.
+</p> </section> <p>
+Soms wil je natuurlijk <em>niet alle kolommen</em> te zien krijgen. Stel: je
+      wilt enkel een lijst met alle namen van OPO’s, gevolgd door hun aantal studiepunten.
+      In de <code>SELECT</code> geef je dan expliciet die kolommen in de juiste volgorde
+      op.
+</p> <pre><code>SELECT naam, studiepunten
+FROM u0012047.opleidingsonderdeel</code></pre> <figure class="center"> <img width="400" src="/assets/introSQL/naamSP.png" alt="Alleen de kolommen naam en aantal studiepunten worden getoond"> </figure> <p>
+Bij nader inzien vind ik de kolomhoofding in bovenstaand overzicht niet zo
+      geschikt. In plaats van ‘naam’ in de kolomhoofding zou ik liever ‘naam
+      OPO’ zetten. Dat kan met volgende query, waarbij je gebruik maakt van <code>AS</code>:
+</p> <pre><code>SELECT naam AS &quot;naam OPO&quot;, studiepunten
+FROM u0012047.opleidingsonderdeel</code></pre> <section class="opgepast">
+Merk op dat je "naam OPO" tussen <em>dubbele</em> aanhalingstekens moet zetten
+      omdat deze string een spatie bevat.
+</section> <h2>Specifieke rijen selecteren met WHERE</h2> <p>
+Het resultaat van <code>SELECT ... FROM ...</code> bevat <em>alle</em> rijen
+      in de tabel. Meestal ben je niet geïnteresseerd in alle rijen, maar alleen
+<em>in rijen die aan één of meerdere voorwaarden voldoen</em>. Een
+      voorbeeld: ik wil een overzicht van alle OPO’s waar ik coördinator van ben
+      of geweest ben. Mijn personeelsnummer is ‘u0012047’. Het overzicht mag
+      alle kolommen tonen. De query wordt:
+</p> <pre><code>SELECT *
+FROM u0012047.opleidingsonderdeel
+WHERE coordinator = &#39;u0012047&#39;</code></pre> <p>Er worden twee rijen getoond:</p> <img class="blok" src="/assets/introSQL/mijnOPOs.png" alt="Ik ben of was coördinator van twee OPO's"> <section class="opgepast">
+Let op het gebruik van de <em>enkele</em> aanhalingstekens bij strings. Bovendien
+      is de vergelijkingsoperator in SQL hoofdlettergevoelig (‘case sensitive’).
+      Dezelfde query met <code>WHERE coordinator = 'U0012047'</code> zou geen enkele
+      rij hebben opgeleverd omdat alle personeelsnummers met kleine letter zijn ingevoerd.
+</section> <h3>Logische operatoren</h3> <p>
+Je kan <em>voorwaarden combineren</em> met zogenaamde ‘logische operatoren’:
+<code>AND</code>, <code>OR</code> en <code>NOT</code>. <a href="/NL/SQL_where/">
+Later volgt een volledige bespreking
+</a>, maar nu één klein voorbeeld. Een samengestelde voorwaarde met <code>AND</code> is enkel waar als beide voorwaarden waar zijn. Probeer zelf eens volgende
+      oefening.
+</p> <section class="taak"> <p>
+Geef een lijst van alle OPO’s die minder dan 6 SP hebben en gegeven
+        worden in het Nederlands. Het overzicht bevat enkel de kolommen naam,
+        opocode en het aantal studiepunten.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT naam, opocode, studiepunten
+FROM u0012047.opleidingsonderdeel
+WHERE studiepunten &lt; 6 AND taal = &#39;nl&#39;</code></pre> </div>  </section> <h3>Testen op lege velden</h3> <p>
+Als je wilt testen op de waarde <code>NULL</code> mag je <em>geen gelijkheidsteken</em>
+gebruiken maar moet je het doen met <code>IS NULL</code> of <code>IS NOT NULL</code>. We maken even een kleine oefening.
+</p> <section class="taak"> <p>
+Geef een overzicht van alle OPO’s die nu niet meer bestaan.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing">
+Bekijk eerst even de volledige tabel. De OPO’s die nu niet meer in de
+        opleiding zitten hebben een einddatum in het veld ‘tot’. Die einddatum
+        kan vanalles zijn (er zijn vroeger immers al dikwijls hervormingen
+        gebeurd in de opleiding TI). Je kan dus niet selecteren op een
+        specifieke einddatum. Het enige dat je weet is dat er een einddatum zal
+        staan in dit veld en <em>dat het dus niet leeg is</em>. De query wordt
+        dan:
+<pre><code>SELECT *
+FROM u0012047.opleidingsonderdeel
+WHERE tot IS NOT NULL</code></pre> </div>  </section> <h2>Rijen verwijderen met DELETE</h2> <p>
+Een databankserver moet ook rijen kunnen verwijderen. Misschien is de data
+      verouderd, niet meer van toepassing of gewoon foutief. <em>Vanzelfsprekend is dit een operatie waarmee je voorzichtig moet zijn</em>. Je gebruikt het <code>DELETE</code> commando bijna altijd in combinatie
+      met
+<code>WHERE</code> om enkel bepaalde rijen te verwijderen uit de tabel.
+</p> <p>
+Bij wijze van voorbeeld verwijderen we alle OPO’s uit de tabel die minder
+      dan 4 SP hebben:
+</p> <pre><code>DELETE
+FROM u0012047.opleidingsonderdeel
+WHERE studiepunten &lt; 4</code></pre> <p>
+De databaseserver antwoordt met de melding dat er drie rijen verwijderd
+      zijn uit de tabel. Kijk zelf na met een <code>SELECT *</code> welke rijen verdwenen
+      zijn.
+</p> <pre><code>DELETE 3  
+Query returned successfully in 76 msec.</code></pre> <p>
+Er bestaat ook een <code>TRUNCATE</code> statement waarmee je <em>de volledige inhoud van een tabel</em> wist. De tabel zelf blijft bestaan, maar <em>alle</em> rijen worden verwijderd.
+</p> <h2>Data aanpassen met UPDATE</h2> <p>
+Lectoren krijgen andere taken, OPO’s veranderen van naam, studiepunten of
+      semester, … Je moet dus ook rijen kunnen aanpassen. Door een verandering
+      in mijn opdracht ben ik niet meer coördinator van het OPO ‘Front-end
+      Development’. De nieuwe coördinator is Johan, met personeelsnummer
+      ‘u0039456’. We passen deze info aan in de tabel met de wat moeilijker
+      query <code>UPDATE ... SET ... WHERE ...</code>:
+</p> <pre><code>UPDATE u0012047.opleidingsonderdeel
+SET coordinator = &#39;u0039456&#39;
+WHERE opocode = &#39;MBI01H&#39;</code></pre> <p>
+Als de conditie in de <code>WHERE</code> op meerdere rijen van toepassing is,
+      dan wordt in dit geval de coördinator van <em>al</em> deze rijen aangepast.
+      Het is m.a.w. een query waar je <em>voorzichtig</em> moet mee omspringen. Vermits
+      we hier een test doen op de primaire sleutel ‘opocode’ is er maar één rij waar
+      deze test slaagt en die dus geüpdatet kan worden.
+</p> <p>
+Als je operatie succesvol was, kan je het resultaat bekijken met een
+      gewone <code>SELECT</code>.
+</p> <img class="blok" src="/assets/introSQL/updateJohan.png" alt="Nieuwe coördinator voor het OPO MBI01H"> <section class="taak"> <p>
+Verander van alle OPO’s die nu tot de opleiding behoren en in het derde
+        semester gegeven worden het semester naar 4.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>UPDATE u0012047.opleidingsonderdeel
+SET semester = 4
+WHERE semester = 3 AND tot IS NULL</code></pre> </div>  </section> <h2>Rijen sorteren met ORDER BY</h2> <p>
+De database server geeft het resultaat van een query in een bepaalde
+      volgorde <em>die je niet kan voorspellen</em>. Die hangt af van het type
+      server (postgreSQL doet het anders dan InnoDB bvb), van de query, interne
+      optimalisatie enz. Je wilt lijsten vaak sorteren volgens één of meerdere
+      kolommen: alfabetisch, van klein naar groot, … Volgende query sorteert
+      alle OPO’s volgens stijgend aantal SP, d.w.z. dat het OPO met het kleinste
+      aantal SP bovenaan staat.
+</p> <pre><code>SELECT *
+FROM u0012047.opleidingsonderdeel
+ORDER BY studiepunten ASC</code></pre> <p>
+De standaardsortering is van klein naar groot (‘ASCending’, wordt ook wel
+      ‘oplopend sorteren’ genoemd). Je mag in dit geval het woord ‘ASC’
+      weglaten. Dit is dus evenwaardig:
+</p> <pre><code>SELECT *
+FROM u0012047.opleidingsonderdeel
+ORDER BY studiepunten</code></pre> <p>
+Het kan zelfs nog korter. I.p.v. de naam van de kolom waarop je sorteert,
+      kan je gewoon het volgnummer van de kolom vermelden. Dat is wat <em>minder leesbaar</em> maar wel korter. De studiepunten staan in de tweede kolom <em>van alle getoonde kolommen</em> in deze <code>SELECT</code> dus:
+</p> <pre><code>SELECT *
+FROM u0012047.opleidingsonderdeel
+ORDER BY 2</code></pre> <p>
+Je kan ook sorteren van groot naar klein (‘aflopend sorteren’ of
+      ‘DESCending’). Deze query toont een overzicht van OPO’s (enkel naam, SP en
+      coördinator) in omgekeerd alfabetische volgorde:
+</p> <pre><code>SELECT naam, studiepunten, coordinator
+FROM u0012047.opleidingsonderdeel
+ORDER BY naam DESC        -- alternatief is: ORDER BY 1 DESC</code></pre> <figure class="center"> <img src="/assets/introSQL/alfabetischDESC.png" width="500" alt="Van Z naar A sorteren"> </figure> <section class="taak"> <p>
+Je kan ook sorteren op meerdere kolommen door een komma te zetten tussen
+        de kolomnamen (of -nummers) achter <code>ORDER BY</code>. Schrijf de
+        query die de volledige lijst (alle kolommen) toont, gesorteerd volgens
+        aantal studiepunten van klein naar groot en vervolgens (binnen een
+        zelfde aantal SP) op dalend semester.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT *
+FROM u0012047.opleidingsonderdeel
+ORDER BY studiepunten ASC, semester DESC   -- alternatief: ORDER BY 2, 7 DESC</code></pre> </div>  </section> <h2>Hele tabel verwijderen met DROP</h2> <p>
+In dit inleidend stukje kreeg je een kort overzicht van heel wat
+      verschillende stappen: schema aanmaken, tabel definiëren, vullen met data,
+      bevragen, updaten, deleten van rijen, sorteren enz. Tijd om te besluiten
+      met het <em>opruimen van wat we maakten</em>. Een tabel verwijderen kan je <em>
+enkel als je de eigenaar van de tabel bent
+</em>. Zelfs als je rechten geeft aan andere mensen om jouw tabel te
+      manipuleren, dan nog kunnen deze mensen je tabel niet verwijderen.
+</p> <p>
+Vanzelfsprekend is dit een operatie waar je goed moet over nadenken. Weg
+      is weg!
+</p> <figure class="center"> <img src="/assets/introSQL/exploits_of_a_mom.png" alt="comic"> </figure> <p>Een tabel verwijder je met het commando <code>DROP</code>.</p> <pre><code>DROP TABLE u0012047.opleidingsonderdeel</code></pre> <p>De server antwoordt met:</p> <pre><code>DROP TABLE  
+Query returned successfully in 128 msec.</code></pre> <p>
+Kijk zelf na (vergeet ‘Refresh’ niet) dat de tabel niet meer in je schema
+      staat. Vervolgens kan je ook het schema zelf verwijderen met:
+</p> <pre><code>DROP SCHEMA u0012047</code></pre> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

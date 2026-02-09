@@ -1,0 +1,22 @@
+/* nieuw alternatief: https://css-irl.info/aspect-ratio-is-great/ */
+.iframewrapper {
+    aspect-ratio: 16/9;
+    width: 100%;
+    margin: 2em 0;
+}
+
+/* ik neem wel op met resolutie van 1600 * 900, maar extra band onderaan verstoort beeldverhouding */
+.iframewrapper.kaltura {
+    aspect-ratio: 33/20;
+}
+
+.preview-iframe {
+    width: 100%;
+    margin: 0;
+    height: 100%;
+    vertical-align: middle;
+}
+
+iframe {
+    box-shadow: 3px 3px 5px #999;
+}

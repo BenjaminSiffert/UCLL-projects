@@ -1,0 +1,63 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>FAQ Database Foundations</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">I would rather have questions that can't be answered than answers
+          that can't be questioned.</span> <br>
+&mdash;Richard Feynman
+</p> </blockquote> <h1>FAQ</h1> <p>
+Tijdens lessen duiken vaak (on)verwachte problemen op. Meestal hebben
+      meerdere mensen dit probleem. Hier proberen we antwoorden te verzamelen en
+      ook uit te leggen waarom het fout loopt. <em>
+Iets wat niet werkt zoals voorzien, moet je beschouwen als een kans om
+        iets bij te leren!
+</em> </p> <h2>Handleiding connecties: FATAL: no pg_hba.conf entry …</h2> <p> <strong>Probleem:</strong> Je volgt de handleiding voor het configureren van
+      de drie connecties naar de server, maar vanaf stap 12 mislukt het met de foutmelding
+      ‘Unable to connect to server: connection failed: FATAL: no pg_hba.conf entry
+      for host …’.
+</p> <p> <strong>Oplossing:</strong> bij het begin van het academiejaar genereren we
+      een lijst van alle studenten. Die krijgen toegang tot de databankserver. Wie
+      zich later inschrijft, moet toegevoegd worden aan die lijst. Dat is niet veel
+      werk, maar we moeten het wel weten. Stuur een teamsberichtje naar Jan Van Hee
+      met daarin de melding dat je in dit geval bent en je r-nummer.
+</p> <h2>
+CSV-bestand importeren in pooling-connectie geeft foutmelding met ‘SSL
+      required’
+</h2> <p> <strong>Probleem:</strong> Bij het configureren van de pooling-connectie kreeg
+      je een speciaal wachtwoord. Je kreeg de raad om dit goed bij te houden in een
+      tekstbestand (.txt, word, …). Bij het importeren van een CSV-bestand is het
+      mogelijk dat je opgeslagen wachtwoord met een andere karaktercodering wordt
+      doorgegeven. Dat is meestal geen probleem met de ‘gewone letters’: een ‘a’
+      is een ‘a’ in de meeste karaktercoderingen. Het probleem onstaat echter als
+      het wachtwoord dat je kreeg in stap 26 van de handleiding speciale karakters
+      zoals ‘éà…’ bevat. Dan loopt het wel fout!
+</p> <p> <strong>Oplossing:</strong> Herhaal de <a href="/NL/SQL_pgadmin/">installatiehandleiding</a> vanaf stap 25 en blijf dit uitvoeren tot je een wachtwoord bekomt zonder
+      teken met een accent. Normaal gezien is die wachtwoordgeneratie ondertussen
+      aangepast zodat dit geen probleem meer zou mogen vormen en je dus na één poging
+      al een goed nieuw wachtwoord zou moeten hebben. Bewaar dit nieuwe wachtwoord
+      en handel de stappen van de installatiehandleiding verder af met het nieuwe
+      wachtwoord.
+</p> <h2>Extensies werken niet in Visual Studio Code</h2> <p> <strong>Probleem:</strong> Je installeerde <a href="/NL/SQL_CSV#CSV-bestanden">zoals gevraagd</a> extensies in VS Code: ‘Edit CSV’ en ‘Rainbow CSV’. Toch schijnen die niet
+      te werken: de kleuren komen bvb. niet te voorschijn.
+</p> <p> <strong>Oplossing:</strong> Je moet VS Code eerst laten weten dat een bestand
+      te vertrouwen is. Dat doe je door niet rechtstreeks een bestand te openen in
+      VS Code, maar <em>altijd de map te openen waarin het bestand zit</em> via ‘File
+      &gt; Open folder…’. Als je dat doet, krijg je wel de vraag of de inhoud van
+      deze map te vertrouwen is. Als je die vraag positief beantwoordt, zullen de
+      extensies wel werken.
+</p> <h2>Melding ‘prepared statement '_pg3_0' does not exist’</h2> <p> <strong>Probleem:</strong> Je voert een query uit in pgAdmin en krijgt deze
+      foutmelding over een ‘prepared statement’ terug.
+</p> <p> <strong>Update 5 november 2023:</strong> Zoals verwacht bevat de nieuwe versie
+      7.8 een oplossing. Klik rechts op de pooling-connectie en kies ‘Properties…’.
+      Het tabblad ‘Advanced’ heeft nu een extra optie ‘Prepare threshold’. Laat dit
+      veld leeg. Het probleem zou nu opgelost moeten zijn.
+</p> <p> <strong>Oplossing:</strong> Dit is jammer genoeg een bug in de huidige versie
+      van pgAdmin 4 (op dit moment versie 7.7). Vermoedelijk zal versie 7.8 een workaround
+      voor deze bug hebben. Je kan in elk geval ook versie 6.21 installeren (die
+      deze bug niet heeft) zonder dat je je huidige versie eerst moet verwijderen.
+      Je hoeft, als je 6.21 installeert, de drie connecties niet opnieuw te configureren.
+      Je zal enkel de eerste keer dat je een van deze drie connecties gebruikt het
+      wachtwoord moeten ingeven. Voor 54321 en 52324 is dat je UCLL-wachtwoord, voor
+      de pooling-connectie is dat het speciale wachtwoord dat je moest bewaren in
+      een tekstbestand.
+</p> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>Groepsopdracht cruisereizen</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">Nothing is impossible. The word itself says “I’m Possible”</span> <br>
+&mdash;Audrey Hepburn
+</p> </blockquote> <h1>Groepswerk modelleren</h1> <h2>Opdracht</h2> <p>
+Binnen dit vak hebben jullie geleerd wat een databank is, hoe jullie deze
+      kunnen modelleren, implementeren en vervolgens query's schrijven om data
+      in de databank toe te voegen en eruit te halen. Met dit project gaan
+      jullie het volledige proces van datamodel tot query's realiseren voor een
+      specifieke case. De case is onderaan beschreven, aan jullie om de
+      gevraagde databank uit te werken volgens het aangeleerde proces.
+</p> <p>
+Dit project wordt gerealiseerd door een <em>groep van maximum 4 studenten</em>. De groepen worden bepaald door de lectoren. De deadline voor het
+      indienen van jullie resultaat ligt op <strong>13 december 2024 om 23u59</strong>. Jullie dienen het resultaat in via de opdracht ‘Project opdracht’ die
+      jullie op Toledo terugvinden. Dit project staat op 5 punten. Een project
+      dat niet tegen de deadline wordt ingeleverd, resulteert in een 0.
+      Herkansing is niet mogelijk.
+</p> <p>
+Als je tweede zit hebt door dit OPO, vervallen de punten op de
+      groepsopdracht en staat het examen bijgevolg op 18 punten. Er zijn immers
+      twee punten op het portfolio dat je de eerste weken samenstelde en die
+      blijven behouden. Voor meer info: zie ECTS fiches (link op Toledo of via
+      je ISP).
+</p> <h2>In te leveren</h2> <p>Jullie werken volgende dingen uit:</p> <ol> <li>
+Een <em>conceptueel datamodel</em> waarin jullie onderstaande case uitwerken.
+        Het conceptueel datamodel wordt in draw.io uitwerkt en in pdf-formaat ingeleverd
+        met als naam ‘DF_conceptueel_team_XX.pdf’ waarbij je XX vervangt door jouw
+        teamnummer.
+</li> <li>
+Een <em>logisch datamodel</em> dat de vertaling doet van jullie conceptueel
+        datamodel naar een relationeel databankmodel. Het logische datamodel wordt
+        in draw.io uitwerkt en in pdf-formaat met als naam ‘DF_logisch_team_XX.pdf’
+        ingeleverd.
+</li> <li>
+Een <em>fysiek datamodel</em> dat de vertaling doet van jullie logisch datamodel
+        naar een databank in PostgreSQL. Jullie werken het fysiek datamodel bij voorkeur
+        uit in DBSchema en leveren het hieruit resulterende script in met als naam
+        ‘DF_create_database_team_XX.sql’. Aansluitend leveren jullie ook een .png
+        van jullie schema in (in DBSchema: Model &gt; Export as ... &gt; PNG image)
+        met als naam ‘DF_fysiek_team_XX.png’.
+</li> <li>
+Een tweede script dat <em>data</em> toevoegt aan de gecreëerde tabellen.
+        Dit script, met als naam ‘DF_insert_data_team_XX.sql’, vult de database op.
+</li> <li>
+Een derde script ‘DF_delete_database_team_XX.sql’, dat de aangemaakte
+        database <em>opruimt</em>. Jullie mogen geen gebruik maken van een <code>drop cascade</code>, maar moeten alle tabellen in de juiste volgorde afzonderlijk
+        verwijderen.
+</li> <li>
+Vijf <em>query's</em> die een resultaat uit de databank halen (<a href="#Query's">zie onderaan</a>). Jullie verzamelen de verschillende query's in één script
+        ‘DF_query_team_XX.sql’.
+</li> <li>
+Een maximaal 15 minuten durende <em>video</em> met als naam ‘DF_video_team_XX’
+        waarin jullie een demo geven van bovenstaande eindresultaten. Het formaat
+        van de video moet kunnen afgespeeld worden in <a href="http://www.videolan.org/vlc/">VLC</a>. In deze video toon je al je modellen en leg je uit hoe alles in
+        elkaar zit. Na het fysieke datamodel bouw je de hele databank op in
+        pgAdmin enkel door code te gebruiken. Dan toon je het uitvoeren van de
+        query's en tenslotte breek je het hele schema terug tabel voor tabel af.
+        Test één en ander ruim op voorhand technisch uit (software,
+        videoformaat, microfoon, …)!
+</li> </ol> <p>
+Jullie bundelen het geheel van de bovenstaande bestanden in één
+      ‘DF_project_team_XX.zip’ bestand. Dit .zip bestand leveren jullie in via
+      Toledo (Opdrachten &gt; Project (groep)). Eénmaal indienen per groep is
+      voldoende.
+</p> <h2>Cruisereizen</h2> <section class="info"> <p>
+Onderstaand case beschrijft een bedrijf, mensen, objecten en processen.
+        We laten met opzet heel wat details weg. Welke informatie wil men
+        bijhouden van een schip, passagier, activiteit, ... ? Je maakt hier zelf
+        zinvolle keuzes en motiveert die.
+</p> </section> <p>
+Een rederij heeft een aantal cruiseschepen in de vaart en organiseert
+      daarmee cruisereizen. Het is een goed idee om voor deze opdracht eens een
+      aantal aanbieders van cruisereizen te bekijken en je wat in te lezen in
+      deze wereld.
+</p> <figure class="center"> <img src="/assets/groepswerk/schip.jpg" alt=""> </figure> <p>
+Van elk schip worden een aantal gegevens bewaard, zoals de naam, het
+      aantal passagiers enz. Het is de bedoeling dat een schip zoveel mogelijk
+      cruisereizen doet en zo weinig mogelijk stil ligt (al is er af en toe wat
+      onderhoud nodig natuurlijk).
+</p> <p>
+Eén welbepaalde cruisereis wordt met één schip uitgevoerd. Men probeert
+      natuurlijk altijd een wervende naam te bedenken. De reis volgt een
+      vastgelegde vaarroute met een vertrek- en aankomstdatum. De reis kan
+      natuurlijk meerdere keren uitgevoerd worden. Zo wordt de reis ‘Rondom
+      IJsland’ in 2025 maar liefst 7 keer gedaan, op andere tijdstippen en niet
+      noodzakelijk met hetzelfde schip.
+</p> <p>
+Zo'n vaarroute doet verschillende havens aan, in een specifieke volgorde.
+      Jouw databank moet bvb. volgende vraag kunnen beantwoorden: “Geef voor
+      cruisereis ‘MSC-Scandinavië-026a’ start- en aankomstdatum, de naam van het
+      schip en een lijst van alle havens in de juiste volgorde.” Deze reis
+      blijkt met het schip ‘Icon of the Seas’ te vertrekken op 7 juli 2025
+      vanuit Antwerpen. Ze doet vervolgens deze havens aan: Amsterdam, Hamburg,
+      Kopenhagen, Oslo, Geirangerfjord, Trondheim, South Queensferry, Newcastle
+      en eindigt op 17 juli 2025 in Amsterdam.
+</p> <p><img src="/assets/groepswerk/bestemmingen.png" alt=""></p> <p>
+Niet elke haven is voldoende groot (diep eigenlijk) om zo'n groot schip te
+      laten aanmeren. Soms gebeurt het als de diepgang van het schip groter is
+      dan de diepte van de haven, dat het schip moet blijven liggen buiten de
+      haven en dat passagiers voor een uitstap met een kleinere boot aan land
+      gebracht worden. Het is dus belangrijk dat je van elk schip de diepgang
+      kent.
+</p> <p>
+Het is de bedoeling om zoveel mogelijk passagiers op een cruise te
+      krijgen, zonder de maximum capaciteit van het cruiseschip te
+      overschrijden. Het bedrijf moet van elke passagier voldoende gegevens
+      bijhouden (maak zelf een gemotiveerde keuze wat er allemaal nodig zou
+      kunnen zijn). Het is mogelijk dat er verschillende mensen samen boeken
+      (denk aan een gezin, een vriendengroep, vereniging, …), maar er is per
+      groep altijd één hoofdboeking. Deze persoon is het eerste aanspreekpunt
+      voor de rederij voor vragen, voor facturen enz. Zo zou ik in de databank
+      moeten kunnen terugvinden dat Per Olov Enquist uit Stockholm een trouwe
+      klant is van ons bedrijf. Hij deed in totaal al 5 cruises, de laatste was
+      de reis ‘Cultuur in de Middellandse Zee’ van begin augustus 2023 (vertrek
+      in Barcelona). Die cruise deed hij in gezelschap van drie vrienden,
+      waarbij passagier Viveca Sten uit Göteborg de hoofdboeker was.
+</p> <p><img src="/assets/groepswerk/cruise1.png" alt=""></p> <p>
+Op zo'n cruise is het meeste inbegrepen in de prijs, maar sommige dingen
+      zijn extra te boeken. Zo zie ik bvb. dat Per Olov Enquist op die laatste
+      reis aan boord de dokter geraadpleegd heeft (€ 50) en een betalende
+      daguitstap in Venetië (€ 185) deed op 7 augustus 2023. Die kosten zullen
+      dus doorgerekend worden aan de hoofdboeker Viveca Sten, die dat in detail
+      op de eindfactuur zal terugvinden.
+</p> <p>
+In sommige havens stappen er veel mensen op bussen die hen naar
+      bezienswaardigheden brengen. Zo brengen veel passagiers in Reykjavik een
+      bezoek aan Geysir om naar Strokkur te kijken, of te baden in het warme
+      vulkanische water van The Blue lagoon. Het plaatsje Akureyri in
+      Noord-IJsland is dan weer een goede uitvalsbasis om walvissen te spotten
+      met kleine bootjes. Er moet dus per haven een lijst zijn van interessante
+      bezienswaardigheden die maximaal een paar uur rijden met de bus verwijderd
+      zijn van de aanmeerplaats in de haven.
+</p> <p><img src="/assets/groepswerk/cruiseCabins.png" alt=""></p> <p>
+Misschien blijft een passagier liever op het schip, waar het aan niets
+      ontbreekt. Elke schip heeft heel wat verschillende kamertypes. De duurdere
+      kamers hebben vanzelfsprekend een balkon met zicht op zee, de goedkopere
+      moeten het met wat minder stellen. Er zijn éénpersoonskamers, maar ook
+      kamers voor 2, 3, … passagiers. Wie weet heeft de cruise ook speciale
+      gezinskamers waar de kinderen mee op de kamer van de ouders kunnen? Van
+      elk kamertype zijn er veel kamers, die allemaal een unieke code hebben. Zo
+      kan ik terugvinden dat Per Olov Enquist op zijn laatste cruisereis in de
+      Middellandse Zee in kamer A306 gereisd heeft. Dat is een duurdere kamer
+      van het type ‘Balcony’ voor twee personen.
+</p> <h2>Datageneratie</h2> <p>
+Je vult alle tabellen met <em>voldoende</em> data. Die data moet er <em>realistisch</em>
+uitzien. Meestal is een combinatie van handwerk (zelf data intypen) en automatische
+      datageneratie (via de datagenerator van DBSchema of online tools zoals Mockaroo)
+      een goed idee. Wat is trouwens ‘voldoende’? Moeilijk om daar een getal op te
+      plakken (“Je moet minstens … rijen hebben in die tabel”). We zouden zeggen:
+      bij de query's (zie volgend puntje) moet je een zinvol resultaat kunnen bekomen.
+      Zo is bijvoorbeeld de <a href="/NL/SQL_tennis/">spelersdatabank</a> echt onvoldoende
+      groot om voor deze opdracht te kunnen dienen (slechts 14 spelers, 2 teams,
+      8 boetes). De <a href="/NL/SQL_kookclub/">kookclub</a> daarentegen is wel voldoende
+      groot (173 deels handgecodeerde ingrediënten, 500 automatisch gegenereerde
+      leden, 10 manueel ingevoerde gerechten waarvoor we inspiratie vonden bij Jeroen
+      Meus, 1178 gemeenten via een CSV-bestand op de site van bpost gevonden, …)
+</p> <h2>Query's</h2> <p>
+Stel nu 5 voldoende <em>uitgebreide</em> en <em>zinvolle</em> query's op om
+      jouw databank te bevragen. Probeer alle SQL-leerstof te gebruiken: <code>SELECT</code>,
+<code>WHERE</code>, inner en outer <code>JOINS</code>, <code>GROUP BY</code>, <code>HAVING</code>, <code>ORDER BY</code>, aantal rijen beperken enz.
+</p> <p>We hebben hier twee woorden beklemtoond:</p> <ol> <li> <em>uitgebreid</em>: we verwachten echt wel query's die het hele
+        arsenaal van wat we zagen in de lessen SQL aanwenden en niet zomaar een
+        overzicht waarbij je één of twee tabellen gebruikt.
+</li> <li> <em>zinvol</em>: motiveer waarom voor de rederij het resultaat van deze
+        query belangrijk is. Je leidt dus elke query in met wat uitleg, bvb.
+        ‘Voor de rederij is het belangrijk om een overzicht te krijgen per …
+        want …’.
+</li> </ol> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

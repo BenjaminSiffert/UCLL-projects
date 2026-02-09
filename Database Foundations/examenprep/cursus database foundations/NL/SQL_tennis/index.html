@@ -1,0 +1,328 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>SQL: oefeningen tennisvereniging</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">Experience is a great advantage. The problem is that when you get the
+          experience, you're too damned old to do anything about it.</span> <br>
+&mdash;Jimmy Connors
+</p> </blockquote> <h1>Oefeningen SQL op databank voor een tennisvereniging</h1> <p>
+We maken de stap naar een groter schema, met 5 gekoppelde tabellen. Dit
+      schema is de basis van het boek ‘Het SQL Leerboek’, 7de druk, Rick van der
+      Lans, Academic Service. Dit handboek werd tot voor kort als basishandboek
+      gebruikt in de opleiding TI.
+</p> <h2>De tennisdatabank</h2> <h3>Relationeel fysiek model</h3> <p>
+De onderstaande figuur toont het ERD voor dit schema. Bestudeer dit schema
+      grondig en lees aandachtig de uitleg in de volgende secties. Op dit schema
+      volgen veel oefeningen.
+</p> <figure class="center"> <img src="/assets/tennis/tennis.png" alt=""> </figure> <h3>Belangrijke informatie over de vereniging / databank</h3> <p>
+De tennisvereniging is opgericht in 1970 en vanaf het begin wordt een
+      aantal administratieve gegevens in een database opgeslagen. Deze database
+      bestaat uit de volgende tabellen: spelers, teams, wedstrijden, boetes en
+      bestuursleden.
+</p> <p>
+De spelerstabel bevat gegevens over <em>spelers</em> die lid zijn van de tennisvereniging,
+      zoals namen, adressen en geboortedatums. Toetreding tot de vereniging vindt
+      altijd plaats op 1 januari van een bepaald jaar. Spelers kunnen dus niet midden
+      in een jaar lid worden. De spelerstabel bevat geen historische gegevens. Als
+      een speler zijn of haar lidmaatschap opzegt, verdwijnt hij of zij uit de tabel.
+      Ook bij eventuele verhuizingen wordt het oude adres overschreven met het nieuwe
+      adres, het oude adres wordt dus nergens bewaard.
+</p> <p>
+De tennisvereniging kent twee soorten leden: recreatiespelers en
+      wedstrijdspelers. De eerste groep speelt alleen onderlinge wedstrijden,
+      dus geen wedstrijden tegen spelers van andere verenigingen. De resultaten
+      van de onderlinge wedstrijden worden niet geregistreerd. Wedstrijdspelers
+      spelen in teamverband tegen spelers van andere verenigingen. De resultaten
+      van deze <em>wedstrijden</em> worden wel bijgehouden. Elke speler heeft een
+      uniek nummer, ongeacht of deze wedstrijdspeler is of niet. Dit spelersnummer
+      wordt door de vereniging uitgedeeld. Het is verplicht dat elke wedstrijdspeler
+      bij de tennisbond geregistreerd staat.
+</p> <p>
+De bond, die een nationaal instituut is, geeft elke wedstrijdspeler een
+      uniek bondsnummer. Dit bondsnummer bestaat meestal uit cijfers, maar kan
+      ook letters bevatten. Als een wedstrijdspeler geen wedstrijden meer
+      speelt, maar recreatiespeler wordt, vervalt het bondsnummer. Let wel,
+      recreatiespelers hebben dus geen bondsnummer, maar wel een spelersnummer.
+</p> <figure class="center"> <img src="/assets/tennis/tennisclub.jpg" alt=""> </figure> <p>
+De tennisvereniging heeft een aantal <em>teams</em> dat meedoet in competities.
+      Voor elk team worden de aanvoerder en de divisie waarin het team op dat moment
+      uitkomt, geregistreerd. De aanvoerder hoeft geen wedstrijden voor het team
+      gespeeld te hebben. Het zou kunnen dat een bepaalde speler op een bepaald moment
+      aanvoerder van twee of meer teams is. Ook in deze tabel wordt geen historie
+      bijgehouden. Bij promotie of degradatie van een team naar een andere divisie
+      wordt de geregistreerde divisie eenvoudigweg overschreven. Hetzelfde geldt
+      voor de aanvoerder van een team: bij wisseling wordt het nummer van de oude
+      aanvoerder overschreven.
+</p> <p>
+Een team bestaat uit een aantal spelers. Als een team tegen een team van
+      een andere vereniging speelt, speelt elke speler van dat team een
+      wedstrijd tegen een speler van het andere team (we gaan voor het gemak
+      ervan uit dat wedstrijden waarbij koppels tegen elkaar spelen niet
+      voorkomen). Het team waarvan de meeste spelers hun wedstrijd winnen is
+      winnaar.
+</p><p>
+Een team bestaat niet altijd uit dezelfde groep spelers. Bij ziekte of
+      vakanties zijn soms invallers nodig. Een speler kan dus voor meerdere
+      teams uitkomen. Als we spreken over ‘de spelers van een team’, dan
+      bedoelen we dus de spelers die minstens één wedstrijd voor het team
+      gespeeld hebben. Nogmaals, alleen spelers met een bondsnummer mogen
+      officiële wedstrijden spelen.
+</p><p>
+Een tenniswedstrijd is opgebouwd uit een aantal sets. Degene die de meeste
+      sets heeft gewonnen, is winnaar. Voor elke wedstrijd wordt vooraf bepaald
+      bij hoeveel gewonnen sets de wedstrijd gewonnen is. Over het algemeen
+      wordt de wedstrijd gestopt als een van de twee spelers twee of drie sets
+      gewonnen heeft. Mogelijke eindstanden van een tenniswedstrijd zijn dus 2-1
+      of 2-0 als gespeeld wordt totdat een van de spelers twee sets gewonnen
+      heeft (best of three), of 3-2, 3-1 of 3-0 als gespeeld wordt tot drie
+      gewonnen sets (best of five). Een speler kan zijn of haar wedstrijd winnen
+      of verliezen, gelijkspel is niet mogelijk. In de wedstrijdentabel wordt
+      voor elke wedstrijd apart bijgehouden welke speler de wedstrijd heeft
+      gespeeld en voor welk team. Tevens wordt geregistreerd hoeveel sets de
+      speler heeft gewonnen en verloren. Hieruit is af te leiden of hij of zij
+      de wedstrijd gewonnen heeft.
+</p><p>
+Voor onreglementair gedrag van spelers (te late opkomst, agressief gedrag
+      of niet verschijnen) worden door de bond <em>boetes</em> opgelegd. Boetes worden
+      door de vereniging betaald. Na betaling worden ze in de boetestabel geregistreerd.
+      Zolang een speler wedstrijden speelt, blijven alle boetes bewaard die voor
+      hem of haar opgelegd en betaald zijn.
+</p><p>
+Als een speler de vereniging verlaat, worden al zijn of haar gegevens in
+      de vijf tabellen vernietigd. Als de vereniging een team terugtrekt, worden
+      alle gegevens over dat team uit de teams- en wedstrijdentabel verwijderd.
+      Als een wedstrijdspeler stopt met het spelen van wedstrijden en hij of zij
+      dus weer recreant wordt, worden alle wedstrijd- en boetegegevens uit de
+      desbetreffende tabellen verwijderd.
+</p><p>
+Sinds 1 januari 1990 wordt in de bestuursledentabel bijgehouden wie er in
+      het
+<em>bestuur</em> zit. Vier functies worden onderscheiden: voorzitter, penningmeester,
+      secretaris en algemeen lid. Elk jaar op 1 januari wordt een nieuw bestuur gekozen.
+      Wanneer een speler een bestuursfunctie bekleedt, worden de begin- en einddatum
+      hiervan geregistreerd. Als iemand nog actief is, wordt er geen einddatum ingevuld.
+</p> <h3>CREATE statements</h3> <p>
+Je hoeft dit schema niet zelf te bouwen. <em>Het is bereikbaar via de pooling-connectie, databank ‘oefeningen’,
+        schema ‘tennis’ of ook via connectie 54321 in de tabel ‘basis_rdbms’.</em> Dit schema zit al in het <code>search_path</code>. Daarom werkt volgende
+      code zonder eerst nog het schema te vermelden:
+<pre><code>SELECT *
+FROM spelers -- dus niet nodig om tennis.spelers te schrijven</code></pre> </p> <p>
+Hieronder geven we de SQL code om de vijf tabellen aan te maken, maar dat
+      hoef je dus niet te doen, want dit schema staat gewoon klaar. <em>We verwachten wel dat je alle regels in deze code begrijpt.</em> De <code>CHECK</code> beperkingen (<code>CONSTRAINTS</code>) zijn nieuw,
+      maar vermoedelijk zijn die niet zo moeilijk om te ontcijferen. Het is echt
+      belangrijk om het schema goed te bestuderen.
+</p> <pre><code>CREATE  TABLE tennis.spelers (
+  spelersnr            integer  NOT NULL ,
+  naam                 char(15)  NOT NULL ,
+  voorletters          char(3)  NOT NULL ,
+  geb_datum            date   ,
+  geslacht             char(1)  NOT NULL ,
+  jaartoe              smallint  NOT NULL ,
+  straat               varchar(30)  NOT NULL ,
+  huisnr               char(4)   ,
+  postcode             char(6)   ,
+  plaats               varchar(30)  NOT NULL ,
+  telefoon             char(13)   ,
+  bondsnr              char(4)   ,
+  CONSTRAINT spelers_pkey PRIMARY KEY ( spelersnr ) ,
+  CONSTRAINT spelers_postcode_check CHECK ( (postcode LIKE &#39;______&#39; ) ) ,
+  CONSTRAINT spelers_jaartoe_check CHECK ( (jaartoe &gt; 1969) ) ,
+  CONSTRAINT spelers_geslacht_check CHECK ( (geslacht IN (&#39;M&#39;, &#39;V&#39;)) )
+);
+
+CREATE  TABLE tennis.teams (
+  teamnr               integer  NOT NULL ,
+  spelersnr            integer  NOT NULL ,
+  divisie              char(6)  NOT NULL ,
+  CONSTRAINT teams_pkey PRIMARY KEY ( teamnr ) ,
+  CONSTRAINT teams_spelersnr_fkey FOREIGN KEY ( spelersnr ) REFERENCES tennis.spelers( spelersnr ) ,
+  CONSTRAINT teams_divisie_check CHECK ( (divisie IN (&#39;ere&#39;, &#39;tweede&#39;)) )
+);
+
+CREATE  TABLE tennis.wedstrijden (
+  wedstrijdnr          integer  NOT NULL ,
+  teamnr               integer  NOT NULL ,
+  spelersnr            integer  NOT NULL ,
+  gewonnen             smallint  NOT NULL ,
+  verloren             smallint  NOT NULL ,
+  CONSTRAINT wedstrijden_pkey PRIMARY KEY ( wedstrijdnr ),
+  CONSTRAINT wedstrijden_spelersnr_fkey FOREIGN KEY ( spelersnr ) REFERENCES
+       tennis.spelers( spelersnr )   ,
+  CONSTRAINT wedstrijden_teamnr_fkey FOREIGN KEY ( teamnr ) REFERENCES tennis.teams( teamnr )  ,
+  CONSTRAINT wedstrijden_verloren_check CHECK ( ((verloren &gt;= 0) AND (verloren &lt;= 3)) ) ,
+  CONSTRAINT wedstrijden_gewonnen_check CHECK ( ((gewonnen &gt;= 0) AND (gewonnen &lt;= 3)) )
+);
+
+CREATE  TABLE tennis.bestuursleden (
+  spelersnr            integer  NOT NULL ,
+  begin_datum          date  NOT NULL ,
+  eind_datum           date   ,
+  functie              char(20)   ,
+  CONSTRAINT bestuursleden_pkey PRIMARY KEY ( spelersnr, begin_datum ),
+  CONSTRAINT bestuursleden_spelersnr_fkey FOREIGN KEY ( spelersnr ) REFERENCES
+      tennis.spelers( spelersnr ) ,
+  CONSTRAINT bestuursleden_check CHECK ( (begin_datum &lt; eind_datum) ) ,
+  CONSTRAINT bestuursleden_begin_datum_check CHECK ( (begin_datum &gt;= &#39;1990-01-01&#39;::date) )
+);
+
+CREATE  TABLE tennis.boetes (
+  betalingsnr          integer  NOT NULL ,
+  spelersnr            integer  NOT NULL ,
+  datum                date  NOT NULL ,
+  bedrag               numeric(7,2)  NOT NULL ,
+  CONSTRAINT boetes_pkey PRIMARY KEY ( betalingsnr ),
+  CONSTRAINT boetes_spelersnr_fkey FOREIGN KEY ( spelersnr ) REFERENCES	tennis.spelers( spelersnr ) ,
+  CONSTRAINT boetes_datum_check CHECK ( (datum &gt;= &#39;1969-12-31&#39;::date) ) ,
+  CONSTRAINT boetes_bedrag_check CHECK ( (bedrag &gt; (0)::numeric) )
+);</code></pre> <h3>Enkele aandachtspunten</h3> <p>
+In het ERD (en de <code>CREATE</code> code willen we even wijzen op enkele
+      punten:
+</p> <ul> <li>
+Merk op dat het <em>spelersnummer</em> een centrale rol in het schema heeft.
+        Het is in één tabel de primaire sleutel en in de vier andere tabellen de
+        externe sleutel (‘foreign key’).
+</li> <li>
+De bestuursledentabel heeft een <em>samengestelde</em> primaire sleutel.
+        In de figuur zie je dat aan de twee sleutelicoontjes, in de code staan er
+        twee kolommen in de <code>PRIMARY KEY</code>.
+</li> <li>
+Een veelgemaakte fout is geen rekening houden met het feit <em>dat het spelersnummer in de teams tabel het nummer is van de kapitein
+          van een team</em>. Om te weten wie effectief wedstrijden gespeeld heeft, moet je in de <em>wedstrijdentabel</em> het spelersnummer gebruiken.
+</li> </ul> <h2>Eenvoudige oefeningen</h2> <p>
+We beginnen met enkele eenvoudige oefeningen, vooral bedoeld om dit schema
+      wat beter te leren kennen. Zoals altijd: maak ze zelf en bekijk dan pas de
+      oplossing.
+</p> <section class="taak"> <div> <p>
+Toon alle spelers uit Zoetermeer die lid werden van de club
+          v&oacute;&oacute;r 1984. Je moet de kolominhouden en -hoofdingen van
+          de figuur bekomen.
+</p> <figure class="center"> <img src="/assets/tennis/oef1_4.png" width="350" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT spelersnr, naam || &#39; &#39; || voorletters AS naam, jaartoe
+FROM spelers
+WHERE plaats = &#39;Zoetermeer&#39; AND jaartoe &lt; 1984</code></pre> </div>  </section> <section class="taak"> <div> <p>Maak een lijst van alle teams waarvoor lidnr 27 de kapitein is.</p> <figure class="center"> <img src="/assets/tennis/oef1_5.png" width="350" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT *
+FROM teams
+WHERE spelersnr = 27</code></pre> </div>  </section> <section class="taak"> <div> <p>Geef een overzicht van alle gewonnen tenniswedstrijden.</p> <figure class="center"> <img src="/assets/tennis/oef1_6.png" width="450" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>Je wint een wedstrijd als je meer sets wint dan verliest:</p> <pre><code>SELECT *
+FROM wedstrijden
+WHERE gewonnen &gt; verloren</code></pre> </div>  </section> <section class="taak"> <div> <p>
+Geef een overzicht van alle wedstrijden die speler 112 gespeeld heeft.
+          Bereken voor elke van deze wedstrijden met hoeveel sets deze speler
+          gewonnen of verloren heeft.
+</p> <figure class="center"> <img src="/assets/tennis/oef1_8.png" width="350" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+De figuur toont dat je een nieuwe kolom moet toevoegen die het
+          resultaat is van een eenvoudige berekening:
+</p> <pre><code>SELECT wedstrijdnr, spelersnr, abs(gewonnen - verloren) AS verschil
+FROM wedstrijden
+WHERE spelersnr = 112</code></pre> </div>  </section> <section class="taak"> <div> <p>Maak een lijst van alle betaalde boetes.</p> <figure class="center"> <img src="/assets/tennis/oef1_9.png" width="450" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT *
+FROM boetes</code></pre> </div>  </section> <section class="taak"> <div> <p>
+Voeg in de lijst van vorige oefening ook de naam van de speler toe
+          (naam en eerste letter(s) in één kolom). De screenshot van de figuur
+          toont niet alle rijen.
+</p> <figure class="center"> <img src="/assets/tennis/oef1_10.png" width="500" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+De informatie die je nodig hebt staat nu verspreid over twee tabellen,
+          dus je hebt een <code>JOIN</code> nodig
+</p> <pre><code>SELECT b.betalingsnr, b.spelersnr, s.naam || &#39; &#39; || s.voorletters AS naam, b.datum, b.bedrag
+FROM boetes b INNER JOIN spelers s ON b.spelersnr = s.spelersnr</code></pre> </div>  </section> <section class="taak"> <div> <p>Geef het kleinste en grootste boetebedrag.</p> <figure class="center"> <img src="/assets/tennis/oef1_11.png" width="250" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT min(bedrag) AS min, max(bedrag) AS max
+FROM boetes</code></pre> </div>  </section> <section class="taak"> <div> <p>
+Geef een overzicht van alle bestuursleden die nu in functie zijn. Toon
+          hun functie. Geef ook hun namen (naam en voorletters in één kolom)
+          zoals in de figuur.
+</p> <figure class="center"> <img src="/assets/tennis/oef2_1.png" width="500" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT b.spelersnr, s.naam || &#39; &#39; || s.voorletters AS naam, b.begin_datum, b.functie
+FROM bestuursleden b INNER JOIN spelers s ON b.spelersnr = s.spelersnr
+WHERE eind_datum IS null</code></pre> </div>  </section> <section class="taak"> <div> <p>
+Maak een lijst van alle vrouwelijke spelers die niet in Leiden wonen.
+</p> <figure class="center"> <img src="/assets/tennis/oef2_2.png" width="500" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT spelersnr, naam, plaats, geslacht
+FROM spelers
+WHERE geslacht = &#39;V&#39; AND plaats != &#39;Leiden&#39;</code></pre> </div>  </section> <h2>Boetes</h2> <section class="taak"> <div> <p>
+Wat is het gemiddelde boetebedrag? Hoeveel boetes werden al betaald?
+</p> <figure class="center"> <img src="/assets/tennis/oef2_3.png" width="300" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT round(avg(bedrag)) AS average, count(bedrag) AS &quot;number of fines&quot;
+FROM boetes</code></pre> </div>  </section> <section class="taak"> <div> <p>
+Geef een overzicht van alle boetes groter dan € 30. Toon het bedrag in
+          eurocent. Geef ook het spelersnummer en de naam van de speler die de
+          boete kreeg.
+</p> <figure class="center"> <img src="/assets/tennis/oef2_4.png" width="400" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT b.spelersnr, s.naam, round(bedrag*100) AS &quot;bedrag in centen&quot;
+FROM boetes b INNER JOIN spelers s ON b.spelersnr = s.spelersnr AND bedrag &gt; 30</code></pre> </div>  </section> <section class="taak"> <div> <p>
+Vertrek van de vorige oefening: een lijst van alle spelers die een
+          boete van meer dan € 30 kregen. Het verschil is nu dat we enkel een
+          lijst van spelers willen en geen lijst van boetes. Een speler die meer
+          dan één boete kreeg (e.g. Cools heeft een boete van zowel € 75 als €
+          100) mag maar één keer voorkomen in deze lijst.
+</p> <figure class="center"> <img src="/assets/tennis/oef2_5.png" width="140" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT DISTINCT spelersnr
+FROM boetes
+WHERE bedrag &gt; 30</code></pre> </div>  </section> <h2>Wedstrijden, spelers, kapiteins, …</h2> <section class="taak"> <div> <p>
+Maak een lijst van alle gewonnen wedstrijden gespeeld door leden van
+          team 2. Toon het spelersnr van de winnende speler en ook het nummer
+          van de kapitein van het team.
+</p> <figure class="center"> <img src="/assets/tennis/oef2_6.png" width="400" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT w.wedstrijdnr, w.spelersnr, w.teamnr, t.spelersnr AS captain
+FROM wedstrijden w INNER JOIN teams t ON w.teamnr = t.teamnr
+WHERE w.teamnr = 2 AND gewonnen-verloren &gt; 0</code></pre> </div>  </section> <section class="taak"> <div> <p>
+Genereer een lijst van alle competitiespelers. Niet alle spelers van
+          onze club spelen in een competitie, maar zij die wel in officiële
+          wedstrijden spelen moeten lid zijn van de nationale bond (de figuur
+          toont niet het volledige overzicht).
+</p> <figure class="center"> <img src="/assets/tennis/oef2_7.png" width="300" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT spelersnr, naam
+FROM spelers
+WHERE bondsnr IS NOT null</code></pre> </div>  </section> <section class="taak"> <div> <p>
+Toon het overzicht van vorige oefening, maar alleen voor de
+          vrouwelijke spelers.
+</p> <figure class="center"> <img src="/assets/tennis/oef2_8.png" width="400" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT spelersnr, naam, geslacht
+FROM spelers
+WHERE bondsnr IS NOT null AND geslacht = &#39;V&#39;</code></pre> </div>  </section> <section class="taak"> <div> <p>
+Toon naam en voorletters, team en divisie voor de kapitein van elk
+          team.
+</p> <figure class="center"> <img src="/assets/tennis/oef2_9.png" width="400" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT t.teamnr,t.spelersnr, s.naam || &#39; &#39; || s.voorletters AS kapitein, t.divisie
+FROM teams t INNER JOIN spelers s ON t.spelersnr = s.spelersnr</code></pre> </div>  </section> <section class="taak"> <div> <p>Beperk de vorige lijst tot de vrouwelijke kapiteins.</p> <figure class="center"> <img src="/assets/tennis/oef2_10.png" width="400" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT t.teamnr,t.spelersnr, s.naam || &#39; &#39; || s.voorletters AS kapitein, t.divisie
+FROM teams t INNER JOIN spelers s ON t.spelersnr = s.spelersnr
+WHERE s.geslacht = &#39;V&#39;</code></pre> </div>  </section> <h2>Moeilijkere oefeningen</h2> <section class="taak"> <div> <p>
+Geef een lijst met het spelersnummer, de naam van de speler, de datum
+          van de boete en het bedrag van de boete van al de spelers die een
+          boete gekregen hebben met een bedrag groter dan € 45,50 en in Rijswijk
+          wonen. Sorteer op spelersnr en het volgnummer van de boete.
+</p> <figure class="center"> <img src="/assets/tennis/tennis_opg_1.png" width="500" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT spelers.spelersnr, spelers.naam, boetes.datum, boetes.bedrag
+FROM spelers INNER JOIN boetes ON spelers.spelersnr = boetes.spelersnr
+WHERE boetes.bedrag &gt; 45.50 AND spelers.plaats = &#39;Rijswijk&#39;
+ORDER BY spelers.spelersnr, boetes.betalingsnr;</code></pre> </div>  </section> <section class="taak"> <div> <p>
+Geef voor elke wedstrijd het wedstrijdnummer en de volledige naam van
+          de aanvoerder van het team waarvoor de wedstrijd werd gespeeld.
+          Sorteer je resultaat volgens het wedstrijdnummer in oplopende
+          volgorde. TIP: je zal hier een <code>JOIN</code> moeten doen met meer dan
+          twee tabellen.
+</p> <figure class="center"> <img src="/assets/tennis/tennis_opg_2.png" width="400" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT W.wedstrijdnr, T.spelersnr, naam, voorletters
+FROM wedstrijden W INNER JOIN teams T on W.teamnr = T.teamnr
+  INNER JOIN spelers S on T.spelersnr = S.spelersnr
+ORDER BY 1</code></pre> </div>  </section> <section class="taak"> <div> <p>
+Maak een overzicht waarbij je per woonplaats die minstens één letter
+          ‘o’ (hoofdletter of kleine letter allebei OK) aangeeft hoeveel spelers
+          er wonen in die gemeente. Sorteer op plaats.
+</p> <figure class="center"> <img src="/assets/tennis/tennis_opg_3.png" width="300" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT plaats, COUNT(*) AS aantal
+FROM spelers
+GROUP BY plaats
+HAVING LOWER(plaats) LIKE &#39;%o%&#39;
+ORDER BY plaats;</code></pre> </div>  </section> <section class="taak"> <div> <p>
+Geef het gemiddeld boetebedrag per speler, afgerond op twee cijfers na
+          de komma. Spelers zonder boete krijgen als waarde ‘geen boetes’.
+          Sorteer op spelersnaam.
+</p> <figure class="center"> <img src="/assets/tennis/tennis_opg_4.png" width="300" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT spelers.naam,
+  CASE
+    WHEN AVG(boetes.bedrag) IS NULL THEN &#39;geen boetes&#39;
+    ELSE CAST(ROUND(AVG(boetes.bedrag), 2) AS varchar(8))
+  END AS gemiddeld
+FROM spelers LEFT OUTER JOIN boetes ON spelers.spelersnr = boetes.spelersnr
+GROUP BY spelers.spelersnr, spelers.naam
+ORDER BY 1</code></pre> </div>  </section> <section class="taak"> <div> <p>
+Geef het gemiddeld aantal gewonnen en verloren sets per geboortejaar.
+          Rond telkens af op twee cijfers na de komma. Sorteer op geboortejaar
+          zodat de gegevens van de jongste spelers bovenaan staan.
+</p> <figure class="center"> <img src="/assets/tennis/tennis_opg_5.png" width="400" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT EXTRACT(YEAR FROM geb_datum) AS geboortejaar, ROUND(AVG(gewonnen),2) AS gewonnen,
+  ROUND(AVG(verloren),2) AS verloren
+FROM wedstrijden W INNER JOIN spelers S ON W.spelersnr = S.spelersnr
+GROUP BY EXTRACT(YEAR FROM geb_datum)
+ORDER BY geboortejaar DESC; </code></pre> </div>  </section> <section class="taak"> <div> <p>
+Een moeilijke oefening … Geef voor de actieve bestuursleden <em>zonder boete</em> hun laatste gespeelde wedstrijd (die met het hoogste wedstrijdnummer).
+          Sorteer aflopend op spelersnr.
+</p> <figure class="center"> <img src="/assets/tennis/tennis_opg_6.png" width="300" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT bestuursleden.spelersnr, MAX(wedstrijden.wedstrijdnr) AS laatstewedstrijd
+FROM bestuursleden
+  INNER JOIN wedstrijden ON bestuursleden.spelersnr = wedstrijden.spelersnr AND
+        bestuursleden.eind_datum IS NULL
+  LEFT OUTER JOIN boetes ON bestuursleden.spelersnr = boetes.spelersnr
+WHERE boetes.spelersnr IS NULL
+GROUP BY bestuursleden.spelersnr
+ORDER BY spelersnr DESC; </code></pre> </div>  </section> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>SQL: Eén-op-veel relaties</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">Why did the database administrator leave his wife?<br>She had
+          one-to-many relationships.</span> <br>
+&mdash;onbekende auteur
+</p> </blockquote> <h1>Eén-op-veel relaties</h1> <p></p> <section class="leerdoel"> <ul></ul> </section> <p>
+In het volgende hoofdstuk introduceren we SQL-query’s die meerdere
+      tabellen gebruiken: <code>JOINS</code>. Je hebt dan natuurlijk een schema
+      nodig dat uit <em>meerdere tabellen</em> bestaat. Dit hoofdstuk laat je kennismaken
+      met een één-op-veel relatie tussen twee tabellen. In één van de <a href="/NL/model_logisch/">
+volgende lessen over modelleren
+</a> wordt dit volledig uitgewerkt. Hier vind je enkel een korte inleiding.
+</p> <h2>Twee tabellen</h2> <p>
+In de vorige hoofdstukken werden de verschillende componenten van een <code>SELECT</code> statement uitgewerkt. Als basis gebruikten we een tabel die de vertaling
+      was van dit conceptueel model:
+</p> <figure class="center"> <img src="/assets/select/opo_conceptueel.svg" alt="Conceptueel model van een OPO"> </figure> <h3>Aparte tabellen</h3> <p>
+Dit schema heeft één <em>entiteittype</em> (‘Opleidingsonderdeel’) met een
+      aantal <em>attributen</em>. Eén van die attributen is de lectorcode van de
+      coördinator van het OPO. Elk OPO heeft immers een unieke coördinator. Het
+      ligt voor de hand om een tweede entiteittype ‘Lector’ toe te voegen aan
+      het schema. We hebben immers heel wat informatie over lectoren. Dit
+      entiteittype bevat informatie over alle lectoren, niet alleen de
+      coördinatoren van een OPO. Een naïeve poging is volgende figuur:
+</p> <figure class="center"> <img src="/assets/een-op-veel-SQL/2_losse_entiteittypes.svg" alt="Twee onafhankelijke entiteittypes: een slecht idee!"> </figure> <p>
+Als je dit vertaalt naar PostgreSQL krijg je twee aparte tabellen. Deze
+      structuur is echter een <em>bron van problemen</em>. We vermelden twee
+      mogelijke fouten:
+</p> <ul> <li>
+Iemand voegt een rij (= een nieuw opleidingsonderdeel) toe aan de tabel
+        ‘Opleidingsonderdeel’ met een coördinator die niet in de tabel ‘Lector’
+        zit.
+</li> <li>
+Iemand verwijdert een rij in de tabel ‘Lector’. De lector uit deze rij
+        is echter ook coördinator van een OPO.
+</li> </ul> <p>
+Beide bewerkingen zorgen ervoor dat de databank fouten zal bevatten. Je
+      kan dan van sommige OPO’s geen info meer opzoeken over de coördinator van
+      het OPO. Dat is niet toelaatbaar. <em>Je wilt dat je RDBMS (‘Relationeel DataBase Management Systeem’) je
+        beschermt tegen operaties die fouten introduceren in het schema</em>.
+</p> <h3>Gekoppelde tabellen</h3> <p>
+Het probleem is natuurlijk dat de twee tabellen niet zomaar los van elkaar
+      mogen bestaan. <em>Er is een relatie tussen beide</em>. Het conceptueel
+      model uit volgende figuur maakt deze relatie zichtbaar:
+</p> <figure class="center"> <img src="/assets/een-op-veel-SQL/gekoppelde_entiteittypes.svg" alt="tussen beide entiteittypes bestaat een relatie"> </figure> <p>
+Van rechts naar links lees je de relatie als ‘is coördinator van’, van
+      links naar rechts zou het dan iets kunnen worden in de stijl van ‘heeft
+      als coördinator’. Elke OPO heeft minstens één en maximum één (dus juist
+      één) coördinator. Niet elke lector is coördinator van een OPO, maar een
+      lector kan mogelijk wel van meerdere OPO’s coördinator zijn. De
+      kardinaliteit aan de kant van Lector is dus (0, N). Dit is dus een
+      voorbeeld van een één-op-veel relatie.
+</p> <p>
+Merk op dat het attribuut ‘Coordinator’ uit een eerdere figuur is
+      weggevallen. Het is immers vervangen door een relatie met een nieuw
+      entiteittype ‘Lector’ omdat we de behoefte voelen om meer dan alleen maar
+      een nummer bij te houden van een lector.
+</p> <h3>Vertaling naar relationeel model</h3> <p>
+Hoe vertaal je nu deze één-op-veel relatie naar een <em>relationeel</em> model?
+      PostgreSQL is immers een voorbeeld van een relationele databank. Als we het
+<em>conceptueel</em> model uit de vorige sectie willen vertalen naar een <em>logisch</em> model, zal dat logisch model een relationeel model moeten zijn.
+</p> <p>
+Over logische modellen hoor je alles in detail in het hoofdstuk <a href="/NL/model_logisch/">‘Logisch datamodel’</a>. Dit deel heeft enkel als doel om je hiermee kort te laten kennismaken
+      zodat we het volgend deeltje in onze verkenning van de taal SQL (nl.
+<code>JOIN</code>) kunnen uitwerken. Het logisch model ziet er als volgt
+      uit:
+</p> <figure class="center"> <img src="/assets/een-op-veel-SQL/logisch.svg" alt="Logisch model voor deze relatie"> </figure> <p>
+Voorlopig volstaat het dat je dit diagram kan lezen en dat is niet eens zo
+      moeilijk:
+</p> <ul> <li>
+Elk entiteittype wordt een tabel, voorgesteld door een rechthoek met een
+        titel: Opleidingsonderdeel en Lector.
+</li> <li>Elk attribuut van een entiteittype wordt een kolom in de tabel.</li> <li>
+Elke tabel heeft een ‘primary key’ (PK), hier voorgesteld <span style="background-color:yellow">in het geel</span>. Die primaire sleutel heeft een unieke waarde voor elke rij in de
+        tabel.
+</li> <li>
+Elk opleidingsonderdeel heeft verplicht één coördinator. Er is dus een
+        relatie tussen beide tabellen. In de tabel ‘Opleidingsonderdeel’ is een
+        kolom ‘Coordinator’ toegevoegd. Deze kolom is een zogenaamde ‘Foreign
+        Key’ (FK, ‘vreemde sleutel’, <span style="background-color: #0f0">aangeduid in het groen</span>) omdat elke waarde van deze kolom moet voorkomen als PK van de
+        Lector-tabel.
+</li> <li>
+De verbinding tussen beide tabellen maakt duidelijk dat de inhoud van de
+        kolom overeenkomt met de waarde van de kolom ‘Lector_id’. Het symbool
+        (twee streepjes) in de <span style="color:#33f">kleine blauwe cirkel
+</span> geeft aan dat elk opleidingsonderdeel verplicht één lector als coördinator
+        heeft.
+</li> <li>
+Omgekeerd betekent het symbool in de <span style="color:#ff8000">grotere oranje cirkel</span> dat elke lector coördinator kan zijn van nul (bolletje) of één of meerdere
+        OPO's (kraaienpoot).
+</li> </ul> <p>
+Dit logisch model wordt tenslotte geconverteerd naar een <em>fysiek</em> model,
+      waarbij we nog meer informatie specifiëren die afhangt van de specifieke eigenschappen
+      van het gekozen RDBMS (in ons geval PostgreSQL). Een voorbeeld is bijvoorbeeld
+      de datatypes van de kolommen.
+</p> <p>
+Het fysiek model werd getekend met DBSchema. Ook daarop komen we <a href="/NL/SQL_DBschema/">later</a>
+uitgebreid terug. Dit fysiek model komt overeen met het logisch model, in een
+      iets andere notatie (bemerk de <span style="color:rgb(120,160,190)">blauwe vertrekkende pijl</span> die aangeeft dat dit veld een FK is die verwijst naar de <span style="color:rgb(164,143,72)">
+geelbruine aankomende pijl
+</span> bij lector_id). Ook heeft elk veld een datatype gekregen (<code>char</code>, <code>date</code>, …):
+</p> <figure class="center"> <img src="/assets/een-op-veel-SQL/lector-opo.png" alt="fysiek model met twee tabellen en één-op-veel relatie"> </figure> <p>Deze één-op-veel relatie toevoegen in de databank gaat als volgt:</p> <ol> <li>Maak eerst de tabel ‘lector’.</li> <li>
+Zoek naar de primaire sleutel (‘primary key’) van de lectortabel. Deze
+        primaire sleutel is het veld ‘lector_id’. Het datatype van deze primaire
+        sleutel is een <code>char(8)</code>, want een lectorcode begint altijd
+        met een ‘u’ gevolgd door zeven cijfers. Merk op dat we eigenlijk de
+        benamingen ‘veld’ en ‘kolom’ door elkaar gebruiken.
+</li> <li>
+In de tabel ‘opleidingsonderdeel’ moet er nu een kolom gemaakt worden
+        met exact hetzelfde datatype als het datatype van de primaire sleutel in
+        de lectortabel, dus ook een <code>char(8)</code>. We noemen dit ‘de
+        primaire sleutel overbrengen’ en spreken in de OPOtabel over een
+        ‘externe sleutel’ (of ‘foreign key’).
+</li> <li>
+Deze twee kolommen koppel je nu m.b.v. een beperking (<code>constraint</code>).
+</li> <li>Voer nu <em>eerst</em> de data in in tabel ‘lector’.</li> <li> <em>Daarna</em> kan je tabel ‘opleidingsonderdeel’ vullen met rijen.
+</li> </ol> <h2>Realisatie in je eigen schema</h2> <p>
+Vanaf hier moet je zelf de handen uit de mouwen steken en <em>de twee tabellen effectief aanmaken</em>. We willen immers dat je straks in je eigen tabellen informatie kan
+      toevoegen en verwijderen en dat kan niet als we iedereen in dezelfde tabel
+      laten werken. Start dus pgAdmin en voer de volgende stappen ook effectief
+      uit.
+</p> <p>
+Als je onderstaand stappenplan (gebaseerd op de stappen in vorige sectie)
+      volgt, bekom je twee gekoppelde tabellen, gevuld met data. Hierop volgen
+      dan enkele kleine oefeningen. In het volgend hoofdstuk over <code>JOIN</code> gebruiken we dan dit schema als basis.
+</p> <section class="taak"> <div> <ol> <li>
+De volgende stappen gaan ervan uit dat iedereen een eigen schema
+            heeft met als naam ‘rxxxxxxx’, waarbij je natuurlijk je eigen
+            r-nummer gebruikt. Het gemakkelijkst is dat je de pooling connectie
+            gebruikt op 62526.
+</li> <li>
+Kijk na of er in je schema eventueel al een tabel
+            ‘opleidingsonderdeel’ of ‘lector’ aanwezig is. Als dat het geval is,
+            verwijder dan deze tabel met een <code>DROP TABLE …</code> in een query
+            tool. Remember: ofwel gebruik je voor elke tabelnaam eerst de naam van
+            het schema, gevolgd door een punt en dan de tabelnaam, ofwel zet je je
+<code>search_path</code> goed.
+</li> <li>
+Download het bestand <a href="/assets/een-op-veel-SQL/lector-opo-SQL.txt">‘lector-opo-SQL.txt’</a>. De volgende stappen gebruiken stukjes uit deze SQL code om alles
+            te bouwen en te vullen met data. Je kan telkens het stukje kopiëren
+            uit dit tekstdocument en dat dan plakken in je query tool en
+            uitvoeren.
+</li> <li>
+Maak de tabel ‘lector’ door de <code>CREATE</code> code uit te voeren
+            voor deze tabel uit het bestand dat je zonet gedownload hebt. Niets nieuws
+            te zien hier: twee velden zijn niet verplicht, enkele verschillende datatypes,
+            een primaire sleutel, …
+</li> <li>
+Maak nu de tabel ‘opleidingsonderdeel’ door het juiste stukje te
+            kopiëren / plakken uit het txt-bestand. Over deze code moeten we een
+            klein beetje uitleg geven:
+<pre><code>CREATE TABLE rxxxxxxx.opleidingsonderdeel (
+  opocode char(6) NOT NULL ,
+
+  ...
+
+  coordinator char(8) NOT NULL ,
+  CONSTRAINT pk_opleidingsonderdeel_opocode PRIMARY KEY ( opocode ),
+  CONSTRAINT fk_opleidingsonderdeel_lector FOREIGN KEY ( coordinator )
+    REFERENCES rxxxxxxx.lector( lector_id )
+);</code></pre> <p>
+Deze laatste <code>CONSTRAINT</code> is nieuw. Vrij vertaald zegt deze
+              beperking het volgende: “de kolom ‘coordinator’ van deze tabel verwijst
+              naar de <em>primaire</em> sleutel ‘lector_id’ van de tabel ‘lector’
+              en is dus een <em>vreemde</em> sleutel”. Het is een goed idee om elke
+<code>CONSTRAINT</code> een <em>zinvolle naam</em> te geven. In dit
+              geval: ‘fk’ (voor ‘foreign key’) gevolgd door de twee namen van beide
+              betrokken tabellen. De tool DBSchema die we later hiervoor zullen gebruiken,
+              doet deze naamgeving automatisch.
+</p> </li> <li>
+Denk eens logisch na over <em>de juiste volgorde van het invullen van de data in de twee
+              tabellen</em>. De OPOtabel hangt af van de lectortabel. Je kan pas een
+            coördinator aanduiden voor een OPO als die al in de lectortabel
+            bestaat. Vul dus eerst de lectortabel door een kopie / plak
+            bewerking van de <code>INSERT</code> statements uit het txt-bestand.
+<pre><code>INSERT INTO rxxxxxxx.lector( lector_id, naam, voornaam, email, straat, nummer,
+  gemeente, geboortedatum, van, tot, geslacht ) VALUES ( &#39;u0042352&#39;, &#39;Adriaens&#39;,
+  &#39;Gerben&#39;, &#39;gerben.adriaens@ucll.be&#39;, &#39;Ankerstraat&#39;, &#39;12&#39;, &#39;1330 Rixensart&#39;,
+  &#39;1984-02-16&#39;, &#39;2017-09-01&#39;, null, &#39;M&#39;);
+INSERT INTO rxxxxxxx.lector( lector_id, naam, voornaam, email, straat, nummer,
+  gemeente, geboortedatum, van, tot, geslacht ) VALUES ( &#39;u0057764&#39;, &#39;Bogers&#39;,
+  &#39;Goedele&#39;, &#39;goedele.bogers@ucll.be&#39;, &#39;Elzasgang&#39;, null, &#39;2830 Willebroek&#39;,
+  &#39;1979-09-09&#39;, &#39;2006-11-20&#39;, null, &#39;V&#39;);
+INSERT INTO ...</code></pre> </li> <li>
+Tot slot, nu de lectortabel gevuld is, kan je de OPOtabel ook met
+            data vullen. Dit keer doen we het met een CSV lijst. Kopieer deze
+            regels uit de lijst en zet die in een nieuw .csv bestand. Importeer
+            dit .csv bestand zoals (<a href="/NL/SQL_CSV/index.html">zie hoofdstuk ‘CSV-bestand’</a>):<pre><code class="language-plaintext">opocode,studiepunten,naam,van,tot,taal,semester,coordinator
+MBI71A,3,Probleemoplossend denken,2016-09-15,2022-09-14,nl,1,u0012047
+MBI65X,4,Webontwikkeling 1,2017-09-15,2022-09-14,nl,1,u0012047
+MBI66X,4,Webontwikkeling 2,2017-09-15,2022-09-14,nl,2,u0015529
+MBI20X,3,MobieleToepassingen,2018-09-15,2023-09-14,nl,5,u0057764
+MBI26A,6,Computersystemen,2013-09-15,2022-09-14,nl,6,u0041234
+...</code></pre> </li> <li>
+Klaar! Voer een <code>SELECT * FROM ...</code> uit op beide tabellen
+            om de data te bekijken.
+</li> </ol> </div>  </section> <h2>Reactie van het RDBMS op fouten</h2> <p>
+Maak nu volgende kleine oefeningen. Soms is het <em>expliciet de bedoeling om een fout te maken</em> zodat je leert de foutmeldingen van ons RDBMS goed te interpreteren.
+</p> <section class="taak"> <p>
+Voeg een nieuwe lector toe. Het gaat om Anouk De Ridder met u-nummer
+        u0012047. Ze woont in de Kerkstraat 23 in 3053 Haasrode, is geboren op 5
+        mei 1994 en komt vandaag in dienst. Mailadressen aan UCLL zijn
+        eenvoudig: voornaam.familienaam@ucll.be, dus dat kan je zelf
+        samenstellen. Verklaar wat er gebeurt als je een <code>INSERT</code> met
+        bovenstaande gegevens uitvoert.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Je krijgt een foutmelding dat er al een lector met deze lectorcode
+          bestaat. Aangezien de lectorcode de <em>primaire</em> sleutel is (en die
+          dus
+<em>uniek</em> moet zijn) geeft het RDBMS een foutmelding en wordt de <code>INSERT</code> <em>niet uitgevoerd</em>. Ook hier merk je dat het nuttig is om je <code>CONSTRAINT</code> een zinvolle naam te geven: er is iets mis met primary key ‘lector_id’
+          in de tabel ‘lector’:
+<pre><code>ERROR: duplicate key value violates unique constraint &quot;pk_lector_lector_id&quot;
+DETAIL: Key (lector_id)=&quot;(u0012047)&quot; already exists.
+SQL state: 23505</code></pre> </p> </div>  </section> <section class="taak"> <p>
+Stomme typfout natuurlijk hierboven. Het u-nummer van Anouk is niet
+        u0012047 maar wel u0099999. Voeg deze lector nu toe aan de tabel
+        ‘lector’.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Dit keer geen probleem als je iets in deze stijl hebt uitgevoerd:<pre><code>INSERT INTO rxxxxxxx.lector( lector_id, naam, voornaam, email, straat, nummer,
+  gemeente, geboortedatum, van, tot, geslacht ) VALUES ( &#39;u0099999&#39;, &#39;De Ridder&#39;,
+  &#39;Anouk&#39;, &#39;anouk.deridder@ucll.be&#39;, &#39;Kerkstraat&#39;, &#39;23&#39;, &#39;3053 Haasrode&#39;,
+  &#39;1994-07-05&#39;, &#39;2022-10-15&#39;, null, &#39;V&#39;);</code></pre> </p> <p>
+De server antwoordt dat er met succes één rij is toegevoegd:<pre><code>INSERT 0 1
+
+Query returned successfully in 85 msec.</code></pre> </p> </div>  </section> <section class="taak"> <p>
+Nog dezelfde dag dat ze is toegevoegd aan de databank, beslist Anouk De
+        Ridder dat ze toch geen lector wilt worden. Verwijder haar uit de tabel
+        ‘lector’.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>DELETE
+FROM rxxxxxxx.lector
+WHERE lector_id = &#39;u0099999&#39;</code></pre> <p>
+Je kan natuurlijk ook volgende code gebruiken, maar dan verwijder je
+          wel <em>iedereen met deze naam</em>. Wie weet is er aan UCLL nog wel
+          iemand met de naam ‘Anouk De Ridder’ en dan wordt deze persoon ook uit
+          de tabel verwijderd:
+<pre><code>DELETE
+FROM rxxxxxxx.lector
+WHERE naam = &#39;De Ridder&#39; AND voornaam = &#39;Anouk&#39;. -- gevaarlijk!</code></pre> </p> <p>
+De server antwoordt dat er één rij succesvol verwijderd is:<pre><code>DELETE 1
+
+Query returned successfully in 53 msec</code></pre> </p> </div>  </section> <section class="taak"> <p>
+Verwijder Bram De Smet uit Leuven uit de lectortabel. Verklaar wat er
+        gebeurt.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Met deze code verwijder je de rij:<pre><code>DELETE
+FROM rxxxxxxx.lector
+WHERE voornaam = &#39;Bram&#39; AND naam = &#39;De Smet&#39; AND gemeente LIKE &#39;%Leuven&#39;</code></pre> </p> <p>
+De server geeft echter deze foutmelding:
+<pre><code>ERROR: update or delete on table &quot;lector&quot; violates foreign key constraint
+  &quot;fk_opleidingsonderdeel_lector&quot; on table &quot;opleidingsonderdeel&quot;
+DETAIL: Key (lector_id)=(u0012047) is still referenced from table &quot;opleidingsonderdeel&quot;.
+SQL state: 23503</code></pre> </p> <p>
+Je leest deze foutmelding als volgt: “De tabel ‘opleidingsonderdeel’
+          bevat minstens één rij die verwijst naar deze lector. Deze lector is
+          dus coördinator van een OPO. Daarom mag die dus niet verwijderd
+          worden.”. In het geval van Anouk De Ridder was er geen probleem, want
+          haar u-nummer komt nergens in de OPOtabel voor en dus mag zij veilig
+          verwijderd worden uit die tabel.
+</p> </div>  </section> <section class="taak"> <p>
+Voeg tenslotte een nieuw OPO toe: ‘Bomen en grafen’ met code ‘MBI39A’.
+        Dit OPO werd gegeven in het tweede semester, is dit jaar gestopt en liep
+        van 15 september 2017 tot en met 14 september 2022. Het OPO werd in het
+        Nederlands gegeven en had 3 studiepunten. Coördinator van het OPO was de
+        lector met u-nummer ‘u0099998’. Schrijf de <code>INSERT</code>, voer uit
+        en interpreteer het resultaat.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Met deze code doe je de <code>INSERT</code>:
+<pre><code>INSERT INTO rxxxxxxx.opleidingsonderdeel( opocode, studiepunten, naam, van,
+  tot, taal, semester, coordinator ) VALUES ( &#39;MBI39A&#39;, 3, &#39;Bomen en grafen&#39;,
+  &#39;2017-09-15&#39;, &#39;2022-09-14&#39;, &#39;nl&#39;, 2, &#39;u0099998&#39;);</code></pre> </p> <p>
+De databankserver weigert om deze <code>INSERT</code> uit te voeren en
+          geeft volgende foutmelding:
+<pre><code>ERROR: insert or update on table &quot;opleidingsonderdeel&quot; violates
+  foreign key constraint &quot;fk_opleidingsonderdeel_lector&quot;
+DETAIL: Key (coordinator)=(u0099998) is not present in table &quot;lector&quot;.
+SQL state: 23503</code></pre> </p> <p>
+Aangezien er nog geen lector met deze lectorcode aanwezig is in de
+          lectortabel, kan je geen nieuw OPO toevoegen met als coördinator deze
+          lector. Pas als je deze lector hebt toegevoegd in de tabel ‘lector’,
+          kan je het OPO toevoegen.
+</p> </div>  </section> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

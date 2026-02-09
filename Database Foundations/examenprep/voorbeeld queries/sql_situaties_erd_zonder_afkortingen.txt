@@ -1,0 +1,148 @@
+
+DATABASE OEFENING – 20 SITUATIES MET SQL QUERIES (ZONDER AFKORTINGEN)
+==================================================================
+
+1. Situatie:
+Geef een overzicht van alle afspraken met de naam van het dier en de datum van de afspraak.
+SQL:
+SELECT appointment.id, animal.name, appointment.date_time
+FROM appointment
+JOIN animal ON appointment.animal_id = animal.id;
+
+2. Situatie:
+Toon alle dieren met hun eigenaar (voornaam en achternaam).
+SQL:
+SELECT animal.name AS animal_name, customer.first_name, customer.last_name
+FROM animal
+JOIN customer ON animal.customer_id = customer.id;
+
+3. Situatie:
+Geef alle consulten met bijhorende diagnose en behandeling.
+SQL:
+SELECT consult.id, consult.diagnosis, consult.treatment
+FROM consult;
+
+4. Situatie:
+Toon alle aankopen tijdens consulten met productnaam en hoeveelheid.
+SQL:
+SELECT product.name, purchase.amount
+FROM purchase
+JOIN product ON purchase.product_id = product.id;
+
+5. Situatie:
+Geef alle producten die momenteel niet in voorraad zijn.
+SQL:
+SELECT product.name
+FROM product
+WHERE product.stock_amount = 0;
+
+6. Situatie:
+Toon alle afspraken waarvoor een huisbezoek nodig is.
+SQL:
+SELECT appointment.id, appointment.date_time, appointment.address_home_visit
+FROM appointment
+WHERE appointment.address_home_visit IS NOT NULL;
+
+7. Situatie:
+Geef per diersoort het aantal dieren.
+SQL:
+SELECT species.species, COUNT(animal.id) AS aantal
+FROM animal
+JOIN species ON animal.species_id = species.id
+GROUP BY species.species;
+
+8. Situatie:
+Toon alle medewerkers met hun jobrol.
+SQL:
+SELECT employee.first_name, employee.last_name, job_role.job_role
+FROM employee
+JOIN job_role ON employee.role_abbrev = job_role.role_abbrev;
+
+9. Situatie:
+Geef alle dieren die mannelijk zijn.
+SQL:
+SELECT animal.name
+FROM animal
+WHERE animal.sex = 'M';
+
+10. Situatie:
+Toon alle technische expertise van medewerkers.
+SQL:
+SELECT employee.first_name, employee.last_name, technical_expertise.name
+FROM vet_technical_expertise
+JOIN employee ON vet_technical_expertise.employee_id = employee.id
+JOIN technical_expertise ON vet_technical_expertise.technical_expertise_id = technical_expertise.id;
+
+11. Situatie:
+Geef alle medewerkers die met een bepaalde diersoort werken.
+SQL:
+SELECT DISTINCT employee.first_name, employee.last_name
+FROM species_employee
+JOIN employee ON species_employee.employee_id = employee.id;
+
+12. Situatie:
+Toon alle producten met hun producttype.
+SQL:
+SELECT product.name, product_type.type_name
+FROM product
+JOIN product_type ON product.product_type = product_type.type_name;
+
+13. Situatie:
+Geef alle afspraken met toegewezen medewerkers.
+SQL:
+SELECT appointment.id, employee.first_name, employee.last_name
+FROM employee_appointment
+JOIN appointment ON employee_appointment.appointment_id = appointment.id
+JOIN employee ON employee_appointment.employee_id = employee.id;
+
+14. Situatie:
+Toon alle beschikbaarheden van medewerkers.
+SQL:
+SELECT employee.first_name, employee.last_name, availability.availability_date, availability.part_of_day
+FROM employee_availability
+JOIN employee ON employee_availability.employee_id = employee.id
+JOIN availability ON employee_availability.availability_id = availability.id;
+
+15. Situatie:
+Geef alle klanten die minstens één dier hebben.
+SQL:
+SELECT DISTINCT customer.first_name, customer.last_name
+FROM customer
+JOIN animal ON customer.id = animal.customer_id;
+
+16. Situatie:
+Toon alle aankopen aan de balie met klant en product.
+SQL:
+SELECT customer.first_name, customer.last_name, product.name, purchase_at_reception.amount
+FROM purchase_at_reception
+JOIN customer ON purchase_at_reception.customer_id = customer.id
+JOIN product ON purchase_at_reception.product_id = product.id;
+
+17. Situatie:
+Geef alle consulten met bijhorende afspraken.
+SQL:
+SELECT consult.id, appointment.date_time
+FROM consult
+JOIN appointment ON consult.id = appointment.id;
+
+18. Situatie:
+Toon alle dieren geboren na 2018.
+SQL:
+SELECT animal.name, animal.year_of_birth
+FROM animal
+WHERE animal.year_of_birth > 2018;
+
+19. Situatie:
+Geef alle medewerkers die bereikbaar zijn via privé-telefoon.
+SQL:
+SELECT employee.first_name, employee.last_name, employee.private_phone
+FROM employee
+WHERE employee.private_phone IS NOT NULL;
+
+20. Situatie:
+Toon per producttype het aantal producten.
+SQL:
+SELECT product_type.type_name, COUNT(product.id) AS aantal
+FROM product
+JOIN product_type ON product.product_type = product_type.type_name
+GROUP BY product_type.type_name;

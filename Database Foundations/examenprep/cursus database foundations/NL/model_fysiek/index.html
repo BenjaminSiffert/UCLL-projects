@@ -1,0 +1,161 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>Modelleren: fysiek</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">The strength of a database is directly proportional to the power of
+          the questions you can ask of it.</span> <br>
+&mdash;Hans Rosling
+</p> </blockquote> <h1>Fysiek datamodel</h1> <p>
+In dit hoofdstuk maken we de laatste stap bij het plannen van onze
+      databank: het creëren van ons fysiek datamodel. Hoe zet je een logisch
+      datamodel om naar een fysiek datamodel?
+</p><p>
+Jullie moeten de volgende termen kunnen uitleggen, hoe we dit weergeven
+        (waar relevant) en toelichten aan de hand van een voorbeeld:
+</p> <section class="leerdoel"> <ul> <li>fysiek datamodel;</li> <li>datatype;</li> <li>null-waarde.</li> </ul> </section> <h2>Inleiding</h2> <p>
+De laatste stap in het uittekenen van ons datamodel, is <em>de fysieke laag</em>. Wanneer we aan deze stap komen, hebben we al een databankmodel
+        gekozen en het conceptueel datamodel omgezet naar een structuur die
+        voldoet aan dit databankmodel, resulterend in het logisch datamodel.
+</p> <p>
+De fysieke laag van ons datamodel beantwoordt de vraag ‘Hoe moeten we de
+        datastructuur beschrijven volgens ons gekozen DBMS?’. Daarbij vullen we
+        ons datamodel aan met de volgende informatie:
+</p> <ul> <li>het <em>datatype</em> van een kolom</li> <li>de <em>lengte</em> van een waarde</li> <li>het al dan niet leeg (<em>null</em>) zijn van een waarde</li> <li>
+beperkingen (<em>constraints</em>) die we aan een bepaalde tabel
+          willen opleggen (wordt niet besproken in dit vak)
+</li> <li>indexing (wordt niet besproken in dit vak)</li> <li>views (wordt niet besproken in dit vak)</li> <li>procedures (wordt niet besproken in dit vak)</li> <li>gebruik van diskspace (wordt niet besproken in dit vak)</li> </ul> <p>
+De reden waarom we deze informatie toevoegen in een aparte laag, is
+        omdat het gaat om de meer <em>technische</em> aspecten van het datamodel.
+        Voor hetzelfde databankmodel, kunnen er verschillen bestaan op niveau van
+        het DBMS. Met andere woorden, een fysiek datamodel voor het ene DBMS kan
+        verschillen van dat van een ander DBMS systeem.
+</p><p>
+De verschillen zijn veelal beperkt, zeker voor DBMS voor databanken
+        volgens het relationeel databankmodel, omdat er <em>standaarden</em> werden
+        vastgelegd. Voor het relationeel databankmodel werden standaarden samengevat
+        in de ANSI standaard voor SQL, voor het eerst in 1986 en meer recent in 2016.
+        De ontwikkelaars van DBMS voor relationele databanken houden zich meestal
+        aan deze standaarden, al voegen ze ook eigen varianten toe om zich te onderscheiden
+        van andere producten op de markt door hun klanten net iets meer aan te bieden.
+        De focus in dit vak ligt bij PostgreSQL, we maken ook geen vergelijking met
+        andere systemen binnen dit vak.
+</p> <p>
+Tenslotte kan een database-architect ook beslissen de data net iets
+        anders te structureren (bijvoorbeeld denormaliseren) dan in het logisch
+        datamodel werd aangegeven. De architect zal dit doen om de performantie
+        of bruikbaarheid van de databank te optimaliseren, vaak met het in
+        overweging nemen van de technische mogelijkheden van het gekozen DBMS.
+        Deze overwegingen komen in een later vak aan bod.
+</p> <h2>Van logisch naar fysiek datamodel</h2> <p>
+Bij de vertaling van een logisch datamodel naar een fysiek datamodel,
+        gaan we in het kader van dit vak de <em>volgende informatie toevoegen</em>:
+</p> <ul> <li>
+we geven de verschillende namen van tabellen en kolommen in lijn met
+          onze afgesproken naamgevingsconventies (naming conventions), daarvoor
+          moeten we eerst naamgevingsconventies vastleggen;
+</li> <li>we bepalen voor elk van de kolommen een datatype en lengte;</li> <li>
+we geven voor elk van de kolommen aan of de waarde in de kolom al dan
+          niet leeg (NULL) kan zijn;
+</li> <li>we leggen beperkingen (constraints) aan een tabel op.</li> </ul> <h2>Naamgevingsconventies (Naming conventions)</h2> <p>
+In het fysiek datamodel speelt naamgeving (<em>naming conventions</em>)
+        van tabellen en kolommen een grote rol. Je wil vooral naar een
+        naamgeving streven die <em>leesbaar</em>, <em>duidelijk</em> en <em>consistent</em> is. Daarbij laten heel wat DBMS slechts een beperkt aantal karakters toe
+        in de naam van tabellen en kolommen. Je wordt dus vaak gedwongen om het kort
+        te houden.
+</p> <p>
+Er zijn verschillende manieren om regels te bepalen voor naamgeving, en
+        elk bedrijf zal zijn eigen regels gebruiken. Enkele ideeën:
+</p> <ul> <li>
+case van de namen en/of scheiden van woorden:
+<ul> <li>UPPER CASE,</li> <li>lower case,</li> <li>camelCase,</li> <li>PascalCase,</li> <li>snake_case,</li> <li>kebab-case: woorden worden van elkaar gescheiden</li> </ul> </li> <li>
+gebruik van meervoud of enkelvoud (tabel ‘spelers’ of ‘speler’?)
+</li> <li>
+woorden scheiden van elkaar:
+<ul> <li>door een underscore (_),</li> <li>door een punt,</li> <li>door een hoofdletter,</li> <li>door een combinatie van bovenstaande.</li> </ul> </li> <li>
+taal (in een internationale omgeving werk je best altijd in het
+          Engels)
+</li> <li>
+gebruik van afkortingen om bijvoorbeeld tabellen, primaire of vreemde
+          sleutels aan te duiden. Je kan ook afkorting aanduiden om bepaalde
+          domeinen binnen het datamodel af te bakenen.
+</li> <li>
+regels om lange woorden af te korten door bijvoorbeeld alle klinkers
+          weg te laten, tenzij het woord start met een klinker.
+</li> </ul> <p>Daarnaast kunnen we zeker al <em>de volgende tips</em> meegeven:</p> <ul> <li>gebruik geen spaties;</li> <li>gebruik geen vreemde karakters;</li> <li>gebruik geen SQL of DBMS gereserveerde key-words.</li> </ul> <p>Zelf passen we de <em>volgende naamgevingsconventies</em> toe:</p> <ul> <li> <strong>tabel:</strong> we gebruiken een naam in enkelvoud die in lowercase
+          wordt gezet. Verschillende woorden worden van elkaar gescheiden door een
+          ‘_’.
+</li> <li> <strong>kolom:</strong> de kolomnaam wordt in lowercase beschreven, met
+          verschillende woorden van elkaar gescheiden door een ‘_’. Probeer de kolomnaam
+          zo kort mogelijk te houden, maar tegelijk wel zo dat het nog mogelijk is
+          om te achterhalen wat het betekent.
+</li> <li> <strong>primaire sleutel:</strong> indien mogelijk, geven we de naam van
+          de sleutel ‘id’. Zo is het altijd makkelijk voor de gebruikers om de primaire
+          sleutel te identificeren.
+</li> <li> <strong>vreemde sleutel:</strong> vreemde sleutels zijn verwijzingen naar
+          andere tabellen, dus trachten we de naam van de oorspronkelijke tabel mee
+          in de benaming op te nemen. Bijvoorbeeld de primaire sleutel ‘id’ uit de
+          tabel ‘lector’ zou in andere tabellen als vreemde sleutel ‘lector_id’ genoemd
+          kunnen worden.
+</li> </ul> <p>
+Zoals gezegd, <em>je kan zelf een naamgeving van tabellen bepalen</em>,
+        en in jouw toekomstige werkomgeving zal dit deels al gedaan zijn. Het
+        belangrijkste is dat je consistent blijft!
+</p> <h2>Datatype</h2> <p>
+In het fysiek datamodel gaan we voor elke kolom het <em>datatype</em> vastleggen.
+        We houden hier rekening met de aard van de data die we in deze kolom willen
+        toevoegen. In de eerste stappen die jullie gezet hebben met SQL, binnen het
+<a href="/NL/SQL_intro/#Enkele-eenvoudige-datatypes">hoofdstuk ‘Intro SQL’</a>, zijn jullie al in aanraking gekomen met de meest gebruikte datatypes:
+<code>char()</code>, <code>varchar()</code>, <code>integer</code> en <code>date</code>.
+</p> <p>
+Naast deze datatypes biedt PostgreSQL nog een brede waaier aan
+        bijkomende datatypes. Elk datatype heeft een bepaalde rol en biedt via
+        het gebruik van functies ook nog eens bijkomende mogelijkheden.
+</p> <p>
+Bij het bepalen van het datatype moet je dan ook bij sommige kolommen de
+<em>lengte</em> aangeven. Datatypes kunnen een <em>vaste</em> lengte hebben
+        (bijvoorbeeld <code>integer</code> 4 bytes, <code>boolean</code> 1 bit (in
+        theorie, maar vaak gerealiseerd als een byte), <code>real</code> 4 bytes,
+        …) of een
+<em>variabele</em> lengte hebben (bijvoorbeeld <code>char</code>, <code>varchar</code>, <code>numeric</code>, …).
+</p><p>
+Wanneer je de lengte van een kolom aangeeft, moet je rekening houden met
+        de maximale lengte die een waarde zou kunnen hebben. Een datatype met
+        een variabele lengte laat toe om voor bepaalde kolommen toch heel wat
+        ruimte beschikbaar te stellen, zonder dat die ruimte ook telkens
+        volledig ingenomen wordt. Een goede richtlijn is om dit realistisch te
+        houden.
+</p> <h2>NULL of NOT NULL</h2> <p>
+Bij het fysiek ontwerp moeten we aangeven of de waarde in een kolom <em>
+al dan niet leeg
+</em> kan zijn. Voor de kolommen die nooit leeg mogen zijn, kunnen we ‘NOT
+        NULL’ specificeren. Voor de tabellen waar we dit niet hebben aangegeven,
+        kan de waarde dus wel leeg zijn.
+</p> <p>
+De waarde die we hier moeten invullen op basis van het logisch
+        datamodel, wordt door twee elementen bepaald:
+</p><ul> <li>
+Als eerste element hebben we de <em>vreemde sleutels</em>. Afhankelijk
+          van de relatie die er bestaat tussen twee tabellen door middel van een
+          primaire en een vreemde sleutel, moeten we op basis van de
+          minimumkardinaliteit evalueren of de waarde NULL kan zijn. Indien de
+          relatie afgedwongen wordt, zoals bijvoorbeeld bij het gebruik van een
+          tussentabel, moeten we aangeven dat de vreemde sleutel ‘NOT NULL’ is.
+</li><li>
+Als tweede element moeten we voor elk van de kolommen (buiten de
+          primaire en vreemde sleutels) evalueren <em>
+of het vanuit de logica van de klant toegelaten is dat een kolom
+            leeg is
+</em>. Bijvoorbeeld, de naam en voornaam van een werknemer worden niet
+          gebruikt als sleutel, aangezien deze niet noodzakelijk uniek zijn.
+          Maar een werknemer waarvan voor- en achternaam niet ingevuld zijn, is
+          mogelijk niet erg bruikbaar. Vandaar kunnen we bijkomend aangeven dat
+          deze niet leeg mogen zijn.
+</li> </ul> <p>
+De waarde NULL kan twee dingen betekenen: enerzijds kan het betekenen
+        dat er een waarde ingevuld zou kunnen zijn, maar dat we deze niet
+        kennen. De waarde zou dan op een later tijdstip ingevuld kunnen worden.
+        Anderzijds zou NULL kunnen aangeven dat voor dit specifiek geval er geen
+        waarde mogelijk is, de kolom is niet van toepassing. Een vergelijking
+        met een NULL waarde geeft zelf ook een NULL waarde, omdat een waarde
+        vergelijken met iets onbekend, zelf ook onbekend is.
+</p>  </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

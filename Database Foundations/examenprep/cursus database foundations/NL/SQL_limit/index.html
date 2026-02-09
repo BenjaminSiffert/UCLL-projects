@@ -1,0 +1,69 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>SQL: LIMIT</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">The most important thing in the programming language is the name. A
+          language will not succeed without a good name. I have recently
+          invented a very good name and now I am looking for a suitable
+          language.</span> <br>
+&mdash;Donald Knuth
+</p> </blockquote> <h1>De LIMIT clause</h1> <p>
+In dit hoofdstuk bekijken we hoe je het aantal getoonde resultaatrijen
+      beperkt tot de eerste zoveel rijen. Terloops geeft dit klein stukje een
+      goede aanleiding om het even over (SQL)standaarden te hebben.
+</p> <section class="info"> <p>
+Je kan de query's nog steeds uitvoeren op de tabel ‘opleidingsonderdeel’
+        in het schema ‘uclloket’ van de databank ‘df’ of in je eigen versie
+        hiervan.
+</p> </section> <h2>LIMIT</h2> <p>
+Vaak wil je als resultaat van een opvraging alleen de eerste 3, 5, 10, …
+      resultaten zien. De volgende query toont de top twee van de OPO’s met het
+      grootste aantal studiepunten:<pre><code>SELECT opocode, naam, studiepunten
+FROM opleidingsonderdeel
+ORDER BY studiepunten DESC
+LIMIT 2</code></pre> </p> <p>
+Het is logisch dat je dit enkel zinvol kan doen als er ook een <code>ORDER BY</code> clause aanwezig is. Dit is het resultaat:
+</p> <figure class="center"> <img src="/assets/limit/limit2.png" alt="Beperk de lijst tot de bovenste twee" width="500"> </figure> <h2>OFFSET</h2> <p>
+Stel dat je niet nummer 1 en 2 wilt zien zoals hierboven, maar wel de twee
+      volgende (dus nummer 3 en 4 in de gesorteerde lijst). Dat kan eenvoudig
+      als volgt:<pre><code>SELECT opocode, naam, studiepunten
+FROM opleidingsonderdeel
+ORDER BY studiepunten DESC
+LIMIT 2 OFFSET 2</code></pre> </p> <h2>Standaard SQL</h2> <p>
+Misschien maak je bij de vorige query de bedenking dat er wel meer OPO’s 6
+      SP hebben. Het systeem toont er – zoals gevraagd – effectief maar twee. We
+      kunnen ons situaties voorstellen waarbij we toch wel graag ook die andere
+      OPO’s van 6 SP zouden willen zien (de <em>‘ex aequo’s’</em> noemen we die dan
+      vaak).
+</p> <p>
+Er is trouwens nog iets interessants: <code>LIMIT</code> en <code>OFFSET</code> zijn eigenlijk geen standaard SQL. Al heel lang bestond de behoefte om het
+      aantal rijen te beperken tot de bovenste zoveel rijen. De SQL standaard had
+      hier geen oplossing voor en dus is elke databankmaker zelf aan de slag gegaan.
+      Een aantal DBMS (o.a MySQL, PostgreSQL, …) bedachten de <code>LIMIT</code>
+syntaxis. Pas in 2008 kwam er een manier in standaard SQL om dit te doen: <code>FETCH FIRST ... ROWS</code> (<code>ONLY</code> of <code>WITH TIES</code>). De vorige query volgens
+      standaard SQL zou er als volgt kunnen uitzien (eveneens ondersteund door
+      PostgreSQL):<pre><code>SELECT opocode, naam, studiepunten
+FROM opleidingsonderdeel
+ORDER BY studiepunten DESC
+OFFSET 2
+FETCH FIRST 2 ROWS ONLY</code></pre> </p> <p>
+Het resultaat is identiek aan de <code>LIMIT / OFFSET</code> query: resultaten
+      3 en 4 worden getoond van de gesorteerde lijst (dalend aantal SP).
+</p> <p>
+Bovendien heeft deze syntax een elegante oplossing voor het probleem van
+      ‘ex aequo’s’: <code>WITH TIES</code>. Volgende query toont de nummers 3 en
+      4 van de lijst, tenzij er nog OPO’s zijn met hetzelfde aantal SP als
+      nummer 4. In dat geval gaat de lijst verder, zoals de figuur onder de code
+      laat zien:<pre><code>SELECT opocode, naam, studiepunten
+FROM opleidingsonderdeel
+ORDER BY studiepunten DESC
+OFFSET 2
+FETCH FIRST 2 ROWS WITH TIES</code></pre> </p> <figure class="center"> <img src="/assets/limit/withties.png" alt="extra rijen met dezelfde waarden worden ook getoond" width="500"> </figure> <h2>Oefeningen</h2> <section class="taak"> <p>
+Hoeveel studiepunten coördineert elke coördinator? Geef alle
+        coördinatoren die het vierde meeste studiepunten coördineren.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT coordinator, SUM(studiepunten) AS AANTAL_STUDIEPUNTEN_GECOORDINEERD
+FROM opleidingsonderdeel
+GROUP BY coordinator
+ORDER BY SUM(studiepunten) DESC
+OFFSET 3
+FETCH FIRST 1 ROW WITH TIES</code></pre> </div>  </section> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

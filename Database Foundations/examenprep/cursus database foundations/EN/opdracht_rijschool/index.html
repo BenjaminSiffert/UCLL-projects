@@ -1,0 +1,143 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>Group work modelling</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/EN/">Home</a></li> <li><a href="/EN/leerpad">Learning Path</a></li> <li><a href="/EN/model_menu">Data modeling</a></li> <li><a href="/EN/SQL_menu">SQL</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">Nothing is impossible. The word itself says “I’m Possible”</span> <br>
+&mdash;Audrey Hepburn
+</p> </blockquote> <h1>Group work modelling</h1> <h2>Assignment</h2> <p>
+Within this course, you learned what a database is, how to model it,
+      implement it, and then write queries to add and extract data into and out
+      of the database. With this project, you will realize the entire process
+      from data model to queries for a specific case. The case is described
+      below, it is up to you to develop the requested database according to the
+      learned process.
+</p> <p>
+This project is being realized by a <em>
+group of maximum 4 students
+</em>. The groups will be determined by the lecturers. The deadline for
+      submission of your result is on <strong>December 15, 2023 at 11:59 p.m.</strong>. You will submit the result via the assignment ‘Project Assignment’
+      which you will find on Toledo. This project stands at 6 points. A project
+      that is not submitted by the deadline will result in a 0. Retakes are not
+      possible.
+</p> <p>
+If you have second sit through this OPO, the points on the group
+      assignment and the exam consequently stands at 18 points. After all, there
+      are two points on the portfolio you put together the first few weeks and
+      those are retained. For more info: see ECTS sheets (link on Toledo or via
+      your ISP).
+</p> <h2>To be handed in</h2> <p>You will work out the following things:</p> <ol> <li>
+A <em>conceptual data model</em> in which you will work out the case below.
+        The conceptual data model will be worked out in draw.io and submitted in
+        pdf format named ‘DF_conceptual_team_XX.pdf’ where you replace XX with your
+        team number.
+</li> <li>
+A <em>logical data model</em> that does the translation from your conceptual
+        data model to a relational database model. The logical data model will be
+        worked out in draw.io and submitted in pdf format named ‘DF_logical_team_XX.pdf’
+</li> <li>
+A <em>physical data model</em> that does the translation from your logical
+        data model to a database in PostgreSQL. You will work out the physical data
+        model preferably out in DBSchema and submit the resulting script named ‘DF_create_database_team_XX.sql’.
+        Then you also provide a .png of your schema (in DBSchema: Model &gt; Export
+        as ... &gt; PNG image) with the name ‘DF_physical_team_XX.png’.
+</li> <li>
+A second script that adds <em>data</em> to the created tables. This script,
+        named "DF_insert_data_team_XX.sql," populates the database.
+</li> <li>
+A third script ‘DF_delete_database_team_XX.sql’, which clears the
+        created database. It <em>deletes</em> the database. You may not use a <code>drop cascade</code>, but must delete all the tables in the correct order separately.
+</li> <li>
+Five <em>queries</em> that extract a result from the database (<a href="#Query's">see below</a>). You collect the different queries into one script
+        ‘DF_query_team_XX.sql’.
+</li> <li>
+A maximum 15-minute <em>video</em> named ‘DF_video_team_XX’ In which you
+        give a demo of the above final results. The format of the video must be playable
+        in <a href="http://www.videolan.org/vlc/">VLC</a>. In this video you
+        will show all your models and explain how everything is together. After
+        the physical data model you build the whole database in pgAdmin just by
+        using code. Then you show executing the queries and finally break the
+        whole schema back down table by table. Test one and all well in advance
+        technically (software, video format, microphone, ...)!
+</li> </ol> <p>
+You bundle all of the above files into one ‘DF_project_team_XX.zip’ file.
+      You submit this .zip file via Toledo (Assignments &gt; Project (group)).
+      One submission per group is sufficient.
+</p> <h2>Driving school</h2> <section class="info"> <p>
+The case below describes a company, people, objects and processes. We
+        intentionally leave out a lot of details. What information does one want
+        to keep track of a car, student,employee, ... ? You make meaningful
+        choices and motivate them.
+</p> </section> <p>
+A driving school offers lessons for people who want to get their driver's
+      license or just want to brush up on their knowledge and skills. You can
+      both theoretical lessons and driving lessons. <a href="https://www.belgium.be/nl/mobiliteit/rijbewijs/categorieen">
+All types of vehicles and driving licenses
+</a> are offered.
+</p> <figure class="center"> <img src="/assets/groepswerk/aanhanger-4-1024x685.jpg" alt=""> </figure> <p>
+To keep it all on track, the driving school has a lot of many employees.
+      These are mainly the instructors of course, but there are also staff who
+      take care of planning, administration, etc. Of the teachers, you need to
+      know what types of driving licenses they have. For the administrative
+      employees this is not relevant. There are two types of lessons: theory and
+      practical.
+</p> <p>
+A theory class is taught by a teacher and always takes place in one of the
+      company's classrooms. Each theory class is scheduled on a particular date
+      and time, has a set duration and deals with a particular topic. Many
+      topics, deal specifically with the highway code as preparation for the
+      theory exam that everyone who wants to get their driver's license must
+      first pass before you can start practicing on the road. But also things
+      like defensive driving for motards, ecological driving, etc. are covered.
+      There is a maximum number of participants per theory lesson that usually
+      has to do with the capacity of the classroom (20 people), but sometimes
+      also with the specific subject, where then smaller groups can be provided.
+</p> <p>
+A practical lesson (by motorcycle, car, truck ...) of course has similar
+      data, but the big difference is that this is always one-on-one teaching.
+      There is no point in having a specific topic, because during a practical
+      lesson there are a lot of different topics: parking, position on the road,
+      speed, priority rules, defensive driving, etc. A practical lesson by
+      definition is over a vehicle: motorcycle, car, truck... The company has an
+      extensive fleet of all possible vehicles. It goes without saying that a
+      student who books a lesson to practice for the motorcycle exam category A
+      will need to be given a motorcycle as a vehicle and a teacher who is
+      qualified to give this type of lesson.
+</p> <p>
+A student books a lesson: either a theory lesson or a practical lesson.
+      For a practical lesson, the student always receives an evaluation with
+      comments.
+</p> <p>
+In addition to its headquarters in Haasrode, the driving school has
+      branches in Alken, Tienen, Sint-Niklaas and Ghent. The facilities in these
+      branches are similar to those in Haasrode.
+</p> <p>
+The administration must be able at any time to provide an overview per
+      branch provide an overview of all lessons: which teacher teaches which
+      student, when in which vehicle? What about classroom staffing? Who of the
+      instructors is available for which type of vehicle? Think of many
+      questions to which the database could help formulate the answer!
+</p> <h2>Data Generation</h2> <p>
+You fill all the tables with <em>sufficient</em> data. That data should look
+<em>realistically</em>
+Usually, a combination of manual work (typing in data yourself) and automatic
+      data generation (via DBSchema's data generator or online tools like Mockaroo)
+      is a good idea. What is "sufficient", by the way? Hard to put a number on that
+      stick ("You must have at least ... rows in that table"). We would say: When
+      querying (see next point), you should be able to get a meaningful result. For
+      example, the <a href="/NL/SQL_tennis/">player database</a> is really insufficiently
+      large to serve for this task (only 14 players, 2 teams, 8 penalties). The <a href="/NL/SQL_cooking club/">cooking club</a>, on the other hand, is sufficiently large (173 partially hand-coded
+      ingredients, 500 automatically generated members, 10 manually entered
+      dishes for which we found inspiration from Jeroen Meus, 1178 communities
+      found via a CSV file on the site of bpost, ...)
+</p> <h2>Query's</h2> <p>
+Now compile 5 sufficiently <em>extended</em> and <em>meaningful</em> queries
+      to query your database. Try to use all SQL learnings: <code>SELECT</code>,
+<code>WHERE</code>, inner and outer <code>JOINS</code>, <code>GROUP BY</code>, <code>HAVING</code>, <code>ORDER BY</code>, limit number of rows, etc.
+</p> <p>We emphasized two words here:</p> <ol> <li> <em>extensive</em>: we really do expect queries that employ the whole
+        arsenal of what we saw in SQL classes and not just an statement where
+        you use one or two tables.
+</li> <li> <em>meaningful</em>: Justify why for the driving school the result of
+        this query is important. So you introduce each query with some
+        explanation, e.g. ‘For the driving school it is important to get an
+        overview per ... because ...’.
+</li> </ol> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; version 2025-11-25 — Steven
+          Engels, Jan Van Hee &amp; Bram Van Impe
+</p> <p><a href="#top">&uarr; Go to top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

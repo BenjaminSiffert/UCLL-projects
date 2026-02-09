@@ -1,0 +1,171 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>SQL: GROUP BY en Having</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">Confusion is part of programming.</span> <br>
+&mdash;Felienne Hermans, The Programmer's Brain
+</p> </blockquote> <h1>De GROUP BY en HAVING clauses in detail</h1> <section class="leerdoel"> <ul></ul> </section> <h2>Rijen groeperen</h2> <p>
+In <a href="/NL/SQL_CSV/index.html#Gegevens-groeperen-met-GROUP-BY">het hoofdstuk over het importeren van een CSV-bestand</a> kwam je een eerste keer in contact met het groeperen van rijen. Vaak gaat
+      het over een vraag waarin het woord ‘per’ een rol speelt. “Geef <em>per lector</em>
+het aantal OPO’s waarvoor deze lector coördinator is”. “Geef <em></em> het
+      totaal aantal studiepunten van alle OPO’s die nu of vroeger in die taal gegeven
+      zijn”. Toegegeven, die laatste zin bevat het woordje ‘per’ niet, maar je kan
+      ze ook herformuleren als “Geef <em>per taal</em> het totaal aantal studiepunten
+      van alle OPO's die in die taal gegeven worden of zijn.”
+</p> <p>
+Het beeld dat we gebruiken is: <em>groepeer de rijen op eenzelfde waarde van een bepaald veld (of velden)
+        in een doosje</em>. Van dat doosje kan je dan geen individuele rijen meer bekijken. Je moet
+      je dan <em>beperken tot samenvattende informatie</em>.
+</p> <p>
+Laten we als voorbeeld bovenstaande vraag behandelen: “Geef per lector het
+      aantal OPO’s waarvoor deze lector coördinator is of was”.
+</p> <section class="info"> <p>
+Je kan de query's nog steeds uitvoeren op de tabel ‘opleidingsonderdeel’
+        in het schema ‘uclloket’ van de databank ‘df’ of in je eigen versie
+        hiervan.
+</p> </section> <section class="taak"> <div> <p>
+In een eerste stap schrijf je als oefening de query die onderstaande
+          figuur genereert, nl. een lijst van alle coördinatoren met opocode,
+          naam van het opo en semester, geordend volgens stijgende lectorcode
+          (u-nummer):
+</p> <figure class="center"> <img src="/assets/groupby/sortbycoord.png" width="600" alt=""> </figure> <p>Niet zo'n moeilijke query, toch?</p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT coordinator, opocode, naam, semester
+FROM opleidingsonderdeel
+ORDER BY coordinator</code></pre> </div>  </section> <p>
+Je leest in deze figuur dat lector ‘u0012047’ coördinator is (of was) van
+      ‘Probleemoplossend denken’, ‘Webontwikkeling 1’ en ‘Front-end
+      Development’. Als je nu groepeert per lector dan gaan alle rijen met
+      dezelfde waarde voor de kolom ‘coordinator’ samen in één doosje. Het
+      eerste doosje bevat zo drie rijen. Op het doosje staat de naam van het
+      veld dat voor al deze rijen gemeenschappelijk is, dus ‘u0012047’.
+</p> <p>
+Het tweede doosje met als label ‘u0015529’ bevat twee rijen. Het derde
+      doosje (‘u0032987’) bevat maar één rij, enz.
+</p> <p>
+Doordat deze rijen samen in een doosje zitten kan je geen individuele
+      gegevens in de <code>SELECT</code> clause meer opvragen. Als je dat probeert
+      krijg je een typische foutmelding, zoals volgend stukje code laat zien:
+<pre><code>SELECT coordinator, opocode, naam, semester
+FROM opleidingsonderdeel
+GROUP BY coordinator
+
+-- het resultaat van deze query is deze foutmelding:
+ERROR: column &quot;opleidingsonderdeel.opocode&quot; must appear in the GROUP BY clause
+  or be used in an aggregate function
+LINE 2: select coordinator, opocode, naam, semester
+                            ^
+SQL state: 42803
+Character: 50</code></pre> </p> <p>
+Deze query toont enkel een overzicht van alle ‘etiketten’ van de doosjes
+      en wordt probleemloos uitgevoerd:<pre><code>SELECT coordinator
+FROM opleidingsonderdeel
+GROUP BY coordinator</code></pre> </p> <p>
+Je mag enkel in het doosje kijken en bepaalde samenvattende informatie
+      geven in de <code>SELECT</code>, zoals het aantal rijen, de som van alle
+      rijen wat een bepaalde kolom betreft. <em>We noemen deze samenvattende functies ‘aggregatiefuncties’ en spreken
+        over data ‘aggregeren’</em>. In de volgende sectie bekijken we verschillende van deze functies.
+</p> <h2>Aggregatiefuncties</h2> <h3>Aantal rijen tellen</h3> <p>
+De vraag die we nog steeds trachten te beantwoorden is “Geef <em>per lector</em> het aantal OPO’s waarvoor deze lector coördinator is of was”. In deze zin
+      weet je ondertussen al dat het stukje ‘per lector’ betekent dat je de rijen
+      moet groeperen die dezelfde waarde voor coordinator hebben. <em>
+Het aantal rijen tellen dat in één doosje zit
+</em> doe je m.b.v. de functie <code>COUNT()</code> (<a href="https://www.postgresql.org/docs/current/functions-aggregate.html">documentatie</a>). Als je volledige rijen wilt tellen, gebruik je <code>COUNT(*)</code>.
+</p> <p>
+De uiteindelijke query die het antwoord op de vraag oplevert is:<pre><code>SELECT coordinator, COUNT(*)
+FROM opleidingsonderdeel
+GROUP BY coordinator
+ORDER BY coordinator</code></pre> </p> <h3>Som van bepaalde gegevens in een groep</h3> <p>
+Een tweede aggregatiefunctie is <code>SUM()</code>. <em>Je telt hiermee waarden in een bepaalde kolom op</em>. Opgepast: we zien geregeld studenten <code>COUNT()</code> en <code>SUM()</code> verwisselen! Maak nu volgende oefening.
+</p> <section class="taak"> <div> <p>
+Schrijf een SQL query die het overzicht genereert van het totaal
+          aantal studiepunten waarvoor een lector coördinator is. Orden het
+          resultaat volgens dalend totaal aantal studiepunten. Je moet
+          onderstaande figuur bekomen. Zoals altijd: let je ook op de juiste
+          hoofding van elke kolom?
+</p> <figure class="center"> <img src="/assets/groupby/sumSP.png" width="350" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT coordinator, SUM(studiepunten) AS &quot;totaal aantal SP&quot;
+FROM opleidingsonderdeel
+GROUP BY coordinator
+ORDER BY 2 DESC</code></pre> </div>  </section> <h3>Minimum, maximum en gemiddelde</h3> <p>
+De laatste drie aggregatiefuncties zijn <code>MIN()</code>, <code>MAX()</code> en <code>AVG()</code>, respectievelijk voor het minimum, maximum of
+      rekenkundig gemiddelde van <em>waarden in een bepaalde kolom</em>. Maak
+      volgende oefeningen.
+</p> <section class="taak"> <div> <p>
+Maak een lijst die voor elk semester het gemiddeld aantal studiepunten
+          toont. Orden de antwoordrijen op semester van klein naar groot. Je
+          moet onderstaande figuur bekomen. Kan je ook de naam van het OPO
+          vermelden?
+</p> <figure class="center"> <img src="/assets/groupby/groupavgsemester.png" width="350" alt="Gegroepeerd per semester"> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Niet elke opgave zal het woordje ‘per’ bevatten. Taal kent heel wat
+          alternatieven om toch hetzelfde te vragen. Hier zal je dus moeten
+          groeperen per semester en moet je de aggregatiefunctie <code>AVG()</code> gebruiken. Vanzelfsprekend kan je geen informatie van individuele OPO's
+          opvragen (zoals de naam) want dat is ‘informatie die in het doosje zit’.
+          Volgende query is een mogelijke oplossing:
+</p> <pre><code>SELECT semester, AVG(studiepunten) AS &quot;gemiddeld aantal SP&quot;
+FROM opleidingsonderdeel
+GROUP BY semester
+ORDER BY 1</code></pre> </div>  </section> <section class="taak"> <p>
+Iets moeilijker … Geef een overzicht per taal van het aantal OPO’s van
+        minstens 4 SP dat in die taal onderwezen wordt. Je hoeft niet te
+        ordenen.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT taal, COUNT(*) AS aantal
+FROM opleidingsonderdeel
+WHERE studiepunten &gt;= 4
+GROUP BY taal</code></pre> </div>  </section> <h2>Groeperen op een expressie</h2> <p>
+Meestal groepeer je op een bepaalde kolom, maar het is ook mogelijk om te
+      groeperen op een ‘berekende kolom’ (expressie). Elk OPO heeft een
+      startdatum. Uit deze startdatum kan je gemakkelijk het jaar halen met <a href="/NL/SQL_select/index.html#Extract-…-from"> <code>EXTRACT</code> </a>. We geven bij wijze van voorbeeld de query die volgende vraag
+      beantwoordt: “Geef een overzicht voor elk jaar hoeveel OPO’s er nieuw in
+      de opleiding gekomen zijn in dat jaar”.
+</p> <pre><code>SELECT EXTRACT(year FROM van), COUNT(*) AS &quot;aantal OPOs&quot;
+FROM opleidingsonderdeel
+GROUP BY EXTRACT(year FROM van)
+ORDER BY 1</code></pre> <h2>Groeperen op meerdere kolommen</h2> <p>
+De volgende query groepeert op twee kolommen: semester en studiepunten:<pre><code>SELECT semester, studiepunten, COUNT(*)
+FROM opleidingsonderdeel
+GROUP BY semester, studiepunten
+ORDER BY 1, 2</code></pre> </p> <p>
+Deze query maakt 15 ‘doosjes’ (zie figuur). <span style="color:orange">Het eerste doosje (oranje rand)</span> toont op het etiket “semester 1, OPO’s met 3 SP”. In dit doosje zitten er
+      vier rijen. <span style="color:blue">Het tweede doosje (blauwe rand)</span> is “semester 1, OPO’s met 4 SP”. Zo is er maar één OPO. enz.
+</p> <figure class="center"> <img src="/assets/groupby/grouptweekol.png" width="400" alt="Groeperen kan ook op meerdere kolommen"> </figure> <h2>HAVING</h2> <p>
+De <code>HAVING</code> clause werd al behandeld <a href="/NL/SQL_CSV/index.html#HAVING">in het hoofdstuk over CSV-bestanden</a>. Studenten vinden het vaak moeilijk om het onderscheid te maken met de
+<code>WHERE</code> clause en dat is begrijpelijk want ze doen iets vergelijkbaars.
+      De
+<code>WHERE</code> selecteert direct na de uitvoering van de FROM component
+<em> welke rijen behouden mogen blijven</em>. Daarmee wordt dan verder
+      gerekend.
+</p> <p>
+De <code>HAVING</code> component echter wordt pas uitgevoerd na het maken van
+      de ‘doosjes’ bij het groeperen. <em>Deze conditie beslist welke doosjes mogen blijven en welke uit het
+        resultaat zullen verdwijnen</em>.
+</p> <h2>Oefeningen</h2> <p>Maak nu volgende oefeningen.</p> <section class="taak"> <div> <p>
+Geef voor oneven semesters een overzicht van het aantal studiepunten
+          en het aantal OPO’s in dat semester. Sorteer volgens dalend aantal
+          studiepunten. Zorg dat je de volgende figuur bekomt.
+</p> <p>
+Een tip om de oneven semester te vinden: bekijk hiervoor de
+          mogelijkheden van <em>de rest bij gehele deling</em> (de zogenaamde ‘modulo’
+          bewerking), doe een zoekopdracht naar ‘Modulo’ op de pagina <a href="https://www.postgresql.org/docs/current/functions-math.html">https://www.postgresql.org/docs/current/functions-math.html</a>.
+</p> <figure class="center"> <img src="/assets/groupby/grouponevensem.png" alt="groepeer op de oneven semesters" width="400"> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT semester, SUM(studiepunten) AS &quot;Totaal aantal SP&quot;, COUNT(*) AS &quot;aantal OPOs&quot;
+FROM opleidingsonderdeel
+WHERE semester %2 != 0
+GROUP BY semester
+ORDER BY 2 DESC</code></pre> </div>  </section> <section class="taak"> <p>
+Hoeveel verschillende coordinatoren zijn er per semester?
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT SEMESTER, COUNT(DISTINCT(coordinator)) AS AANTAL_VERSCH_COORDINATOREN
+FROM opleidingsonderdeel
+GROUP BY semester</code></pre> </div>  </section> <section class="taak"> <p>
+Geef alle semesters met twee of meer opvolgvakken (vakken die eindigen
+        op ‘2’) per semester.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT semester, COUNT(naam) AS AANTAL_OPVOLG_VAKKEN
+FROM opleidingsonderdeel
+WHERE naam LIKE &#39;%2&#39;
+GROUP BY semester
+HAVING COUNT(naam) &gt;= 2;</code></pre> <p>
+Dit geeft een ‘verkeerd’ resultaat omdat vak “Communicatie in het
+          Frans 2 (sem 2)” de (onuitgesproken?) conventie qua naam niet volgt.
+          Volgende versie geeft mogelijk een beter resultaat:<pre><code>SELECT semester, COUNT(naam) AS AANTAL_OPVOLG_VAKKEN
+FROM opleidingsonderdeel
+WHERE naam LIKE &#39;%2&#39; OR naam LIKE &#39;%2 (%&#39;
+GROUP BY semester
+HAVING COUNT(naam) &gt;= 2;</code></pre> </p> </div>  </section> <h2>Oefeningen SQLzoo</h2> <section class="taak"> <p>
+Maak <a href="https://sqlzoo.net/wiki/SUM_and_COUNT">oefeningenreeks 5 op aggregatiefuncties</a> (tabel ‘world’).
+</p>  </section> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

@@ -1,0 +1,124 @@
+@use '../rwd';
+
+main {
+  max-width: 50em;
+  margin: 0 auto 5em auto;
+  position: relative;
+  padding: 0.5em;
+  min-height: 90vh;
+
+  @include rwd.middel {
+    padding: 1em;
+  }
+
+  a {
+    color: var(--linkkleur);
+    text-underline-offset: 0.2em;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  .fout {
+    border-left: 8px solid red;
+    padding-left: 8px;
+  }
+
+  & ul,
+  & ol {
+    margin: 0 0 1rem 2rem;
+  }
+}
+
+section#toc {
+  background-color: #04343f;
+  background-image: url(../jeremy-bishop-G9i_plbfDgk-unsplash.jpg);
+  background-size: cover;
+  color: #fff;
+  padding: 1em;
+  border-radius: 4px;
+  box-shadow: 0 0 5px #999;
+  margin: 1rem 0;
+
+
+  ul {
+    list-style-type: none;
+    margin-bottom: 0;
+  }
+
+  li.h3 {
+    margin-left: 2em;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+}
+
+
+img,
+iframe {
+  max-width: 100%;
+}
+
+img.blok {
+  display: block;
+  margin: 0.5em 0;
+}
+
+.links {
+  float: left;
+  margin-right: 1em;
+}
+
+img.rechts {
+  float: right;
+  margin: 10px 0 10px 10px;
+}
+
+img[alt="UCLL"] {
+  width: 30%;
+}
+
+figure.center {
+  text-align: center;
+}
+
+
+div.tabel {
+  display: flex;
+  justify-content: center;
+}
+
+table {
+  border-collapse: collapse;
+  border-bottom: 1px solid var(--titelkleur);
+  margin-bottom: 1em;
+}
+
+thead {
+  background-color: var(--titelkleur);
+  color: #fff;
+
+  th {
+    padding: 5px 1em;
+    text-align: left;
+  }
+}
+
+tbody {
+  td {
+    padding: 5px 1em;
+    vertical-align: top;
+  }
+}
+
+span.extra {
+  color: var(--titelkleur);
+  font-style: italic;
+}

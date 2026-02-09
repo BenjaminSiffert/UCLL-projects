@@ -1,0 +1,67 @@
+@use '../rwd';
+
+main nav {
+    clear: both;
+    margin-top: 2em;
+
+    ul {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        padding: 0;
+        margin: 0;
+
+        @include rwd.groter {
+            grid-template-columns: 1fr 1fr 1fr;
+            margin: 0;
+        }
+    }
+
+    li {
+        list-style-type: none;
+    }
+
+    li figure {
+        margin: 0;
+        position: relative;
+        box-shadow: 0 0 8px #fff;
+        border-radius: var(--afronding);
+
+        img {
+            vertical-align: bottom;
+            /* anders enkele pixels onder img */
+            border-radius: var(--afronding);
+        }
+
+        figcaption {
+            position: absolute;
+            bottom: 2em;
+            background-color: rgba(50, 50, 50, 0.6);
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            font-size: 1.1rem;
+            color: #fff;
+            font-weight: bold;
+
+            @include rwd.middel {
+                font-size: 1.3rem;
+            }
+
+            @include rwd.groter {
+                font-size: 1.5rem;
+            }
+        }
+    }
+
+    li a:hover figure {
+        box-shadow: 0 0 8px #999;
+        transition-duration: 500ms;
+    }
+
+    li a:hover figure figcaption {
+        color: var(--linkkleur);
+        background-color: rgba(50, 50, 50, 0.9);
+        transition-duration: 500ms;
+    }
+}

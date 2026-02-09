@@ -1,8 +1,6 @@
 import os
 
-# -------------------------------
 # Klasse Part
-# -------------------------------
 class Part:
     def __init__(self, name, price):
         self.name = name
@@ -21,9 +19,7 @@ class Part:
         return f"{self.name}: Price = {self.price:.2f}, Available Quantity = {self.quantity}"
 
 
-# -------------------------------
 # Klasse Stock
-# -------------------------------
 class Stock:
     def __init__(self):
         self.parts = {}
@@ -52,9 +48,7 @@ class Stock:
         part.set_quantity(part.get_quantity() + additional_quantity)
 
 
-# -------------------------------
 # Klasse Shop
-# -------------------------------
 class Shop:
     def __init__(self, name):
         self.name = name
@@ -102,9 +96,7 @@ class Shop:
             f.write(f"Sold {sold_quantity} item(s) from product {part.name} for price {part.price:.2f}\n")
 
 
-# -------------------------------
 # Menu en Main functie
-# -------------------------------
 def display_menu():
     print("\n===== IT Store Stock Management System =====")
     print("1. Add new part")

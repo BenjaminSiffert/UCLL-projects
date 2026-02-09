@@ -1,0 +1,11 @@
+@mixin middel {
+    @media (min-width: 30em) {
+        @content;
+    }
+}
+
+@mixin groter {
+    @media (min-width: 40em) {
+        @content;
+    }
+}

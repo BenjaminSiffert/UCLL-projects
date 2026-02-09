@@ -1,0 +1,258 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>SQL: INNER JOIN</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">No night of drinking or drugs or sex could ever compare to a long
+          evening of productive hacking.</span> <br>
+&mdash;Lynn Voedisch
+</p> </blockquote> <h1>Tabellen combineren met INNER JOIN</h1> <p>
+In vorige hoofdstukken zijn alle componenten van een <code>SELECT</code> query
+      de revue gepasseerd, behalve eentje: de <code>FROM</code> component. Er viel
+      ook niet zo veel over te vertellen, want we hadden toch maar één tabel. In
+      dit deel gebruiken we meerdere tabellen in een query.
+</p> <p>
+Volgend filmpje legt de principes van <em>het cartesisch product</em> en <em>join</em> goed uit. Bekijk het eerst, volg dan onderstaande tekst en maak de oefeningen
+      die je in de tekst vindt.
+</p> <div class="iframewrapper"> <iframe class="preview-iframe" width="560" height="315" src="https://www.youtube.com/embed/58i-sZ6h1mI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> </div> <h2>Impliciete JOIN</h2> <p>
+We gebruiken een eenvoudig voorbeeld om het principe uit te leggen. Stel
+      dat je een lijst wilt van de mailadressen van alle OPOcoördinatoren zoals
+      in onderstaande figuur. Na het <a href="/NL/SQL_eenopveel/">vorig hoofdstuk</a> zou je in je eigen schema twee gekoppelde tabellen moeten hebben: ‘lector’
+      en ‘opleidingsonderdeel’.
+</p> <figure class="center"> <img src="/assets/join/join_vb1.png" width="400" alt="Alle mailadressen van de coördinatoren van elk OPO"> </figure> <section class="taak"> <p>
+Werk nu volgend voorbeeld uit door de code van alle stappen uit te
+        proberen in je eigen schema. Vergeet niet de naam van je schema te
+        specifiëren bij elke tabel, ofwel je search_path goed te zetten. In de
+        codevoorbeelden hieronder kozen we voor deze laatste oplossing.
+</p>  </section> <h3>Cartesisch product van meerdere tabellen</h3> <p>
+De lectortabel bevat 18 rijen, wat je eenvoudig met een <code>COUNT(*)</code> kan controleren:<pre><code>SELECT COUNT(*)
+FROM lector</code></pre> </p> <section class="taak"> <p>Hoeveel rijen bevat de tabel ‘opleidingsonderdeel’?</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>Deze tabel bevat 21 rijen.</p> </div>  </section> <section class="taak"> <p>
+Probeer nu volgende code uit en probeer aan de hand van de output te
+        achterhalen wat ze doet:<pre><code>SELECT *
+FROM lector, opleidingsonderdeel</code></pre> </p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Door in de <code>FROM</code> component twee tabellen te vermelden (gescheiden
+          door een komma) <em>
+wordt elke rij van de tabel ‘lector’ gekoppeld aan elke rij van de
+            tweede tabel ‘opleidingsonderdeel’
+</em>. Elk van de 18 lectorrijen wordt dus gecombineerd met elk van de
+          21 OPO’s. Dat geeft in totaal 18 × 21 = 378 rijen in het resultaat. Je
+          zal de horizontale schuifbalk in het resultaatveld nodig hebben, want
+          deze rijen worden lang aangezien alle kolommen van beide tabellen
+          samen in het resultaat aanwezig zijn.
+</p> </div>  </section> <p>
+Dit product – een set waarbij elke rij uit de eerste tabel voorkomt met
+      elke rij uit de tweede tabel – wordt het <em>cartesisch product</em>
+genoemd. Twee tabellen vermelden achter het woord <code>FROM</code> is een
+<em>impliciete</em> join. We zullen later vragen om altijd een <em>expliciete</em> join te schrijven, maar voorlopig doen we het zo.
+</p> <h3>Kolommen selecteren in het cartesisch product</h3> <p>
+Je weet dat de <code>FROM</code> component altijd <em>als eerste wordt uitgevoerd</em>. Die laadt in dit geval het cartesisch product van beide tabellen in het
+      werkgeheugen. De <code>SELECT</code> komt pas later. Hiermee selecteer je bepaalde
+      kolommen.
+</p> <section class="taak"> <div> <p>
+Probeer deze code:<pre><code>SELECT opocode, coordinator, lector_id, email
+FROM lector, opleidingsonderdeel</code></pre> </p> <p>
+Stel dat je nu, naast deze vier kolommen, ook nog de naam van het OPO
+          wil tonen, dan volstaat een simpele toevoeging van deze kolom in de <code>SELECT</code> … <pre><code>SELECT opocode, naam, coordinator, lector_id, email
+FROM lector, opleidingsonderdeel</code></pre> </p> <p>
+… zou je denken. Je krijgt echter een foutmelding:<pre><code>ERROR: column reference &quot;naam&quot; is ambiguous
+LINE 2: SELECT opocode, naam,coordinator,lector_id,email</code></pre> </p> <p>
+Wat loopt er mis? Pas dan de <code>SELECT</code> aan zodat je ook de OPOnaam
+          te zien krijgt.
+</p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+De databankserver laat weten dat de gevraagde kolom ‘naam’
+          dubbelzinnig (‘ambiguous’) is. Er zijn namelijk twee kolommen ‘naam’.
+          Die dubbelzinnigheid kan je wegnemen door de naam van de kolom te
+          laten voorafgaan door de naam van de tabel, m.a.w. iets in de stijl
+          van <code>SELECT tabelnaam.kolomnaam</code>. <em>Als er geen dubbelzinnigheid is, is de kolomnaam natuurlijk
+            voldoende!</em> </p> <p>
+Dit kan dan een mogelijke oplossing zijn:<pre><code>SELECT opocode, opleidingsonderdeel.naam, coordinator, lector_id, email
+FROM lector, opleidingsonderdeel</code></pre> </p> </div>  </section> <h3>Alias voor tabelnamen</h3> <p>
+Je moet geregeld de kolom specifiëren door de tabelnaam ervoor te
+      schrijven. Dat is redelijk wat typwerk. Een kortere optie is het gebruik
+      van een <em>alias</em> (ook wel ‘pseudoniem’ genoemd). Je vervangt als het
+      ware de naam van de tabel tijdelijk door iets korter (vaak slechts één of een
+      paar letters). Vergelijk volgende versies van dezelfde query. Eerst de lange
+      versie:<pre><code>SELECT opocode, opleidingsonderdeel.naam, coordinator, lector_id, lector.naam, email
+FROM lector, opleidingsonderdeel</code></pre> </p> <p>
+Korter en daardoor mogelijk vlotter leesbaar is deze versie met twee
+      aliassen:<pre><code>SELECT opocode, O.naam, coordinator, lector_id, L.naam, email
+FROM lector AS L, opleidingsonderdeel AS O</code></pre> </p> <p>
+Je mag eventueel het woordje <code>AS</code> weglaten en dus kan het nog iets
+      korter:<pre><code>SELECT opocode, O.naam, coordinator, lector_id, L.naam, email
+FROM lector L, opleidingsonderdeel O</code></pre> </p> <section class="taak"> <div> <p>
+Probeer eens de combinatie te maken waarbij je een <em>alias</em> definieert,
+          maar toch de volledige naam van de tabel gebruikt in de <code>SELECT</code> door volgende code uit te testen:<pre><code>SELECT opocode, opleidingsonderdeel.naam, coordinator, lector_id, L.naam, email
+FROM lector L, opleidingsonderdeel O</code></pre> </p> <p>Wat besluit je?</p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+De foutmelding helpt je verder:<pre><code>ERROR:  invalid reference to FROM-clause entry for table &quot;opleidingsonderdeel&quot;
+LINE 2: SELECT opocode, opleidingsonderdeel.naam, coordinator, lecto...
+                        ^
+HINT:  Perhaps you meant to reference the table alias &quot;o&quot;.
+SQL state: 42P01
+Character: 50</code></pre> </p> <p>
+Dit betekent dus concreet dat <em>eens je een alias gedefinieerd hebt voor een tabelnaam, je
+            verplicht bent om die alias te gebruiken</em>. De tabelnaam is op dat moment tijdelijk vervangen door de alias!
+</p> </div>  </section> <h3>Join voorwaarde</h3> <p>
+Door de impliciete join in de <code>FROM</code> component heb je het <em>cartesisch product</em> gemaakt: een combinatie van elke rij van de ene tabel met elke rij van de
+      tweede tabel. In totaal dus 378 combinaties van rijen. Die lange lijst moet
+      je nu beperken tot de ‘zinvolle’ rijen. Rijen verwijderen of behouden doe je
+      met een <code>WHERE</code>. Deze <code>WHERE</code> noemen we de ‘join conditie’
+      of ‘join voorwaarde’.
+</p> <p>
+Wat zijn hier de <em>zinvolle</em> rijen? Elke coördinator van elk OPO wordt
+      gekoppeld aan gelijk welke lector. We waren echter alleen op zoek naar het
+      mailadres van de coördinator. <em>De enige zinvolle rijen zijn dan die waar de coördinator in de OPOtabel
+        gelijk is aan het lector_id in de lectortabel:</em><pre><code>SELECT opocode, email
+FROM lector, opleidingsonderdeel
+WHERE coordinator = lector_id -- join conditie</code></pre> </p> <p>
+Van de 378 rijen in het cartesisch product zijn er maar 21 die aan deze
+      voorwaarde voldoen. Dat is ook logisch: er zijn 21 OPO’s en elk OPO heeft
+      juist één coördinator. <a href="#Impliciete-JOIN">De figuur bij het begin van dit hoofdstuk</a> toont het resultaat in pgAdmin.
+</p> <section class="taak"> <div> <p> <em>
+In deze oefening komen heel wat dingen uit vorige hoofdstukken aan
+            bod.
+</em> Schrijf de query die voor elk OPO van minder dan 6 studiepunten het
+          volgende geeft: de naam van het OPO, het aantal studiepunten, voornaam
+          en familienaam van de coördinator in één kolom en het jaar waarin dat OPO
+          voor het eerst op het programma van de opleiding stond. Sorteer volgens
+          stijgend aantal studiepunten. Bij gelijk aantal studiepunten moet je verder
+          sorteren volgens jaartal (nieuwste eerst). Je moet de volgende figuur bekomen
+          met een tabel van 13 rijen.
+</p> <figure class="center"> <img src="/assets/join/join_vb2.png" width="500" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT O.naam AS OPOnaam, studiepunten, L.voornaam || &#39; &#39; || L.naam AS coordinator,
+  EXTRACT(YEAR FROM O.van) as startjaar
+FROM lector L, opleidingsonderdeel O
+WHERE coordinator = lector_id AND studiepunten &lt; 6
+ORDER BY 2 ASC, 4 DESC</code></pre> </div>  </section> <h2>Expliciete JOIN</h2> <p>
+De vorige oefening legt een <em>zwakheid van de impliciete join</em> (meerdere
+      tabellen in de FROM gescheiden door een komma) bloot. Zowel de join conditie
+<code>(coordinator = lector_id)</code> als de ‘gewone’ conditie <code>(studiepunten &lt; 6)</code> staan in de <code>WHERE</code> component. Er bestaat een alternatieve notatie
+      voor de
+<code>JOIN</code> waarbij je deze bewerking expliciet zo benoemt.
+</p> <p>
+De oplossing van de vorige oefening ziet er dan zo uit met een expliciete <code>JOIN</code>:<pre><code>SELECT O.naam AS OPOnaam, studiepunten, L.voornaam || &#39; &#39; || L.naam AS coordinator,
+  EXTRACT(YEAR FROM O.van) as startjaar
+FROM lector L INNER JOIN opleidingsonderdeel O ON coordinator = lector_id  -- leesbaarder!
+WHERE studiepunten &lt; 6
+ORDER BY 2 ASC, 4 DESC</code></pre> </p> <p>
+De join conditie staat nu in de <code>FROM</code> en we vermelden expliciet
+      het woord <code>JOIN</code>. Deze notatie is logischer en je maakt minder
+      kans om de join conditie te vergeten of iets fout te doen in de <code>WHERE</code>, want deze component is nu eenvoudiger.
+</p> <p>
+De volgorde waarin je de tabellen schrijft is niet belangrijk. Het woord <code>INNER</code> mag je ook weglaten. <em>We raden aan om het toch altijd te schrijven</em>. Er bestaat namelijk ook een <code>OUTER JOIN</code>.
+</p> <p>
+Er bestaat ook een alternatieve notatie voor de join conditie die je kan
+      gebruiken <em>als beide kolommen in die conditie identiek dezelfde naam hebben en als
+        je test op gelijkheid van beiden</em>. Dat is in dit voorbeeld niet het geval, maar stel dat de kolom
+      ‘coordinator’ ook ‘lector_id’ als naam had, dan hadden we bovenstaande
+      code zo geschreven:<pre><code>SELECT O.naam AS OPOnaam, studiepunten, L.voornaam || &#39; &#39; || L.naam AS coordinator,
+  EXTRACT(YEAR FROM O.van) as startjaar
+FROM lector L INNER JOIN opleidingsonderdeel O ON O.lector_id = L.lector_id. -- alias nodig!
+WHERE studiepunten &lt; 6
+ORDER BY 2 ASC, 4 DESC</code></pre> </p> <p>
+Dit kan korter door het gebruik van <code>USING</code>:<pre><code>SELECT O.naam AS OPOnaam, studiepunten, L.voornaam || &#39; &#39; || L.naam AS coordinator,
+  EXTRACT(YEAR FROM O.van) as startjaar
+FROM lector L INNER JOIN opleidingsonderdeel O USING(lector_id)
+WHERE studiepunten &lt; 6
+ORDER BY 2 ASC, 4 DESC</code></pre> </p> <p>
+We komen hierop later terug bij de oefeningen. De notatie met <code>ON</code> is altijd bruikbaar, die met <code>USING</code> alleen in bepaalde gevallen.
+</p> <h2>Een tabel joinen met zichzelf</h2> <p>
+In een <code>JOIN</code> operatie combineer je twee (of meer) tabellen. Je
+      mag ook <em>twee keer dezelfde tabel</em> gebruiken. Het gebruik van aliassen
+      is in dit geval verplicht. Probeer volgende oefening te maken m.b.v. de tips.
+</p> <section class="taak"> <div> <p>
+Voor een wedstrijd vormen lectoren een team van twee personen. Eén
+          persoon is de kapitein van het team, de andere is dan gewoon teamlid.
+          Schrijf de query die een lijst genereert van alle mogelijke teams
+          zoals getoond in bijhorende figuur. Deze lijst bevat 306 rijen. Enkele
+          tips:
+</p><ul> <li>
+Het eerste teamlid zit in de tabel ‘lector’, het tweede teamlid ook.
+            Je doet dus een <code>INNER JOIN</code> van de tabel ‘lector’ met zichzelf.
+</li> <li>
+Je zal moeten onderscheid maken tussen de eerste tabel ‘lector’ en
+            de tweede tabel ‘lector’. Gebruik als aliassen bvb. ‘L1’ en ‘L2’.
+</li> <li>
+Wat wordt de join conditie? Je kan geen team met jezelf vormen …
+</li> <li>Let op de kolomhoofdingen in de figuur.</li> </ul> <figure class="center"> <img src="/assets/join/join_vb3.png" alt="" width="350"> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT L1.voornaam || &#39; &#39; || L1.naam AS kapitein,
+  L2.voornaam || &#39; &#39; || L2.naam AS &quot;teamlid 2&quot;
+FROM lector L1 INNER JOIN lector L2 on L1.lector_id != L2.lector_id</code></pre> </div>  </section> <p>We breiden de vorige oefening een beetje uit:</p> <section class="taak"> <p>
+We willen nog steeds een lijst van mogelijke teams van lectoren, maar
+        met de extra voorwaarde dat beide teamleden in dezelfde gemeente moeten
+        wonen. Je zal nu slechts 6 mogelijke teams kunnen maken. Toon ook de
+        gemeente.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT L1.voornaam || &#39; &#39; || L1.naam AS &quot;kapitein&quot;,
+  L2.voornaam || &#39; &#39; || L2.naam AS &quot;teamlid 2&quot;, L1.gemeente
+FROM lector L1 INNER JOIN lector L2 on
+  L1.lector_id != L2.lector_id AND L1.gemeente = L2.gemeente</code></pre> </div>  </section> <h2>Oefeningen</h2> <section class="taak"> <div> <p>
+Welke OPO’s die nu in het huidige programma van TI zitten hebben een
+          coördinator die in een gemeente woont waarvan de postcode begint met
+          ‘3’. Schrijf de SQL query die onderstaande figuur genereert. Je hoeft
+          niet te sorteren.
+</p> <figure class="center"> <img src="/assets/join/join_vb5.png" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT opocode, O.naam, lector_id, voornaam, L.naam, gemeente
+FROM opleidingsonderdeel O INNER JOIN lector L on O.coordinator = L.lector_id
+WHERE gemeente LIKE &#39;3%&#39; AND O.tot IS NULL</code></pre> </div>  </section> <section class="taak"> <div> <p>
+Schrijf de SQL query die de lijst genereert (zie figuur) van alle
+          lectoren die jonger zijn dan Gerben Adriaens. Deze lijst is gesorteerd
+          zodat de jongste lector bovenaan staat. Je mag veronderstellen dat er
+          maar één Gerben Adriaens is. <em>Je mag niet eerst met een aparte query de geboortedatum van Gerben
+            Adriaens opvragen</em>. Subquery’s zijn ook niet toegelaten, want die hebben we nog niet
+          gezien. Het kan met één query door een <code>JOIN</code> te gebruiken.
+          Let ook op de kolomhoofding (zoals altijd).
+</p><figure class="center"> <img src="/assets/join/join_vb4.png" width="400" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Je kan de tabel ‘lector’ opnieuw met zichzelf joinen. Let op de
+          speciale voorwaarde in de join conditie. Als je beter wilt zien wat er
+          gebeurt kan je best een <code>SELECT *</code> vragen zodat je de <em>volledige</em> rij ziet. In de <code>WHERE</code> wordt getest op wie jonger is. Je
+          bent jonger als je geboortedatum groter is.<pre><code>SELECT L1.voornaam, L1.naam, EXTRACT(YEAR FROM L1.geboortedatum) AS geboortejaar
+FROM lector L1 INNER JOIN lector Adr ON Adr.naam = &#39;Adriaens&#39; AND Adr.voornaam = &#39;Gerben&#39;
+WHERE L1.geboortedatum &gt; Adr.geboortedatum
+ORDER BY 3 DESC</code></pre> </p> </div>  </section> <section class="taak"> <div> <p>
+Een student heeft nog 8 SP te kort om te kunnen afstuderen. Genereer
+          een lijst (zie onderstaande figuur) met alle mogelijke combinaties van
+          2 OPO’s uit het oude programma (OPO’s die nu niet meer gegeven worden)
+          die samen 8 studiepunten vertegenwoordigen. De kans is groot dat je
+          een lijst bekomt waar elke combinatie twee keer in staat (als A en B
+          samen 8 SP zijn, dan is B en A ook 8 SP en dan zijn er twee rijen met
+          dezelfde twee OPO’s in een andere volgorde). Vind je een trucje om
+          deze dubbels te vermijden? Sorteren hoeft niet.
+</p><figure class="center"> <img src="/assets/join/join_vb6.png" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT O1.opocode, O1.naam || &#39; (&#39; || O1.studiepunten ||&#39;)&#39; AS OPO1,
+  O2.opocode, O2.naam || &#39; (&#39; || O2.studiepunten ||&#39;)&#39; AS OPO2
+FROM opleidingsonderdeel O1 INNER JOIN opleidingsonderdeel O2 on O1.opocode != O2.opocode
+WHERE O1.studiepunten + O2.studiepunten = 8 AND
+  O1.tot IS NOT NULL AND
+  O2.tot IS NOT NULL AND
+  O1.opocode &lt; O2.opocode -- een van mogelijke trucs om geen dubbels te hebben</code></pre> </div>  </section> <h2>Oefeningen SQLzoo</h2> <h3>Schema ‘Euro2012’</h3> <p>
+Een interessante oefenreeks op SQLzoo maakt gebruik van data i.v.m. het
+<a href="https://en.wikipedia.org/wiki/UEFA_Euro_2012">het Europees voetbalkampioenschap in 2012</a>. Het logisch model op de site van SQLzoo dat bij deze oefening hoort,
+      heeft een wat afwijkende notatie. Daarom maakten we het opnieuw volgens
+      onze conventies:
+</p> <figure class="center"> <img src="/assets/join/euro2012.svg" alt=""> </figure> <p>Een woordje uitleg over dit model:</p> <ul> <li>
+Het schema bevat drie tabellen: ‘game’ (bevat informatie over elke
+        wedstrijd, zoals tijdstip, stadion en tussen welke ploegen), ‘eteam’
+        (naam en coach van elk team) en tenslotte een tabel ‘goal’ (wie scoorde
+        in welke minuut voor welke team een goal).
+</li> <li>
+Merk op dat <span style="color:#00c">de primaire sleutel van de tabel ‘goal’</span> een <em>samengestelde sleutel</em> is (twee keer PK in de tabel): er kunnen
+        per match immers meerdere goals gescoord worden en dus zou alleen matchid
+        onvoldoende zijn om een goal uniek te specifiëren. De combinatie van matchid
+        en gtime (minuut waarin de goal gescoord werd) is uniek (als je veronderstelt
+        dat er niet twee keer in dezelfde minuut gescoord kan worden &#128512;).
+</li> <li>
+De tabel ‘game’ heeft <span style="color:#090">twee vreemde sleutels, genummerd FK1 en FK2</span>. Een wedstrijd wordt immers tussen twee teams gespeeld en elk veld
+        (‘team1’ en ‘team2’) verwijst dus naar een bepaald team waarover je meer
+        informatie kan vinden in de tabel ‘eteam’).
+</li> <li>
+Je moet bovendien in dit logisch schema de <em>kardinaliteiten</em> goed
+        kunnen lezen. De <span style="color:#090">grote groene ellips</span> vertelt
+        je &ndash;als je kijkt vanuit ‘eteam’ naar ‘game’&ndash; dat elk team minstens
+        één wedstrijd speelt. De <span style="color:#f80">kleinere oranje ellips</span> duidt aan dat een wedstrijd gespeeld wordt door één uniek team1 en één
+        uniek team2.
+</li> <li>
+Wat de kardinaliteiten van de relatie tussen de tabellen ‘goal’ en
+        ‘eteam’ betreft: Een team kan 0 of meerdere goals maken in het toernooi
+        (<span style="color:#c00">rode cirkel</span>) en een specifieke goal
+        hoort altijd juist bij één team (<span style="color:#009">blauwe ruit</span>).
+</li> </ul> <h3>Oefeningen op INNER JOIN</h3> <p>
+Opmerking bij deze oefeningenreeks: op de site van SQLzoo gebruikt men
+      telkens <code>JOIN</code> zonder het woordje <code>INNER</code>. Wij
+      verkiezen de volledige benaming, dus schrijf liefst altijd <code>INNER JOIN</code>.
+</p> <section class="taak"> <p> <a href="https://sqlzoo.net/wiki/The_JOIN_operation">Maak oefenreeks 6 op <code>JOIN</code></a>. Kleine opmerking: oefening 13 van deze oefenreeks is niet oplosbaar
+        met een <code>INNER JOIN</code>, maar wel met een <code>OUTER JOIN</code>. Je kan deze oefening overslaan.
+</p>  </section> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

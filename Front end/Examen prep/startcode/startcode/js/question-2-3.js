@@ -49,5 +49,4 @@ function filterByDuration() {
   }}
 }
 
-
-DisplayList()
+  DisplayList()

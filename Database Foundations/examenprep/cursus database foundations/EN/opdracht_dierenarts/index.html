@@ -1,0 +1,210 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>Groepsopdracht dierenartsenpraktijk</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">Nothing is impossible. The word itself says “I’m Possible”</span> <br>
+&mdash;Audrey Hepburn
+</p> </blockquote> <h1>Group work modelling</h1> <h2>Assignment</h2> <p>
+Within this course, you learned what a database is, how to model it,
+      implement it, and how to write queries to add and extract data in and out
+      of the database. In this project you will go through the entire process
+      from data model to queries for a specific case. The case is described
+      below, it is up to you to develop the requested database according to the
+      learned process.
+</p> <p>
+This project will be realized by <em> groups of maximum 4 students</em>.
+      The groups will be determined by the lecturers. The deadline for
+      submission of your result is on <strong>December 12, 2025 at 11:59 p.m.</strong>. You need to submit the result via the assignment ‘Project Assignment’
+      which you can find on Toledo. This project counts for 5 points. A project
+      that is not submitted by the deadline will result in a 0. Retakes are not
+      possible.
+</p> <p>
+For the second exam chance, the points on the group assignment do not
+      carry over and the exam consequently counts for 18 points. After all,
+      there are two points on the portfolio and those are retained. For more
+      info: see ECTS sheet (link on Toledo or via your ISP) and Toledo.
+</p> <h2>To be handed in</h2> <p>You need to work out the following things:</p> <ol> <li>
+A <em>conceptual data model</em> in which you develop the case below. The
+        conceptual data model needs to be drawn in draw.io and submitted in pdf format
+        with the name ‘DF_conceptual_team_XX.pdf’ where you replace XX with your
+        team number.
+</li> <li>
+A <em>logical data model</em> that contains the translation from your conceptual
+        data model to a relational database model. The logical data model needs to
+        be drawn in draw.io and submitted in pdf format with the name ‘DF_logical_team_XX.pdf’.
+</li> <li>
+A <em>physical data model</em> that contains the translation from your logical
+        data model to a database in PostgreSQL. You need to create the physical data
+        model preferably in DBSchema and submit the resulting script with the name
+        ‘DF_create_database_team_XX.sql’. Also provide a .png of your schema (in
+        DBSchema: Model &gt; Export as ... &gt; PNG image) with the name ‘DF_physical_team_XX.png’.
+</li> <li>
+A second script that adds <em>data</em> to the created tables. This script,
+        named ‘DF_insert_data_team_XX.sql’, populates the database.
+</li> <li>
+A third script ‘DF_delete_database_team_XX.sql’, that clears the created
+        schema. It <em>deletes</em> the schema. You may not use a <code>drop cascade</code>, but must delete all the tables separately in the correct order.
+</li> <li>
+Five <em>queries</em> that extract a result from the database (<a href="#Queries">see below</a>). You collect the different queries in one script
+        ‘DF_query_team_XX.sql’.
+</li> <li>
+A <em>video</em> of maximum 15 minutes named ‘DF_video_team_XX’ In which
+        you give a demo of your final results (described above). The format of the
+        video must be playable in <a href="http://www.videolan.org/vlc/">VLC</a>. In this video, first of all, you explain your models and your
+        reasoning behind them. From the physical data model onwards you build
+        the whole database through pgAdmin by using your scripts (table creation
+        and data). Then you show the execution of your queries and finally you
+        delete the schema with your delete script. Test your video recording
+        setup well in advance (software, video format, microphone, ...)!
+</li> </ol> <p>
+Bundle all of the files above into one ‘DF_project_team_XX.zip’ file.
+      Submit this .zip file via Toledo (Assignments &gt; Project (group)). One
+      submission per group is sufficient.
+</p> <h2>Veterinary Practice</h2> <section class="info"> <p>
+The case below describes a company, people, objects and processes. We
+        intentionally left out a lot of details. What information does one want
+        to track? Make meaningful choices yourself and motivate them.
+</p> </section> <p>
+The ‘Connect’ Veterinary Practice in Haasrode is a primary care practice.
+      This means that they do not perform complex operations, but you can go to
+      them for everything else:
+</p> <ul> <li>illness</li> <li>vaccination</li> <li>annual check-up</li> <li>sterilisation and castration</li> <li>dental care</li> <li>medication</li> <li>sale of animal feed and advice</li> <li>hospitalisation</li> <li>imaging</li> <li>laboratory tests</li> <li>animal care</li> <li>referral to a secondary care practice</li> <li>…</li> </ul> <p>
+There are currently seven veterinarians working at the practice, each with
+      their own specialisation in addition to general basic care. There are also
+      two animal carers and one employee who is responsible for administration,
+      accounting and running the practice day-to-day. The usual details are kept
+      for each staff member (name, address, telephone number, etc.). For the
+      veterinarians, their specialisation is also recorded (animal species,
+      laboratory or imaging techniques, etc.).
+</p> <p>
+The practice also offers a limited range of animal feed and products,
+      mainly specialised (and therefore somewhat more expensive) items.
+</p> <p>
+People can only visit with their pets by appointment. This is possible
+      during the practice's opening hours (9 a.m. to 12 p.m. and 1 p.m. to 6
+      p.m.), but a vet is always available outside these hours. At weekends, you
+      can only take your animal to an on-call vet. A list of telephone numbers
+      indicates who is available when.
+</p> <figure class="center"> <img src="/assets/groepswerk/Veterinary-Specialties.jpg" alt=""> </figure> <p>
+Below, we tell a story with a lot of data (names, dates, products, etc.)
+      to give you an idea of what is involved in running a veterinary practice.
+      After all, you need to design a database that supports the entire
+      operation of this practice. All the data from the story below must also be
+      included in your final database . Of course, you will need to generate a
+      lot of data yourself to fill the database with enough realistic data so
+      that the queries give meaningful results. Where data is missing (name,
+      time, date, product, etc.), you can fill it in yourself with your own
+      creativity.
+</p> <p>
+We, the lecturers of the OPO Database Foundations, are not veterinarians,
+      so it is almost certain that the story below contains things that are
+      medically inaccurate.
+</p> <p>
+Today is 3 September 2025, 9 a.m. The Desmedt family (Kerkstraat 23, 3053
+      Haasrode, tel. 0455123456, wim.desmedt@gmail.com) has an appointment for
+      their cat Maurice. Maurice is a Bengal (cat breed) who was born around
+      January 2022 . This cat came in for a consultation on 28 August at 3 p.m.
+      with blood in his urine. Veterinary practicioner Els Martens examined
+      Maurice and decided that the cat was suffering from a serious bladder
+      infection. Maurice has to take medication for the infection for a whole
+      week, namely Cefalexine. Last week's consultation cost €70 (€50 for the
+      consultation itself and €20 for the medication). Now, a week later,
+      veterinarian Geert Vanaken examines Maurice. Karen Desmedt, the eldest
+      daughter of the family, says that Maurice has been his usual cheerful self
+      for the last two days and is urinating normally. Vet Geert examines the
+      cat and notes that the medication has indeed helped. To reduce the risk of
+      further bladder infections, he advises providing the cat with sufficient
+      drinking water and wet food. In addition, it would be a good idea to
+      switch to special food, such as "Hill's Prescription Diet c/d Multicare",
+      which greatly reduces the risk of bladder stones forming. Karen thinks
+      this is an excellent suggestion and buys a 12 kg bag (price €80.29).
+      Together with the cost of the check-up (€40), she pays a total of €120.29.
+</p> <p>
+As you can read in the text above, animals often have names that are
+      almost certainly not unique. That is why each animal is linked to a unique
+      owner (family or person). The Desmedt family also has a macaw (parrot)
+      named Willy. He had a beak problem, but this was expertly resolved during
+      a consultation on 23 March 2025 by animal carer Ruth Bertels.
+</p> <p>
+Before leaving the practice, Karen Desmedt makes an appointment for her
+      dog Bobby for his annual check-up. She gets an appointment on Thursday 18
+      September at 4 p.m. with vet Sara Vanderelst.
+</p> <figure class="center"> <img src="/assets/groepswerk/dierenartspraktijk-lokeren.png" alt=""> </figure> <p>
+The practice is quite large, so that up to four vets or carers can conduct
+      consultations at the same time. Today (remember: 3 September 2025), Nero
+      the dog is visiting for dental care. Nero is the 6-year-old border collie
+      belonging to Katrien Aerts (katrien.aerts@telenet.be, 0455795632,
+      Langestraat 215a, Kessel-Lo). This involves professional dental cleaning
+      (removing tartar, polishing teeth, extracting bad molars) under
+      anaesthesia, as a dog cannot lie still long enough. This is therefore a
+      job for a vet and not for an animal carer. Vet Aïsha El Founti specialises
+      in dental care. Because of the anaesthesia, she is assisted by caretaker
+      Ruth Bertels. Dental care like this is also a long and expensive procedure
+      (2 hours if an extraction is needed, €350). Because of the anaesthesia,
+      Nero the dog has to stay at the practice for a few hours so that they can
+      be sure that everything is okay after the cleaning. At 4 p.m., Katrien can
+      pick Nero up again.
+</p> <p>
+It is now 10 o'clock. Geertje Bernaerts (geertje.bernaerts@vjk.be,
+      0455999666, Frederik Lintstraat 32, Leuven) arrives at the reception to
+      collect a bag of "Royal Canin Mini Puppy" dog food. Sofie Casterman, who
+      is responsible for reception, planning and administration, hands over the
+      ordered pet food and takes payment (€14.99).
+</p> <p>
+At 10:25 a.m., vet Els Martens already has a new patient visiting. Owner
+      Bart Mertens (bmertens@skynet.be, no telephone, Blandenstraat 25 Haasrode)
+      has brought Fluffy along. The children's favourite rabbit has not eaten
+      for a day and seems lethargic. Els fears that there is a serious problem
+      with the gastrointestinal tract (intestinal obstruction? bloat?) and
+      suggests keeping the rabbit at the practice so that it can be closely
+      monitored . She immediately makes an appointment with Bart to come by the
+      next day at 1:45 p.m. to discuss the situation.
+</p> <p>
+Meanwhile, veterinarian Walter Malfliet is doing house calls today.
+      Typically, this involves larger animals (goats, sheep, horses, etc.). The
+      Vekemans family (Griet Vekemans, griet.vekemans@icloud.com, 0455112233,
+      Konijnenhoekstraat 6B, Blanden) has a pony (“White Shadow”) that injured
+      itself on a fence. At 11:05 a.m., Walter arrives at the pasture where the
+      pony is standing. Fortunately, the damage is not too bad: a little
+      disinfection and a few stitches should suffice. A home visit is already
+      €20 more expensive. This brings the total amount to be paid to €85 (€65
+      for the consultation + €20 for the home visit). Griet pays this
+      immediately via Bancontact. Vet Walter immediately makes an appointment
+      with her to come by on Friday 5 August around 3.30 p.m. to see if the
+      wound is healing as it should.
+</p> <figure class="center"> <img src="/assets/groepswerk/pony-weide.jpg" alt=""> </figure> <p>
+Veterinarian Els Martens has a rather unpleasant consultation at 11:00
+      today, which is unfortunately part of the job. Garfield, the Snellings
+      family's cat (Peter Snellings, psnel@hotmail.com, 016 489786, Parkstraat
+      123, Leuven) is now 23 years old. The animal is as good as deaf and blind,
+      can no longer care for itself and is incontinent. It has almost no quality
+      of life left, and the family and Els have come to the decision that
+      euthanasia is the best solution. Garfield is given an injection and falls
+      asleep peacefully in the arms of his owner Peter. Peter decides that he
+      will not take the dead cat home with him, but that the vet will ensure
+      that the carcass is disposed of responsibly. This brings the total cost
+      for consultation, medication and disposal to €135.
+</p> <h2>Data Generation</h2> <p>
+You need to fill all tables with <em>sufficient</em> data. That data should
+      look <em>realistic</em>. Usually, a combination of manual work (typing in
+      data yourself) and automatic data generation (via DBSchema's data
+      generator or online tools like Mockaroo) delivers the best results. What
+      is "sufficient", by the way? Hard to put a specific number on that ("You
+      must have at least ... rows in that table"). We would say: When querying
+      (see next point), you should be able to get meaningful results. For
+      example, the <a href="/EN/SQL_tennis/">tennis player database</a> is really
+      not large enough (only 14 players, 2 teams, 8 fines). The <a href="/EN/SQL_kookclub/">cooking club</a>, on the other hand, is sufficiently large (173 partially hand-coded
+      ingredients, 500 automatically generated members, 10 manually entered
+      dishes, 1178 communities found via a CSV file on the site of bpost, ...)
+</p> <h2>Queries</h2> <p>
+Compile 5 sufficiently <em>complex</em> and <em>meaningful</em> queries to
+      query your database. Try to use all SQL material: <code>SELECT</code>,
+<code>WHERE</code>, inner and outer <code>JOINS</code>, <code>GROUP BY</code>, <code>HAVING</code>, <code>ORDER BY</code>, limit number of rows, etc.
+</p> <p>We emphasized two words here:</p> <ol> <li> <em>complex</em>: we really do expect queries that employ the whole
+        arsenal of what we saw in the SQL classes and not just a statement where
+        you select something from a table.
+</li> <li> <em>meaningful</em>: justify why for the veterinary practice the result
+        of this query is important. Introduce each query with some explanation,
+        e.g. ‘For the veterinary practice it is important to get an overview per
+        ... because ...’.
+</li> </ol> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

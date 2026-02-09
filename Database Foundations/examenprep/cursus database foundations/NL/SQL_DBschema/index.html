@@ -1,0 +1,393 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>SQL: tool DBSchema</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">Success is no accident. It is hard work, perseverance, learning,
+          studying, sacrifice and most of all, love of what you are doing or
+          learning to do.</span> <br>
+&mdash;Pele
+</p> </blockquote> <h1>DBSchema PostgreSQL client</h1> <p>
+We introduceren een nieuwe tool: DBSchema. Deze databankclient doet in
+      grote lijnen hetzelfde als pgAdmin: <em>communicatie met de databankserver</em>. Je zal deze tool goed kunnen gebruiken in de grotere opdracht die bij
+      dit OPO hoort. Als voorbeeld maken we een eenvoudig schema met vijf
+      tabellen. Omdat we merken dat studenten vaak wat moeite hebben om te
+      begrijpen hoe ‘foreign keys’ en tussentabellen werken, maak je ook een
+      kleine oefening met INSERT INTO op dit nieuwe schema.
+</p> <h2>Clients voor PostgreSQL</h2> <p>
+Zoals je weet spreek je een databankserver (zoals PostgreSQL) nooit
+      rechtstreeks aan. Alle communicatie verloopt via een client. We gebruikten
+      tot nu toe pgAdmin. Die is open source, gratis en bovendien zeer geschikt
+      voor wat we willen doen. Er zijn echter heel wat alternatieve clients:
+</p> <ul> <li>Open source: DBeaver, SQuirrel, SQL Workbench/J, …</li> <li>
+Gesloten (‘Proprietary’): DbVisualizer, Valentina Studio, Jetbrains
+        DataGrip, Navicat, DBSchema, …
+</li> </ul> <p>We maken nu kennis met een commerciële softwaretool: DBSchema.</p> <h2>Voorstelling DBSchema</h2> <p>
+DBSchema is een <em>geavanceerde database management tool</em>. Het kan
+      met heel wat verschillende DBMS overweg: MySQL, PostgreSQL, Oracle, SQL
+      Server, Sqlite enz. Er bestaat een zogenaamde ‘Free Community Edition’ en
+      een ‘Pro Edition’.
+</p> <figure class="center"> <img src="/assets/DBSchema/editions.png" alt=""> </figure> <p>
+Voor heel wat dingen die we willen doen, is de gratis versie voldoende,
+      terwijl er in de betalende versie toch wel een paar dingen zitten die
+      nuttig kunnen zijn voor het uitwerken van een grotere opdracht.
+</p> <p>
+Als je DBSchema installeert, krijg je gedurende twee weken de volledige
+      versie gratis. <em>
+Daarom wachten we liefst zo lang mogelijk om deze software te
+        installeren, tot het moment waarop je aan de grote opdracht begint
+</em>. Na deze twee weken kan je vragen om de testperiode van de pro
+      versie nog eens te verlengen met twee weken zoals uitgelegd op <a href="https://dbschema.com/evaluate.html">https://dbschema.com/evaluate.html</a>.
+</p> <section class="taak"> <p>
+Installeer nu DBSchema op <a href="https://dbschema.com/download.html">https://dbschema.com/download.html</a>. Je krijgt automatisch twee weken de ‘Pro Edition’. Daarna val je
+        terug op de gratis ‘Community Edition’ (zie <a href="https://dbschema.com/editions.html">https://dbschema.com/editions.html</a> voor het volledig overzicht van alle verschillen).
+</p>  </section> <p>
+DBSchema heeft <a href="https://dbschema.com/documentation/">een goede documentatie</a>. We gebruiken voor dit OPO trouwens maar een beperkt deel van alle
+      functies van deze clientsoftware.
+</p> <h2>Een schema ‘reverse engineeren’</h2> <p>
+Meestal gebruiken we DBSchema als volgt: je tekent een fysiek model en
+      DBSchema genereert alle SQL code om dit model in PostgreSQL te bouwen op
+      de server.
+</p> <p>
+Maar het kan ook omgekeerd. In dit stukje tonen we hoe je met DBSchema <em>
+een bestaand schema op onze databankserver kan ‘reverse engineeren’
+</em>. Dat wil zeggen dat DBSchema connectie maakt met het bestaande
+      schema en hiervan een fysiek model reconstrueert.
+</p> <section class="info"> <p>
+In <a href="/NL/SQL_eenopveel/index.html#Vertaling-naar-relationeel-model">het hoofdstuk ‘Eén-op-veel relaties’
+</a>bouwde je een klein model (bestaande uit twee tabellen
+        ‘Opleidingsonderdeel’ en ‘Lector’) in het schema met als naam je
+        r-nummer, in de databank van je reeks. Kijk je nu eens even na via
+        pgAdmin of dat schema er inderdaad is? Indien niet: maak het dan even
+        aan <a href="/NL/SQL_eenopveel/index.html#Realisatie-in-je-eigen-schema">via de stappen in dat hoofdstuk</a> (tien minuten werk).
+</p> </section> <p>
+Met het volgende stappenplan laat je DBSchema verbinding maken met onze
+      databankserver en zet deze client je schema om naar een fysiek model.
+      Zoals altijd: voer deze stappen zelf uit!
+</p> <section class="film"> <p>
+Het volgende filmpje toont hoe je een bestaand schema importeert in
+        DBSchema en hoe je daarna enkele instellingen kan wijzigen. Onder het
+        filmpje staan de concrete stappen die je moet zetten. Misschien vind je
+        de combinatie film–stappenplan ideaal? Eerst even het filmpje bekijken
+        en daarna de stappen in de opdracht één voor één lezen en uitvoeren!
+</p> </section> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_5fo4uvcg&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_wg0x65f7" width="1280" height="720" allowfullscreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation" frameborder="0" title="Kaltura Player"></iframe> </div> <section class="taak"> <div> <p>
+Mijn lectorcode (en dus ook de naam van mijn schema) is ‘u0012047’.
+          Vanzelfsprekend vervang je in het onderstaande dit door je eigen
+          r-nummer.
+</p> <ol> <li>
+Start pgAdmin op en ga met de pooling connectie naar de databank van
+            je reeks en hierin naar jouw schema. In mijn geval zie ik dat mijn
+            schema ‘u0012047’ de gewenste tabellen ‘lector’ en
+            ‘opleidingsonderdeel’ bevat:
+<figure class="center"> <img src="/assets/DBSchema/Mijnschema.png" width="300" alt=""> </figure> <p>
+Even snel testen of deze tabellen ook data bevatten: <pre><code>SELECT *
+FROM u0012047.opleidingsonderdeel; --en analoog met de tabel lector</code></pre> </p> </li> <li>
+Dat ziet er dus goed uit. Tijd om DBSchema te starten. Op de
+            openingspagina kies je voor ‘Start New Project’ met als optie
+            ‘Connect to Database’. Dat kan trouwens ook via het menu: Model &gt;
+            New connected to the database.
+<figure class="center"> <img src="/assets/DBSchema/startnewproject.png" width="500" alt=""> </figure> </li> <li>
+DBSchema kan met tientallen DBMS overweg. Kies uit het lijstje de
+            ondertussen bekende olifant:
+<figure class="center"> <img src="/assets/DBSchema/kiespostgres.png" width="500" alt=""> </figure> </li> <li>
+In het volgende dialoogvenster kies je bij ‘JDBC URL’ voor de optie
+            ‘Standard’. Vul dan de gegevens verder in zoals in onderstaande
+            screenshot. Als ‘Database User’ kies je voor de local user die je
+            aanmaakte voor de pooling-connectie en bijbehorend wachtwoord (waar
+            we in <a href="/NL/SQL_pgadmin/#Installatie-pgAdmin">de handleiding</a> over vertelden “bewaar dit wachtwoord in een .txt bestand”). Vanzelfsprekend
+            kies je <em>voor de pooling-connectie het juiste getal</em>: de
+            schermafbeelding toont de versie van academiejaar 2022-23. Bij
+            ‘Database’ moet je waarschijnlijk de naam van de databank van je
+            reeks <em>typen</em> (e.g. 1TI9 enz).
+<figure class="center"> <img src="/assets/DBSchema/connectiedialoog.png" alt=""> </figure> </li> <li>
+In het tabblad ‘Settings’ moet je nog bij ‘Connection Properies’ <code>prepareThreshold=0;</code> invullen:
+<figure class="center"> <img src="/assets/DBSchema/preparethreshold.png" alt=""> </figure> </li> <li>
+Nu kan je dit venster bevestigen met ‘Connect’. Als alles goed gaat,
+            krijg je de inhoud van de databank te zien. Selecteer nu alleen het
+            schema dat je wilt ‘reverse engineeren’:
+<figure class="center"> <img src="/assets/DBSchema/checkboxes.png" width="400" alt=""> </figure> </li> <li>
+Dit is het resultaat in DBSchema:
+<figure class="center"> <img src="/assets/DBSchema/resultaatMet.png" alt=""> </figure> </li> <li>
+Er zijn enkele dingen die we niet wensen:<ul> <li>Het commentaarveldje ‘This is a layout …’;</li> <li>de rechthoek ‘lector’;</li> <li>de tabel ‘internetprijzen’.</li> </ul> <p>
+De eerste twee (layout en rechthoek) kan je ‘droppen’. Als je dat
+              bij de tabel ‘internetprijzen’ doet, <em>
+wordt die tabel effectief verwijderd op de server, dus hier toch
+                maar liever kiezen voor ‘exclude from layout’
+</em> bij het rechtsklikken op deze tabel.
+</p> </li> </ol> </div>  </section> <h2>DBSchema voor het uitvoeren van SQL query's</h2> <section class="film"> <p>
+Je kan DBSchema natuurlijk ook gebruiken op dezelfde manier als pgAdmin,
+        voor het uitvoeren van query's, zoals de volgende video toont:
+</p> </section> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_1o8pwuf2&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_5zk0j2ca" width="1280" height="720" allowfullscreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation" frameborder="0" title="Kaltura Player"></iframe> </div> <h2>Fysiek model bouwen in DBSchema</h2> <p>
+‘Reverse Engineering’ is een fijne tool om te hebben, maar wat we meestal
+      willen is het omgekeerde: <em>
+een fysiek model tekenen en dat op de databankserver bouwen</em>. Dat bekijken we in dit deel. Opnieuw een doe-tekst, zoals je dat
+      ondertussen van ons gewoon bent.
+</p> <p>
+Het onderstaande voorbeeld (van een filmdatabank) is niet alleen een
+      illustratie van de stappen die je moet zetten in DBSchema, maar we
+      gebruiken het ook om nog eens alle stappen van een grotere opdracht te
+      doorlopen:
+</p> <ul> <li>probleemomschrijving;</li> <li>conceptueel model;</li> <li>logisch model;</li> <li>fysiek model;</li> <li>data toevoegen.</li> </ul> <h3>Beschrijving van een filmdatabank</h3> <p>
+Je bent een filmliefhebber en wilt alle films die je bekeken hebt in een
+      databank bijhouden. Een film heeft een titel, jaar van release en een
+      lengte in minuten.
+</p> <p>
+We gaan er om didactische redenen even van uit dat elke film maar één
+      regisseur heeft (<a href="https://en.wikipedia.org/wiki/Adil_El_Arbi_and_Bilall_Fallah">wat natuurlijk soms niet het geval is</a>). Van een regisseur hou je de naam, nationaliteit en geboortedatum bij.
+      Je wil je film ook een rating (geheel getal van 0 t.e.m. 5) meegeven.
+</p> <p>
+In elke film kunnen meerdere acteurs meespelen. Een acteur heeft ook een
+      naam, nationaliteit, geboortedatum en geslacht (M, V of X). Als een acteur
+      in een film speelt, houden we ook graag de naam van het karakter bij dat
+      de acteur in deze film speelde. Als een acteur meerdere rollen speelde in
+      de film, komen alle namen achter elkaar, gescheiden door komma's.
+</p> <h3>Conceptueel model</h3> <p>
+Wij kozen er in het deel ‘modelleren’ voor om al in de conceptuele fase na
+      te denken over mogelijke natuurlijke primaire sleutels. Dat hoeft niet zo
+      te zijn: er zijn ook methodologieën die pas in het logisch model over
+      primaire sleutels nadenken. Is een filmtitel in dit opzicht uniek?
+      Vermoedelijk niet, zoals heel wat <a href="https://www.imdb.com/list/ls023094975/">remakes</a> aantonen. Filmtitel en jaar dan? Of filmtitel en regisseur? Om al deze vragen
+      voor te zijn kiezen we voor de eenvoud gewoon voor een film_id (net zoals je
+      als student ook een uniek r-nummer hebt).
+</p> <p>
+Voor acteur en regisseur maken we dezelfde keuze. We kunnen met
+      samengestelde sleutels beginnen, maar dat maakt één en ander wat
+      moeilijker …
+</p> <section class="taak"> <p>
+Teken zelf een mogelijk conceptueel model voor deze filmdatabank. Wat
+        zijn de entiteittypes? Attributen? Relaties?
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Als entiteittypes herken je ongetwijfeld: film, acteur en regisseur,
+          elk met een aantal attributen. Een acteur heeft als relatie met een
+          film ‘speelt in’ en een regisseur regiseert een film. Het conceptueel
+          model kan er dus als volgt uitzien:
+</p> <figure class="center model"> <img src="/assets/DBSchema/ConceptFilm.svg" alt=""> </figure> <p>
+Waarschijnlijk is het enige moeilijke in dit model het attribuut ‘Rol’
+          van de relatie tussen ‘Acteur’ en ‘Film’. Als je dit een attribuut van
+          het entiteittype ‘Acteur’ zou maken, dan kan elke acteur maar één rol
+          spelen.
+</p> <p>
+Wat de <em>cardinaliteiten</em> betreft is er wat discussie mogelijk. Ben
+          je ook een acteur als je nog in geen enkele film gespeeld hebt? Idem voor
+          regisseur. In onze vereenvoudigde voorstelling heeft elke film juist 1
+          regisseur.
+</p> </div>  </section> <h3>Logisch model</h3> <p>
+Voor het logisch model beslissen we dat deze databank in een <em>
+relationeel datamodel
+</em> zal gemaakt worden. De keuze voor welk DBMS precies (MySQL, PostgreSQL,
+      Oracle, …) is voor later.
+</p> <p>
+We denken in deze stap na over tabellen en soorten relaties tussen de
+      verschillende tabellen.
+</p> <section class="taak"> <p>
+Maak een logisch model voor deze opgave. Denk na over tabellen, sleutels
+        en soorten relaties.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+De relatie tussen film en regisseur is een <em>één-op-veel relatie</em>. Elke film heeft juist één regisseur, maar een regisseur kan (nul
+          of) meerdere films geregisseerd hebben.
+</p> <p>
+De relatie tussen film en acteur is een <em>veel-op-veel relatie</em>.
+          Elke film heeft nul of meerdere acteurs, elke acteur speelt in nul of
+          meerdere films. Je weet uit <a href="/NL/model_logisch/">het hoofdstuk over logisch modelleren</a> dat een veel-op-veel relatie moet gemodelleerd worden met een <em>tussentabel</em>.
+</p> <figure class="center"> <img src="/assets/DBSchema/filmlogisch.svg" alt=""> </figure> </div>  </section> <h3>Fysiek model</h3> <p>
+In de laatste modelleerstap beslissen we tenslotte om concreet PostgreSQL
+      te gaan gebruiken, zodat we ook de juiste datatypes kunnen definiëren en
+      het model kunnen bouwen op de databankserver. In deze stap komt de tool
+      DBSchema goed van pas.
+</p> <p>Zoals altijd: een stappenplan / doe-tekst …</p> <h4>Schema aanmaken</h4> <p>
+In de professionele (betalende) versie van DBSchema kan je eerst offline
+      een model ontwerpen, dat bewaren en pas daarna het synchroniseren met de
+      databank. In de gratis versie moet er eerst een schema op de RDBMS bestaan
+      en kan je het model niet offline bewaren. Dat is eigenlijk amper een
+      bezwaar voor de grotere opdracht die je voor dit OPO krijgt, dus leggen we
+      deze methode uit.
+</p> <p>
+Update november 2024: je kan nu wel in de community edition (gratis
+      versie) van DBSchema een nieuw schema aanmaken op onze databankserver door
+      rechts te klikken in de database browser (aan de linkerkant van het
+      scherm) op ‘Schemas’ en dan ‘Create Schema’ te kiezen.
+</p> <section class="taak"> <div> <p>
+Maak eerst een nieuw schema in de databank van jouw groep (1TI9 enz.).
+          Start daarvoor pgAdmin en gebruik de pooling-connectie om in de juiste
+          databank een schema aan te maken met de naam ‘rxxxxxxx-film’ (waarbij
+          je vanzelfsprekend je eigen r-nummer gebruikt). <a href="/NL/SQL_intro/index.html#Schema-aanmaken">Je weet nog hoe je een nieuw schema aanmaakt in een databank?
+</a> </p> <p>
+Mogelijk krijg je een foutmelding (<code>syntax error at or near "-"</code>) als je er niet aan denkt om de naam van het schema tussen dubbele
+          aanhalingstekens te zetten. Dat hoeft meestal niet, maar omwille van
+          het speciale karakter ‘-’ in de naam zijn de dubbele aanhalingstekens
+          verplicht. Had je de naam van het schema met ‘underscore’ (_)
+          geschreven, dan mocht je ze weglaten.
+</p> </div>  </section> <h4>In DBSchema connectie maken met dit schema</h4> <p>
+Dit deden we al in het begin van het hoofdstuk, zie <a href="#Een-schema-‘reverse-engineeren’">‘reverse engineering’</a>. Selecteer het schema dat je net hebt aangemaakt!
+</p> <h4>Model tekenen in DBSchema</h4> <p>
+We vertrekken nu van het logisch schema als basis voor het fysieke model.
+<em>Dat fysieke model tekenen we m.b.v. DBSchema</em>. Gelijktijdig met de
+      tekening bouwt DBSchema het model op de databankserver in het schema.
+</p> <section class="taak"> <p>
+Volg nu de stappen in onderstaande videos en voer ze zelf uit in je
+        eigen schema.
+</p>  </section> <section class="film"> <p>
+We maken eerst een schema via de poolingconnectie in pgAdmin, verbinden
+        vervolgens DBSchema met dit schema en tekenen de eerste tabel:
+</p> </section> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_73nuo2nt&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_qwf46ftf" width="1280" height="720" allowfullscreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation" frameborder="0" title="Kaltura Player"></iframe> </div> <section class="film"> <p>Definieer tabellen ‘acteur’ en ‘film’:</p> </section> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_9tlct9ku&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_qlaxq1bw" width="1280" height="720" allowfullscreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation" frameborder="0" title="Kaltura Player"></iframe> </div> <section class="film"> <p>
+Definieer de tussentabel en maak alle relaties tussen de tabellen
+        expliciet door sleutels over te brengen:
+</p> </section> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_ubrg89tk&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_g5u2olpg" width="1280" height="720" allowfullscreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation" frameborder="0" title="Kaltura Player"></iframe> </div> <p>Uiteindelijk bekom je dit fysiek model:</p> <figure class="center"> <img src="/assets/DBSchema/filmDBresultaat.png" alt=""> </figure> <h4>Aanpassingen maken in DBSChema</h4> <section class="film"> <p>
+Je kan op elk moment in DBSchema de tabellen aanpassen bvb. door ze te
+        dubbelklikken. Bij wijze van voorbeeld voegen we in twee tabellen een
+        extra voorwaarde (<code>CONSTRAINT</code>) toe:
+</p> </section> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_tm9dffkt&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_a0fsbu2s" width="1280" height="720" allowfullscreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation" frameborder="0" title="Kaltura Player"></iframe> </div> <h4>SQL code voor het hele schema opvragen en bewaren</h4> <p>
+Als je het fysiek model tekent, stuurt DBSchema SQL commando's naar de
+      databankserver. Die zie je trouwens aan de linkerkant van het DBSchema
+      venster, onder de rubriek ‘SQL History’.
+</p> <section class="film"> <p>
+Je kan de volledige SQL code in één keer laten genereren via de
+        menukeuze ‘Schema &gt; Export Schema and data (F2)’:
+</p> </section> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_pxkfkl13&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_rru61a7e" width="1280" height="720" allowfullscreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation" frameborder="0" title="Kaltura Player"></iframe> </div> <p>
+Je bekomt dan een aantal <code>CREATE</code> statements in deze stijl:
+</p> <p> <pre><code>CREATE SCHEMA IF NOT EXISTS &quot;u0012047-film&quot;;
+
+CREATE  TABLE &quot;u0012047-film&quot;.acteur (
+  id                   integer  NOT NULL  ,
+  naam                 varchar(60)  NOT NULL  ,
+  geboortedatum        date  NOT NULL  ,
+  nationaliteit        char(2)    ,
+  geslacht             char(1)    ,
+  CONSTRAINT pk_acteur PRIMARY KEY ( id )
+);
+
+CREATE  TABLE &quot;u0012047-film&quot;.regisseur (
+  id                   integer  NOT NULL  ,
+  naam                 varchar(60)  NOT NULL  ,
+  geboortedatum        date    ,
+  nationaliteit        char(2)  NOT NULL  ,
+  CONSTRAINT pk_regisseur PRIMARY KEY ( id )
+);
+
+CREATE  TABLE &quot;u0012047-film&quot;.film (
+  id                   integer  NOT NULL  ,
+  titel                varchar(100)  NOT NULL  ,
+  jaar                 integer  NOT NULL  ,
+  lengte               integer  NOT NULL  ,
+  rating               integer    ,
+  regisseur_id         integer  NOT NULL  ,
+  CONSTRAINT pk_film PRIMARY KEY ( id ),
+  CONSTRAINT fk_film_regisseur FOREIGN KEY ( regisseur_id )
+      REFERENCES &quot;u0012047-film&quot;.regisseur( id )
+);
+
+ALTER TABLE &quot;u0012047-film&quot;.film ADD CONSTRAINT cns_film_rating CHECK ( rating between 0 and 5 );
+
+CREATE  TABLE &quot;u0012047-film&quot;.acteur_film (
+  film_id              integer  NOT NULL  ,
+  acteur_id            integer  NOT NULL  ,
+  rol                  varchar(50)  NOT NULL  ,
+  CONSTRAINT pk_acteur_film PRIMARY KEY ( film_id, acteur_id ),
+  CONSTRAINT fk_acteur_film_acteur FOREIGN KEY ( acteur_id )
+      REFERENCES &quot;u0012047-film&quot;.acteur( id )   ,
+  CONSTRAINT fk_acteur_film_film FOREIGN KEY ( film_id )
+      REFERENCES &quot;u0012047-film&quot;.film( id )
+);</code></pre> </p> <section class="info"> <p>
+Bestudeer deze code goed. Kijk vooral naar de <code>CONSTRAINT</code> statements.
+<em>
+Bewaar deze code in een tekstbestand, met extensie .sql of .txt. Dit
+          bestand laat je toe om in pgAdmin het hele schema in één keer te
+          maken.
+</em> </p> <p>
+In de code staat er een <code>ALTER TABLE</code> statement. Daar is niets
+        mis mee, maar het is iets mooier als je wat na de <code>ADD</code>
+komt gewoon in de <code>CREATE</code> van de tabel ‘film’ bij zet. Om één
+        of andere reden doet DBSchema het altijd via een <code>ALTER TABLE</code>.
+</p> </section> <h2>Databank vullen met data</h2> <h3>Manueel met INSERT INTO</h3> <p>
+Je voegt rijen toe aan een tabel via <code>INSERT INTO</code> statements. <a href="/NL/SQL_intro/index.html#Data-toevoegen-met-INSERT-INTO">Je deed dit al in het inleidend hoofdstuk SQL.</a> </p> <section class="taak"> <div> <p>
+Start pgAdmin en voeg manueel volgende informatie toe. De film ‘Star
+          Wars’ kwam uit in 1977. De film heeft een lengte van 121 minuten en
+          werd geregisseerd door George Lucas (geboren 14 mei 1944). George
+          Walton Lucas Jr. is afkomstig van Modesto, California, US. Harrison
+          Ford (Chicago, US, geboren 13 juli 1942) speelt er de rol van Han
+          Solo. De rol van prinses Leia was voor de Amerikaanse actrice Carrie
+          Frances Fisher (21 oktober 1956, gestorven in 2016). Van mij krijgt
+          deze film 5 sterren!
+</p> <figure class="center"> <img src="/assets/DBSchema/starwars.jpg" alt=""> </figure> <p>
+Voeg in een query tool in pgAdmin deze informatie toe aan je schema.
+          Dit is een trage manier om data toe te voegen, maar het is wel een
+          goed startpunt. Het laat je immers nadenken over welke data je juist
+          moet toevoegen in welke volgorde.
+</p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>Voeg de twee acteurs toe:</p> <pre><code>INSERT INTO &quot;u0012047-film&quot;.acteur VALUES (1,&#39;Harrison Ford&#39;,&#39;1942-07-13&#39;,&#39;US&#39;,&#39;M&#39;);
+-- ipv altijd de naam van het schema te vermelden had je ook het search_path goed kunnen zetten
+INSERT INTO &quot;u0012047-film&quot;.acteur VALUES (2,&#39;Carrie Fisher&#39;,&#39;1956-10-21&#39;,&#39;US&#39;,&#39;V&#39;);</code></pre> <p>Dan de regisseur:</p> <pre><code>INSERT INTO &quot;u0012047-film&quot;.regisseur VALUES (1,&#39;George Lucas&#39;,&#39;1944-05-14&#39;,&#39;US&#39;);</code></pre> <p>Nu kunnen we de film-tabel vullen:</p> <pre><code>INSERT INTO &quot;u0012047-film&quot;.film VALUES (1,&#39;Star Wars&#39;,1977,121,5,1);</code></pre> <p>
+Tenslotte kan de tussentabel aangevuld worden zodat we de koppeling
+          maken tussen acteurs en films:
+</p> <pre><code>INSERT INTO &quot;u0012047-film&quot;.acteur_film VALUES (1,1,&#39;Han Solo&#39;);
+INSERT INTO &quot;u0012047-film&quot;.acteur_film VALUES (1,2,&#39;Prinses Leia&#39;);</code></pre> </div>  </section> <h3>Via een CSV bestand</h3> <p>
+Altijd code typen met <code>INSERT INTO … VALUES …</code> is nogal vervelend.
+      In <a href="/NL/SQL_CSV/">het hoofdstuk over CSV-bestanden</a> bekeken we een
+<em>sneller alternatief</em> via het importeren van een CSV bestand. Zo'n CSV-bestand
+      kan je best intikken in een rekenblad (Excel, Libre Office, Numbers, …) en
+      dan converteren naar CSV. Het blijft natuurlijk wel handwerk, maar als je een
+      kleine maar goede dataset wilt is het wel te verantwoorden.
+</p> <h3>Automatische datageneratie via een site</h3> <p>
+Als je je schema wilt testen met honderden films, regisseurs en duizenden
+      acteurs, moet je afstappen van het handmatig intikken van informatie. Als
+      je echt veel geluk hebt vind je een dataset over films, regisseurs en
+      acteurs en kan je daarvan vertrekken, kolommen weglaten, veranderen enz.
+</p> <p>Meestal heb je niet zoveel geluk …</p> <p>
+Je wilt om goed te kunnen testen realistisch uitziende data. De acteurs
+      hoeven niet echt te bestaan, zolang er een string is die een naam kan
+      zijn, een mogelijke geboortedatum enz.
+</p> <p>
+Om dit soort van testdata te genereren bestaat er vanzelfsprekend
+      software. We bekijken als voorbeeld even de website <a href="https://mockaroo.com">https://mockaroo.com</a>. In de gratis versie kan je tot 1000 rijen laten genereren per tabel.
+</p> <section class="film"> <p>
+De tabellen ‘acteur’ en ‘regisseur’ zijn eenvoudig, want die hangen van
+        geen enkele andere tabel af. Bij wijze van voorbeeld toont onderstaand
+        filmpje hoe je voor de tabel ‘acteur’ 1000 rijen kan genereren.
+</p> </section> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_7mxqk1fr&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_zapznca5" width="1280" height="720" allowfullscreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation" frameborder="0" title="Kaltura Player"></iframe> </div> <p>
+De twee andere tabellen (‘film’ en ‘acteur_film’) zijn wat moeilijker
+      omdat ze afhangen van andere tabellen via een vreemde sleutel (FK, blauwe
+      pijl in het schema). De tabel ‘film’ is nog relatief eenvoudig om te
+      voorzien van data. Elke film heeft een aantal klassieke kolommen en een
+      kolom ‘regisseur_id’. Deze laatste kolom is een ‘foreign key’, want ze
+      verwijst naar een kolom die een ‘primary key’ is in een andere tabel (nl.
+      de tabel ‘regisseur’). Stel dat je al 100 regisseurs (= rijen in de tabel
+      ‘regisseur’) hebt laten genereren, dan is de kans groot dat je die als id
+      een nummer van 1 tot 100 gaf. Je kan dus voor de kolom ‘regisseur_id’ een
+      random geheel getal van 1 tot 100 laten genereren.
+</p> <p>
+Voor de tussentabel ‘acteur_film’ kan je iets soortgelijks doen. Stel dat
+      je 100 films hebt en 500 acteurs. Voor ‘film_id’ genereer je in Mockaroo
+      dan een random geheel getal van 1 tot en met 100 en voor ‘acteur_id’ idem
+      maar dan tot en met 500. Maar nu komt het probleem: de combinatie van
+      ‘film_id’ en ‘acteur_id’ is een <em>samengestelde primaire sleutel</em>.
+      Dat wil dus zeggen dat <em>de combinatie van beide waarden uniek moet zijn</em>. Als je Mockaroo echter 1000 combinaties voor beide waarden laat
+      genereren, zal je merken dat er bijna zeker enkele combinaties meer dan
+      één keer voorkomen. Het gevolg is dat de <code>INSERT INTO</code> statements
+      die je uit Mockaroo haalt, een fout zullen geven als je ze plakt en uitvoert
+      in pgAdmin. <em>Er wordt dan niets ingevuld</em>. Gelukkig zie je in
+      pgAdmin dan wel de foutmelding van het DBMS met de melding in welke regel
+      het fout loopt. Die regel kan je dan verwijderen, opnieuw alles uitvoeren
+      in pgAdmin, volgende dubbele regel verwijderen enz. Een beetje vervelend
+      maar doenbaar.
+</p> <h3>Automatische datageneratie in DBSchema</h3> <p>
+In de betalende versie van DBSchema (die je dus de eerste twee weken na
+      installatie op proef krijgt en nadien nog twee weken kan verlengen) zit
+      een datagenerator ingebouwd. Die werkt gelijkaardig aan Mockaroo. Het
+      grote verschil is dat DBSchema wel geconnecteerd is met de databank en die
+<em>gegenereerde inserts automatisch kan uitvoeren</em>.
+</p> <p>
+En net deze eigenschap maakt het <em>invullen van tussentabellen</em> hier
+      een stuk fijner dan in tools als Mockaroo. In Mockaroo moest je nog zelf bekijken
+      wat de primaire sleutels van ‘acteur’ en ‘regisseur’ waren (getallen van 1
+      t.e.m. …). <em>
+DBSchema weet echter wat de primaire sleutels zijn en zal random één
+        ervan kiezen.
+</em> Bij tussentabellen gebeurt hetzelfde. Ook hier zal het dan onvermijdelijk
+      voorkomen dat er een combinatie van acteur en film gegenereerd wordt die al
+      bestaat in de databank. DBSchema blijft echter verder rijen genereren tot het
+      gewenste aantal bereikt wordt. Dubbels worden gewoon niet toegevoegd aan de
+      databank en de generator slaat deze combinatie gewoon over.
+</p> <section class="film"> <p>
+We tonen de datageneratie in DBSChema. Als je het menu-item ‘data
+        generator’ niet kan kiezen, dan heb je de gratis community edition van
+        DBSchema. Je kan dan eventueel via een formulier op de site van DBSchema
+        een aanvraag doen voor extra twee weken pro-versie.
+</p> </section> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_6gntge3t&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_5o8l3k81" width="1280" height="720" allowfullscreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation" frameborder="0" title="Kaltura Player"></iframe> </div> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

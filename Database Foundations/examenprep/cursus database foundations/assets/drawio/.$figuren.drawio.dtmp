@@ -1,0 +1,45 @@
+<mxfile host="Electron" modified="2023-06-08T11:53:57.197Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.2.8 Chrome/112.0.5615.165 Electron/24.2.0 Safari/537.36" etag="cVclLzdKr3mGSe4L87J5" version="21.2.8" type="device" pages="2">
+  <diagram name="entiteittypes" id="lHj6TM9JzhMTh4q70t-3">
+    <mxGraphModel dx="794" dy="1214" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="1n2yLhJPSJg2t17yOx38-1" value="&lt;font data-font-src=&quot;https://fonts.googleapis.com/css?family=Noto+Sans&quot; face=&quot;Noto Sans&quot;&gt;Klant&lt;/font&gt;" style="whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
+          <mxGeometry x="780" y="600" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="1n2yLhJPSJg2t17yOx38-2" value="&lt;font data-font-src=&quot;https://fonts.googleapis.com/css?family=Noto+Sans&quot; face=&quot;Noto Sans&quot;&gt;Product&lt;/font&gt;" style="whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
+          <mxGeometry x="620" y="600" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="1n2yLhJPSJg2t17yOx38-3" value="&lt;font data-font-src=&quot;https://fonts.googleapis.com/css?family=Noto+Sans&quot; face=&quot;Noto Sans&quot;&gt;Wagen&lt;/font&gt;" style="whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
+          <mxGeometry x="940" y="600" width="100" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="ZKKLbPunLPlbJbnRIr9J" name="Oef1-entiteittype">
+    <mxGraphModel dx="794" dy="1214" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ZcJW9wKsFohYBw6tuRpi-1" value="Lid" style="whiteSpace=wrap;html=1;align=center;fontFamily=Noto Sans;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="210" y="200" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ZcJW9wKsFohYBw6tuRpi-2" value="Inschrijving" style="whiteSpace=wrap;html=1;align=center;fontFamily=Noto Sans;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="210" y="280" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ZcJW9wKsFohYBw6tuRpi-3" value="Groep" style="whiteSpace=wrap;html=1;align=center;fontFamily=Noto Sans;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="400" y="280" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ZcJW9wKsFohYBw6tuRpi-4" value="Leeftijdsklasse" style="whiteSpace=wrap;html=1;align=center;fontFamily=Noto Sans;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="400" y="200" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ZcJW9wKsFohYBw6tuRpi-5" value="Activiteit" style="whiteSpace=wrap;html=1;align=center;fontFamily=Noto Sans;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="210" y="360" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ZcJW9wKsFohYBw6tuRpi-6" value="Activiteittype" style="whiteSpace=wrap;html=1;align=center;fontFamily=Noto Sans;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DNoto%2BSans;" vertex="1" parent="1">
+          <mxGeometry x="400" y="360" width="100" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

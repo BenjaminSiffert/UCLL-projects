@@ -1,0 +1,254 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>SQL: Subquery&#39;s</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">Programming, it turns out, is hard. The fundamental rules are
+          typically simple and clear. But programs built on top of these rules
+          tend to become complex enough to introduce their own rules and
+          complexity. You’re building your own maze, in a way, and you might
+          just get lost in it.</span> <br>
+&mdash;Marijn Haverbeke
+</p> </blockquote> <h1>Subquery's</h1> <h2>Schema studenten_campus</h2> <section class="info"> <p>
+Bekijk even het ERD van de figuur. Je vindt het schema
+        ‘studenten_campus’ in de databank ‘df’ via de pooling-connectie (of de
+        5… connectie). Doe even een <code>SELECT *</code> van beide tabellen om een
+        idee te krijgen van de informatie die het schema bevat.
+</p> </section> <figure class="center"> <img src="/assets/subquery/ERD_student_campus.png" alt=""> </figure> <p>
+Het gaat concreet om een opsomming van alle acht campussen van UCLL en een
+      tabel met 1000 studenten met per student enkele persoonlijke gegevens,
+      naar welke campus ze gaan (een student kan in dit model maar tot één
+      campus behoren) en hoe ver ze wonen van deze campus. Dat laatste veld is
+      niet verplicht. We maakten dit schema trouwens als voorbeeld voor
+      automatische datageneratie in DBSchema of met behulp van een site zoals <a href="https://mockaroo.com">https://mockaroo.com</a>.
+</p> <h2>Wie woont verder van een campus dan de gemiddelde afstand?</h2> <p>
+Er zijn meerdere soorten SQL-vragen. Eén soort vraagt enkel het antwoord
+      te geven op een vraag. Dat kan een getal zijn, één of meerdere namen, een
+      datum, ... Voor dit type vraag hoef je de gebruikte query(s) niet te
+      geven. Enkel het antwoord is voldoende. Een voorbeeld van een dergelijke
+      vraag is de volgende oefening. Maak die en controleer je antwoord.
+</p> <section class="taak"> <p>
+Hoeveel studenten wonen verder van hun campus dan de gemiddelde afstand?
+        Enkel het antwoord is gevraagd, niet de query’s die je gebruikte. Vind
+        je het juiste antwoord: 401 studenten?
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Dit is een typisch een vraag die je snel kan oplossen met twee
+          eenvoudige query's. De eerste query zoekt het gemiddelde van alle
+          afstanden:
+<pre><code>SELECT AVG(afstand_tot_campus)
+FROM student;</code></pre>
+Het resultaat van deze query is 52.01658. Merk op dat null-waarden
+          niet meetellen om een gemiddelde te berekenen, zoals <a href="https://www.postgresql.org/docs/15/functions-aggregate.html">de documentatie kort vermeldt bij de functie ‘avg’</a>.
+</p> <p>
+Je kan nu dit getal gebruiken in een volgende query:
+<pre><code>SELECT count(*). -- of eventueel gewoon * en dan aantal rijen aflezen in de query tool
+FROM student
+WHERE afstand_tot_campus &gt; 52.01658;</code></pre> </p> </div>  </section> <p>
+Voor dit type van SQLvraag antwoord je dus gewoon ‘401’. Prima, punt
+      verdiend!
+</p> <p>
+Voor een ander type examenvraag moet je echter de query geven. Bovendien
+      mag je maar één query geven, die je lector moet kunnen kopiëren en
+      uitvoeren in pgAdmin. Een oplossing met twee aparte query’s, waarbij je
+      dan het antwoord van de eerste moet kopiëren naar de tweede query is niet
+      toegelaten.
+</p> <p>
+Bovenstaande oefening heeft een elegante oplossing: een <em>subquery</em> gebruiken
+      (ook wel ‘geneste query’ genoemd). Volgende query geeft de oplossing (401)
+      van de oefening in één query:
+<pre><code>SELECT COUNT(*)
+FROM student
+WHERE afstand_tot_campus &gt; (
+  SELECT AVG(afstand_tot_campus)
+  FROM student
+);</code></pre> </p> <p>
+In de <code>WHERE</code> clause wordt er een nieuwe <code>SELECT</code> gestart.
+      Deze query noemen we de binnenquery (‘inner query’). De query errond wordt
+      dan de buitenquery (‘outer query’) genoemd. Je kan verschillende niveau’s diep
+      nesten. Een subquery kan één of meerdere rijen teruggeven aan de oproepende
+      query. Het bovenstaande is een voorbeeld van een <em>scalaire</em> subquery:
+      de subquery geeft immers enkel <em>één getal</em> terug. Je kan een subquery
+      nesten in de <code>SELECT</code>, <code>FROM</code>, <code>WHERE</code> of
+<code>HAVING</code> clause.
+</p> <h2>Gemiddelde afstand van Proximus-studenten</h2> <h3>Twee versies van dezelfde oefening</h3> <p>Los nu de volgende oefening op met een subquery:</p> <section class="taak"> <p>
+Geef de gemiddelde afstand tot de campus van alle studenten die naar
+        campus Proximus gaan. Gebruik één query met een subquery. Het antwoord
+        is: 49.0319
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT avg(afstand_tot_campus)
+FROM student
+WHERE campus_id = (
+  SELECT id
+  FROM campus
+  WHERE naam = &#39;Campus Proximus&#39;
+);</code></pre> </div>  </section> <p>
+Misschien dacht je bij het lezen van bovenstaande opgave ‘dat kan ik toch
+      ook gewoon met een <code>JOIN</code>?’. Terecht! Los nu dezelfde oefening
+      op zonder subquery door enkel een <code>JOIN</code> te gebruiken:
+</p> <section class="taak"> <p>
+Geef de gemiddelde afstand tot de campus van alle studenten die naar
+        campus Proximus gaan m.b.v. een <code>JOIN</code>.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT avg(afstand_tot_campus)
+FROM student S INNER JOIN campus C on S.campus_id = C.id
+WHERE C.naam = &#39;Campus Proximus&#39;</code></pre> </div>  </section> <h3>Kiezen tussen JOIN en subquery</h3> <p>
+Soms heb je geen keuze en moet je een subquery gebruiken, zoals bij de
+      eerste oefening. Die kan je niet oplossen met een <code>JOIN</code>.
+      Omgekeerd heb je voor sommige vragen een <code>JOIN</code> nodig. Vaak heb
+      je echter de keuze tussen een subquery en een <code>JOIN</code>. Het is
+      moeilijk om eenduidig te omschrijven wat de beste keuze is. Voor complexe
+      queries is een <code>JOIN</code> vaak <em>efficiënter</em>. Een subquery
+      is meestal wel eenvoudiger leesbaar.
+</p> <p>
+Je moet in elk geval beide types van query kunnen gebruiken. Het is
+      mogelijk dat je bij een bepaalde vraag in een opdracht expliciet één van
+      beide zal moeten gebruiken.
+</p> <h2>Subquery met IN operator</h2> <p>
+We bekeken de <code>IN</code> operator al <a href="/NL/SQL_where/index.html#IN">in het hoofdstuk over de <code>WHERE</code> clause</a>. Achter de <code>IN</code> kan het resultaat van een subquery komen. Maak
+      nu de volgende oefening.
+</p> <section class="taak"> <div> <p>
+Toon de vijf oudste studenten die op een campus in Heverlee zitten.
+          Werk met een subquery.
+</p> <figure class="center"> <img src="/assets/subquery/oudste5Heverlee.png" width="350" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT voornaam || &#39; &#39; 
+    || familienaam AS naam, geboortedatum
+FROM student
+WHERE campus_id IN (
+  SELECT id
+  FROM campus
+  WHERE locatie = &#39;Heverlee&#39;
+)
+ORDER BY geboortedatum
+LIMIT 5</code></pre> </div>  </section> <section class="taak"> <p>
+Ook dit voorbeeld kan perfect met een <code>JOIN</code> opgelost worden.
+        Hermaak de oefening met een <code>JOIN</code>.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT voornaam || &#39; &#39;
+    || familienaam AS naam, geboortedatum
+FROM student S INNER JOIN campus C ON S.campus_id = C.id
+WHERE locatie = &#39;Heverlee&#39;
+ORDER BY geboortedatum
+LIMIT 5</code></pre> </div>  </section> <h2>Subquery met de ALL operator</h2> <p>
+De <code>ALL</code> operator vergelijkt een waarde met <em>elke</em> waarde
+      van de resultaattabel. We illustreren dit met volgende voorbeeld.
+</p> <p>
+Maak een lijst van alle studenten die jonger zijn dan alle studenten van
+      wie de voornaam begint met ‘Al’. Dit zou je opnieuw met twee query’s
+      kunnen oplossen. Vraag eerst de geboortedata op van alle studenten met de
+      gevraagde voornaam:<pre><code>SELECT geboortedatum
+FROM student
+WHERE (voornaam like &#39;Al%&#39;)
+ORDER BY geboortedatum DESC</code></pre> </p> <p>
+Het blijkt dat de jongste van deze studenten geboren is op 27 februari
+      2004. Je kan nu in een tweede query alle studenten opvragen met een
+      geboortedatum groter dan (want ze moeten jonger zijn!) deze datum:<pre><code>SELECT *
+FROM student
+WHERE geboortedatum &gt; &#39;2004-02-27&#39;
+ORDER BY geboortedatum DESC</code></pre> </p> <p>Je vindt uiteindelijk een lijst van 22 studenten.</p> <p>
+Deze twee opeenvolgende query’s kan je combineren in één query door
+      gebruik te maken van een subquery. Je vindt dezelfde 22 studenten:<pre><code>SELECT *
+FROM student
+WHERE geboortedatum &gt; ALL (
+  SELECT geboortedatum
+  FROM student
+  WHERE voornaam LIKE &#39;Al%&#39;
+)
+ORDER BY geboortedatum DESC</code></pre> </p> <p>
+De volgende oefening ziet er op het eerste zicht niet zo moeilijk uit,
+      maar er is een onverwacht probleem waar je misschien wel wat mee zal
+      worstelen. Tips en oplossing vind je op de gebruikelijke plaats, maar
+      probeer eerst zelf!
+</p> <section class="taak"> <div> <p>
+Geef een lijst van alle studenten die dichter wonen bij hun campus dan
+          alle studenten die naar een campus in Diest gaan en waarvan de
+          familienaam twee keer de letter ‘a’ bevat (hoofdletters mogen ook). Je
+          mag maar één query gebruiken (die natuurlijk wel subquery’s mag
+          bevatten). Rangschik volgens stijgend campus_id en dalende afstand.
+</p> <figure class="center"> <img src="/assets/subquery/afstandDiest.png" alt=""> </figure> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Het is een goed idee om een dergelijke oefening eerst in stukjes op te
+          lossen. Deelvraag 1: wat is het campus_id van de campus(sen) in Diest?
+<pre><code>SELECT id
+FROM campus
+WHERE locatie = &#39;Diest&#39;</code></pre> </p> <p>
+Er blijkt maar één campus in Diest te zijn, nl. de campus met id = 2.
+          Hiermee kunnen we nu deelvraag 2 beantwoorden: geef alle studenten uit
+          deze campus die een familienaam met twee keer (hoofd- of kleine letter
+          maakt niet uit) een ‘a’ hebben.
+<pre><code>SELECT *
+FROM student
+WHERE lower(familienaam) LIKE &#39;%a%a%&#39; AND campus_id = 2
+ORDER BY afstand_tot_campus ASC</code></pre> </p> <p>
+Ga na dat het resultaat effectief alleen studenten bevat die naar
+          campus 2 gaan en een familienaam met minstens 2 keer de letter ‘a’
+          hebben. De kleinste afstand blijkt 15 km te zijn. Tenslotte kunnen we
+          het laatste deel van de vraag beantwoorden: alle studenten uit de
+          student-tabel die minder dan 15 km van hun campus wonen:
+<pre><code>SELECT *
+FROM student
+WHERE afstand_tot_campus &lt; 15
+ORDER BY campus_id ASC, afstand_tot_campus DESC</code></pre> </p> <p>
+Dit blijkt een lijst van 106 studenten te zijn. Alles samenpuzzelen
+          tot één grote query, met twee subquery's erin is nu niet meer zo
+          moeilijk:
+<pre><code>SELECT *
+from student
+WHERE afstand_tot_campus &lt; ALL (
+  SELECT afstand_tot_campus
+  FROM student
+  WHERE lower(familienaam) LIKE &#39;%a%a%&#39; AND campus_id IN (
+    SELECT id
+    FROM campus
+    WHERE locatie = &#39;Diest&#39;
+  )
+)
+ORDER BY campus_id ASC, afstand_tot_campus DESC</code></pre> </p> <p> <em>Toch blijkt deze query niet het juiste resultaat te geven. Het
+            resultaat bevat immer geen enkele rij! Wat is er aan de hand?</em> </p> <p>
+Het probleem zit in deelvraag 2. De lijst met alle studenten uit
+          campus 4 met twee keer een ‘a’ in de familienaam bevat immers een
+          aantal null waarden in de afstand. Elke vergelijking van een getal met
+          een null geeft altijd een null, zoals deze query aantoont:
+<pre><code>SELECT null &gt; 999 -- resultaat is niet true of false maar null
+SELECT null &lt;= 999 -- resultaat is niet true of false maar null</code></pre> </p> <p>
+Het gevolg is dat elke test <code>WHERE afstand_tot_campus &lt; ALL ...</code> altijd zal mislukken en er dus geen enkele rij overblijft in het resultaat.
+          Gelukkig is de oplossing niet zo moeilijk: <em>
+vermijd in deelvraag 2 null waarden in het resultaat
+</em>. We voegen dus één enkele voorwaarde in de eerste subquery bij:
+<pre><code>SELECT *
+from student
+WHERE afstand_tot_campus &lt; ALL (
+  SELECT afstand_tot_campus
+  FROM student
+  WHERE lower(familienaam) LIKE &#39;%a%a%&#39;
+    AND afstand_tot_campus IS NOT null --Vermijd null in het deelresultaat
+    AND campus_id IN (
+      SELECT id
+      FROM campus
+      WHERE locatie = &#39;Diest&#39;
+    )
+)
+ORDER BY campus_id ASC, afstand_tot_campus DESC</code></pre> </p> </div>  </section> <h2>Subquery met de ANY operator</h2> <p>
+De <code>ANY</code> operator vergelijkt een waarde met elke waarde in een tabel
+      en is voldaan <em>als de vergelijking minstens voor één waarde uit de tabel geldt</em>. De tabel waarmee vergeleken wordt, moet minstens één waarde bevatten.
+      Het voorbeeld hieronder legt het principe uit.
+</p> <p>
+We willen een lijst van alle studenten van campus 7 die ouder zijn dan
+      minstens één student van campus 4. Volgende code geeft een lijst van 135
+      studenten die voldoen aan de voorwaarde:<pre><code>SELECT *
+FROM student
+WHERE campus_id = 7 AND geboortedatum &lt; ANY(
+  SELECT geboortedatum
+  FROM student
+  WHERE campus_id = 4
+);</code></pre> </p> <p>
+Zoals altijd is het een goed idee om een query goed te ontleden om te
+      snappen hoe alles werkt. Laten we even de lijst opvragen van alle
+      studenten van campus 7:<pre><code>SELECT *
+FROM student
+WHERE campus_id = 7</code></pre> </p> <p>
+Die lijst bevat 136 studenten, dus eentje meer dan de eerste query! We
+      onderzoeken even snel waar het verschil zit.
+</p> <p>
+We zoeken eerst de jongste student van campus 4:<pre><code>SELECT *
+FROM student
+WHERE campus_id = 4
+ORDER BY 4 DESC</code></pre> </p> <p>
+Dat blijkt Lisa Vargas te zijn, geboren op 30 september 2004. In campus 7
+      is er echter één student die nog jonger is dan Lisa Vargas, nl. Kate
+      Gonzales, geboren op 12 oktober 2004. Zij voldoet dus niet aan de
+      voorwaarde met de <code>ANY</code> en staat bijgevolg niet in het resultaat.
+</p> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

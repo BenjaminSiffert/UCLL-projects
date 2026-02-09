@@ -1,0 +1,199 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>SQL: WHERE</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">Code is there to explain the comments to the computer.</span> <br>
+&mdash;Andy Harris
+</p> </blockquote> <h1>De WHERE clause in detail</h1> <p></p> <section class="leerdoel"> <ul></ul> </section> <p>
+In een <code>SELECT</code> statement zoals: <pre><code>SELECT opocode, coordinator
+FROM opleidingsonderdeel
+WHERE coordinator = &#39;u0012047&#39;</code></pre> wordt eerst de <code>FROM</code> clause uitgevoerd door de databankserver.
+      Heel de tabel ‘opleidingsonderdeel’ wordt in het werkgeheugen ingeladen. Ik
+      weet het: we vallen in herhaling, maar dit is echt essentieel om query’s te
+      kunnen schrijven.
+</p><p>
+Daarna wordt de <code>WHERE</code> clause bekeken (indien aanwezig). Alleen
+      de rijen <em>die voldoen aan de voorwaarde</em> in de <code>WHERE</code> blijven
+      bewaard. Alle andere rijen verdwijnen uit het geheugen. Pas daarna komt de
+<code>SELECT</code>. In dit stukje bekijken we meer specifiek een aantal
+      mogelijkheden van de <code>WHERE</code>.
+</p> <section class="info"> <p>
+Je kan de codevoorbeelden testen in de tabel ‘opleidingsonderdeel’ van
+        het schema ‘uclloket’ (of in je eigen versie van deze tabel in je
+        persoonlijk schema).
+</p> </section> <h2>Standaard vergelijkingsoperatoren</h2> <p>
+SQL voorziet de standaard vergelijkingsoperatoren: <code>=</code> (gelijk aan),
+<code>&lt;&gt;</code> of <code>!=</code> (niet gelijk aan), <code>&gt;</code> (groter dan), <code>&lt;</code> (kleiner dan), <code>&gt;=</code> (groter
+      dan of gelijk aan) en <code>&lt;=</code> (kleiner dan of gelijk aan). Je kan
+      getallen, strings en datum of tijd vergelijken. Volgende query toont alle OPO’s
+      die een startdatum voor 5 april 2017 hebben:
+</p> <pre><code>SELECT *
+FROM opleidingsonderdeel
+WHERE van &lt; &#39;2017-04-05&#39; -- datum in ISO-formaat met enkele aanhalingstekens invoeren</code></pre> <p>
+Een datum die <em>meer in het verleden</em> ligt is <em>kleiner</em> dan een
+      latere datum, zoals je logisch mag verwachten.
+</p> <p>
+Bij het vergelijken van strings komt er iets meer kijken. Jammer genoeg is
+      het resultaat <em>databasespecifiek</em>. Dat 'a' &lt; 'b' is evident,
+      maar hoe zit het met de vergelijking van 'a' en 'A'? Weet je wat, we
+      proberen het gewoon uit in PostgreSQL:
+<pre><code>SELECT &#39;a&#39; &lt; &#39;A&#39;</code></pre> </p> <p>
+Het resultaat is <code>true</code>. We besluiten: <em>in PostgreSQL</em> komen
+      kleine letters voor de hoofdletters. In een ander DBMS is het mogelijk net
+      omgekeerd.
+</p> <p>
+En wat met een vergelijking tussen 'aap' en 'appel' en tussen 'appel' en
+      'appelmoes'? Even testen:<pre><code>SELECT &#39;aap&#39; &gt; &#39;appel&#39;;
+SELECT &#39;appel&#39; &gt; &#39;appelmoes&#39;</code></pre> </p> <p>
+Het resultaat is twee keer <code>false</code>. De vergelijking tussen twee
+      strings gebeurt namelijk <em>letter per letter van links naar rechts</em>.
+      Bij 'aap' en 'appel' zijn de eerste letters gelijk, dus wordt de tweede
+      letter bekeken. De tweede ‘a’ van 'aap' is kleiner dan de ‘p’ van 'appel'
+      en dus is <code>'aap' &lt; 'appel'</code>.
+</p> <p>
+Het woord 'appel' is kleiner dan 'appelmoes'. De letters worden één voor
+      één bekeken. Na vijf overeenkomende letters is er geen zesde letter meer
+      in de string 'appel' en dus is dit woord kleiner (<em>korter</em>) dan het
+      langere woord 'appelmoes'.
+</p> <h2>IS (NOT) NULL</h2> <p>
+De waarde <code>NULL</code> in een veld betekent ‘onbekend’. Je kan vanzelfsprekend
+      ook testen op deze speciale waarde. Je moet er alleen aan denken dat je niet
+<code>=</code> gebruikt maar wel <code>IS</code>. Volgende query toont een
+      lijst van alle OPO’s waarvan nog niet bekend is wanneer die gaan stoppen:<pre><code>SELECT *
+FROM opleidingsonderdeel
+WHERE tot IS NULL -- dus niet = NULL</code></pre> </p> <p>
+Omgekeerd geeft de volgende query de lijst van alle OPO’s die wel een
+      einddatum hebben (en die dus niet meer gegeven worden of waarvan nu al
+      geweten is tot wanneer deze OPO’s in het curriculum zullen staan): <pre><code>SELECT *
+FROM opleidingsonderdeel
+WHERE tot IS NOT NULL</code></pre> </p> <h2>Stringpatronen met LIKE</h2> <p>
+Soms wil je niet zoeken op de volledige waarde van een string, maar
+      slechts op een deel. Stel dat je een lijst wilt van alle OPO’s die het
+      woord ‘web’ ergens in de naam hebben (zowel met grote of kleine letter).
+      We weten al <a href="/NL/SQL_select/index.html#Stringfuncties">uit een vorig stuk</a> dat we de functie <code>lower()</code> zeker nuttig zullen gebruiken in deze
+      query om alle hoofdletters naar kleine letters om te zetten. Maar hoe testen
+      we op ‘web’ ergens in de naam?
+</p> <p>
+Dat kan op verschillend manieren (o.a. met <a href="https://www.postgresql.org/docs/current/functions-matching.html">reguliere expressies</a>). We bekijken hier <em>de eenvoudigste manier</em> m.b.v. <code>LIKE</code> en een patroon. In dat patroon kan je naast gewone letters ook twee speciale
+      tekens gebruiken:
+</p><ul> <li><code>%</code>: 0 of meerdere karakters;</li> <li><code>_</code> (underscore): juist 1 karakter.</li> </ul>  <p>
+De volgende query zoekt alle namen die ergens in de naam de substring
+      ‘web’ bevatten (hoofdletters/kleine letters maken niet uit):<pre><code>SELECT opocode, naam, semester
+FROM opleidingsonderdeel
+WHERE lower(naam) LIKE &#39;%web%&#39;</code></pre> </p> <p>Maak nu de volgende oefeningen.</p> <section class="taak"> <p>
+Omschrijf in woorden wat volgende LIKE strings zoeken:
+<pre><code>... LIKE &#39;B%&#39;
+... LIKE &#39;_e%&#39;
+... LIKE &#39;%e%e%e%&#39;
+... LIKE &#39;__a_b%&#39;</code></pre> </p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>... LIKE &#39;B%&#39; --alle strings die beginnen met hoofdletter B
+... LIKE &#39;_e%&#39; --alle strings die als tweede letter een e hebben
+... LIKE &#39;%e%e%e%&#39; --alle strings die minstens drie keer een e hebben
+... LIKE &#39;__a_b%&#39; --alle strings met een a als derde en een b als vijfde letter</code></pre> </div>  </section> <section class="taak"> <p>
+Geef de SQL query waarmee je een lijst genereert van alle lectoren
+        waarvan de lectorcode eindigt op het cijfer 4 met de naam van het OPO
+        waarvoor ze verantwoordelijk zijn.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT coordinator, naam
+FROM opleidingsonderdeel
+WHERE coordinator like &#39;%4&#39;
+-- je had eventueel ook substring() kunnen gebruiken. Probeer je eens op die manier?</code></pre> </div>  </section> <h2>Rijen behouden die NIET aan een voorwaarde voldoen</h2> <p>
+Met een voorwaarde (conditie) in de <code>WHERE</code> clause houden we alleen
+      die rijen over die voldoen aan die voorwaarde. Wat als je nu net alle andere
+      rijen wilt hebben, dus die <em>niet</em> voldoen aan de voorwaarde? Hiervoor
+      bestaat het keyword <code>NOT</code>. Volgende query geeft alle OPO’s die
+      niet voldoen aan de voorwaarde, dus die niet beginnen met de letters
+      ‘Web’:<pre><code>SELECT opocode, naam, semester
+FROM opleidingsonderdeel
+WHERE NOT naam LIKE &#39;Web%&#39;</code></pre> </p> <section class="taak"> <p>
+Geef een overzicht van alle OPO’s (opocode, naam en aantal studiepunten)
+        waarvan de naam geen enkele ‘a’ (enkel kleine letter, hoofdletter ‘A’
+        mag wel voorkomen) bevat. Schrijf de query. Wat pas je aan in je
+        oplossing als ook de hoofdletter ‘A’ niet mag voorkomen?
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT opocode, naam, studiepunten
+FROM opleidingsonderdeel
+WHERE NOT naam like &#39;%a%&#39; -- aanpassing: NOT lower(naam) like &#39;%a%&#39;</code></pre> </div>  </section> <h2>Condities koppelen met AND en OR</h2> <p>
+We kunnen meerdere voorwaarden koppelen met <code>AND</code> en <code>OR</code>, trouwens ook in combinatie met <code>NOT</code> te gebruiken:
+</p> <ul> <li> <code>A AND B</code>: enkel <code>TRUE</code> als zowel A als B <code>TRUE</code> zijn;
+</li> <li> <code>A OR B</code>: <code>TRUE</code> als één van beide A of B of allebei
+<code>TRUE</code> zijn.
+</li> </ul> <section class="taak"> <p>
+Wat doet volgende query:<pre><code>SELECT *
+FROM opleidingsonderdeel
+WHERE taal = &#39;nl&#39; AND lower(naam) LIKE &#39;%prog%&#39;</code></pre> </p>  <button>Toon / verberg oplossing</button> <div class="oplossing">
+Deze query toont alle kolommen van die OPO’s die in het Nederlands
+        gegeven worden <em>en</em> waarvan de naar kleine letters omgezette naam
+        de string ‘prog’ bevat. Beide voorwaarden moeten tegelijk voldaan worden!
+</div>  </section> <section class="taak"> <p>
+Schrijf de query die de lijst genereert van alle OPO’s die in het
+        Nederlands of het Frans gegeven worden.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT *
+FROM opleidingsonderdeel
+WHERE taal = &#39;nl&#39; OR taal = &#39;fr&#39; -- we zien later een kortere manier om dit te noteren</code></pre> </div>  </section> <p>
+Je kan <em>meer dan twee voorwaarden koppelen</em>. Je moet echter wel
+      oppassen zoals volgend voorbeeld aantoont. Geef een lijst van alle OPO’s
+      die in het Nederlands of het Frans gegeven worden en die enkel in het
+      nieuwe curriculum zullen zitten. We proberen volgende query: <pre><code>SELECT *
+FROM opleidingsonderdeel
+WHERE taal = &#39;nl&#39; OR taal = &#39;fr&#39; AND tot IS NULL</code></pre> </p> <section class="taak"> <p>
+Deze query geeft het foute resultaat. Voer de query uit en leg uit
+        waarom dit resultaat niet klopt.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+De reden heeft te maken met de volgorde van de bewerkingen. Net zoals
+          je lang geleden leerde dat 3 + 4 · 2 moet gelezen worden als 3 + (4 ·
+          2) omdat de vermenigvuldiging voorrang heeft op de optelling, net zo
+          is er een volgorde in operatoren in een <code>WHERE</code>.
+</p> </div>  </section> <p>De volgorde van de operatoren is, van hoge prioriteit naar lage:</p> <ol> <li>
+eerst vergelijkingsoperatoren zoals <code>=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, …,
+</li> <li>dan <code>NOT</code>,</li> <li>vervolgens <code>AND</code> en</li> <li>tenslotte als allerlaatste <code>OR</code>.</li> </ol> <p>
+Dat betekent dat bovenstaande conditie niet gewoon van links naar rechts
+      uitgevoerd wordt, maar als <code>taal = 'nl' OR (taal = 'fr' AND tot IS NULL)</code>. Deze voorwaarde kan je vertalen als “alle Nederlandstalige OPO’s (van
+      heden of verleden, maakt niet uit) ofwel alle Franstalige die in het
+      huidige curriculum zitten”. Dat is niet wat we wilden.
+</p><p>
+De oplossing is: gebruik haakjes. De query zoals we hem bedoelden wordt
+      dus:<pre><code>SELECT *
+FROM opleidingsonderdeel
+WHERE (taal = &#39;nl&#39; OR taal = &#39;fr&#39;) AND tot IS NULL</code></pre> </p> <p>
+Bij complexe samengestelde voorwaarden zijn haakjes altijd een goed idee
+      omdat ze de leesbaarheid van je conditie verhogen.
+</p> <h2>BETWEEN</h2> <p>We beginnen met een eenvoudige oefening:</p> <section class="taak"> <p>
+Geef alle OPO’s (code, naam en SP) met 3 tot en met 8 SP.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT opocode, naam, studiepunten
+FROM opleidingsonderdeel
+WHERE studiepunten &gt;=3 AND studiepunten &lt;=8</code></pre> </div>  </section> <p>
+SQL biedt een wat kortere notatie voor dit soort query’s die beter
+      aansluit bij het gewone taalgebruik: <pre><code>SELECT opocode, naam, studiepunten
+FROM opleidingsonderdeel
+WHERE studiepunten BETWEEN 3 AND 8 -- beide grenzen zijn inbegrepen</code></pre> </p> <p>
+Als je op een examen zelf query’s moet schrijven, mag je altijd kiezen of
+      je voor de <code>BETWEEN</code> notatie of de iets langere versie gaat. Je
+      moet beide notaties natuurlijk wel snappen.
+</p> <h2>IN</h2> <p>
+Met het keyword IN kan je een voorwaarde <em>korter</em> noteren. Ook hier
+      weer een kleine oefening om te beginnen:
+</p> <section class="taak"> <p>
+Stel de query op die alle OPO’s toont waarvan de coördinator één van
+        volgende personen is: u0012047, u0015584, u0024689 en u0031447.
+</p>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <pre><code>SELECT opocode, naam, coordinator
+FROM opleidingsonderdeel
+WHERE coordinator = &#39;u0012047&#39; OR coordinator = &#39;u0015584&#39; OR
+  coordinator = &#39;u0024689&#39; OR coordinator = &#39;u0031447&#39;</code></pre> </div>  </section> <p>
+Beetje omslachtig, niet? Dat kan dus korter met <code>IN</code>: <pre><code>SELECT opocode, naam, coordinator
+FROM opleidingsonderdeel
+WHERE coordinator IN (&#39;u0012047&#39;,&#39;u0015584&#39;,&#39;u0024689&#39;,&#39;u0031447&#39;)</code></pre> </p> <h2>Overzicht operatoren</h2> <p>
+Hieronder vind je een overzicht van de meest gebruikte operatoren in een
+<code>WHERE</code> clause.
+</p> <div class="tabel"> <table> <thead> <tr><th>Operator</th><th>Functie</th><th>Voorbeeld</th></tr> </thead> <tbody> <tr> <td><code>=</code></td> <td>Gelijk aan</td> <td><code>WHERE naam = 'Jan Van Hee'</code></td> </tr> <tr> <td><code>&lt;&gt;</code> of <code>!=</code></td> <td>Niet gelijk aan</td> <td><code>WHERE academiejaar &lt;&gt; 2023</code></td> </tr> <tr> <td><code>&gt;</code></td> <td>Groter dan</td> <td><code>WHERE bedrag &gt; 250</code></td> </tr> <tr> <td><code>&lt;</code></td> <td>Kleiner dan</td> <td><code>WHERE bedrag &lt; 400</code></td> </tr> <tr> <td><code>&gt;=</code></td> <td>Groter dan of gelijk aan</td> <td><code>WHERE bedrag &gt;= 250</code></td> </tr> <tr> <td><code>&lt;=</code></td> <td>Kleiner dan of gelijk aan</td> <td><code>WHERE bedrag &lt;= 400</code></td> </tr> <tr> <td><code>BETWEEN</code></td> <td>Tussen twee waarden</td> <td><code>WHERE bedrag BETWEEN 250 AND 400</code></td> </tr> <tr> <td><code>IN</code></td> <td>Komt overeen met een waarde</td> <td><code>WHERE stad IN ('Leuven', 'Brussel', 'Gent')</code></td> </tr> <tr> <td><code>LIKE</code></td> <td>Volgt een patroon (met '%' of '_', hoofdlettergevoelig)</td> <td><code>WHERE naam LIKE 'Jan%'</code></td> </tr> <tr> <td><code>ILIKE</code></td> <td>Volgt een patroon (niet hoofdlettergevoelig)</td> <td><code>WHERE naam ILIKE 'jan%'</code></td> </tr> <tr> <td><code>NOT</code></td> <td>Negeert een voorwaarde</td> <td><code>WHERE naam NOT LIKE 'Jan%'</code></td> </tr> </tbody> </table> </div> <h2>Oefeningen SQLzoo</h2> <p>
+SQLzoo is een interactief oefenplatform. Je voert SQL-code in die het
+      systeem voor jou nakijkt. Het is een goed idee om deze oefeningen te
+      maken. Je leert immers werken met andere tabellen dan die die we in de
+      cursustekst doorlopend gebruiken.
+</p> <h3>Tabel ‘world’</h3> <p>Deze tabel bevat volgende gegevens van landen:</p> <ul> <li>naam</li> <li>continent</li> <li>oppervlakte</li> <li>aantal inwoners</li> <li>bruto binnenlands product</li> </ul> <section class="taak"> <p>
+Maak als kennismaking met deze tabel <a href="https://sqlzoo.net/wiki/SELECT_basics">oefeningenreeks 1</a>, met drie kleine oefeningen. Je gebruikt hier <code>WHERE</code>, <code>IN</code> en <code>BETWEEN</code> (en vanzelfsprekend <code>SELECT</code> en <code>FROM</code>).
+</p>  </section> <section class="taak"> <p>
+Maak <a href="https://sqlzoo.net/wiki/SELECT_Quiz">quiz 1</a> met 7 vragen
+        met een focus op <code>WHERE</code>.
+</p>  </section> <section class="taak"> <p> <a href="https://sqlzoo.net/wiki/SELECT_from_WORLD_Tutorial">Oefenreeks 2</a> op de ‘world’ tabel bevat 13 oefeningen in de stijl van de vorige, maar
+        met extra rekenfuncties zoals <code>ROUND</code> en stringmanipulatie.
+</p>  </section> <section class="taak"> <p> <a href="https://sqlzoo.net/wiki/BBC_QUIZ">Quiz 2</a> bevat opnieuw 7 vragen.
+        Let op de details!
+</p>  </section> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

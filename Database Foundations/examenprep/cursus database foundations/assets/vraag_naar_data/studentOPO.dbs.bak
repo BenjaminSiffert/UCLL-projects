@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="studentOPO" id="Project-a07" database="PostgreSQL" >
+	<schema name="studentopo" >
+		<table name="opo" prior="tbl" >
+			<column name="opocode" type="char" length="6" jt="1" mandatory="y" />
+			<column name="naam" type="varchar" length="60" jt="12" mandatory="y" />
+			<column name="sp" type="smallint" jt="5" mandatory="y" />
+			<index name="pk_opo" unique="PRIMARY_KEY" >
+				<column name="opocode" />
+			</index>
+		</table>
+		<table name="student" prior="tbl" >
+			<column name="rnummer" type="char" length="8" jt="1" mandatory="y" />
+			<column name="naam" type="varchar" length="50" jt="12" mandatory="y" />
+			<column name="geboortedatum" type="date" jt="91" mandatory="y" />
+			<index name="pk_student" unique="PRIMARY_KEY" >
+				<column name="rnummer" />
+			</index>
+		</table>
+		<table name="student_volgt_opo" prior="tbl" >
+			<column name="student" type="char" length="8" jt="1" mandatory="y" />
+			<column name="opo" type="char" length="6" jt="1" mandatory="y" />
+			<fk name="fk_student_volgt_opo_student" to_schema="studentopo" to_table="student" >
+				<fk_column name="student" pk="rnummer" />
+			</fk>
+			<fk name="fk_student_volgt_opo_opo" to_schema="studentopo" to_table="opo" >
+				<fk_column name="opo" pk="opocode" />
+			</fk>
+		</table>
+	</schema>
+	<layout name="Default Layout" id="Layout-2094" show_relation="columns" >
+		<entity schema="studentopo" name="opo" color="C1D8EE" x="704" y="64" />
+		<entity schema="studentopo" name="student" color="C1D8EE" x="48" y="48" />
+		<entity schema="studentopo" name="student_volgt_opo" color="C1D8EE" x="368" y="64" />
+	</layout>
+</project>

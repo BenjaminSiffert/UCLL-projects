@@ -1,0 +1,223 @@
+Situatie 1
+
+Geef per klant:
+
+het aantal dieren
+
+het aantal afspraken
+
+het aantal consulten
+
+SELECT customer.first_name, customer.last_name,
+       COUNT(DISTINCT animal.id) AS aantal_dieren,
+       COUNT(DISTINCT appointment.id) AS aantal_afspraken,
+       COUNT(DISTINCT consult.id) AS aantal_consulten
+FROM customer
+LEFT JOIN animal ON customer.id = animal.customer_id
+LEFT JOIN appointment ON animal.id = appointment.animal_id
+LEFT JOIN consult ON appointment.id = consult.id
+GROUP BY customer.first_name, customer.last_name;
+
+Situatie 2
+Geef dieren die wel afspraken hadden maar nog nooit een consult kregen.
+
+SELECT animal.name
+FROM animal
+JOIN appointment ON animal.id = appointment.animal_id
+LEFT JOIN consult ON appointment.id = consult.id
+GROUP BY animal.name
+HAVING COUNT(appointment.id) > 0
+AND COUNT(consult.id) = 0;
+
+Situatie 3
+
+Geef medewerkers die meer afspraken hebben dan het gemiddelde aantal afspraken per medewerker.
+SELECT employee.first_name, employee.last_name
+FROM employee
+JOIN employee_appointment ON employee.id = employee_appointment.employee_id
+GROUP BY employee.first_name, employee.last_name
+HAVING COUNT(employee_appointment.appointment_id) >
+(
+    SELECT AVG(aantal)
+    FROM (
+        SELECT COUNT(employee_appointment.appointment_id) AS aantal
+        FROM employee
+        LEFT JOIN employee_appointment
+            ON employee.id = employee_appointment.employee_id
+        GROUP BY employee.id
+    ) subquery
+);
+
+Situatie 4
+
+Geef klanten die meer dieren hebben dan de gemiddelde klant.
+
+SELECT customer.first_name, customer.last_name
+FROM customer
+JOIN animal ON customer.id = animal.customer_id
+GROUP BY customer.first_name, customer.last_name
+HAVING COUNT(animal.id) >
+(
+    SELECT AVG(aantal_dieren)
+    FROM (
+        SELECT COUNT(animal.id) AS aantal_dieren
+        FROM customer
+        LEFT JOIN animal ON customer.id = animal.customer_id
+        GROUP BY customer.id
+    ) subquery
+);
+
+Situatie 5
+
+Geef dieren die meer afspraken hebben dan het gemiddelde dier.
+SELECT animal.name
+FROM animal
+JOIN appointment ON animal.id = appointment.animal_id
+GROUP BY animal.name
+HAVING COUNT(appointment.id) >
+(
+    SELECT AVG(aantal)
+    FROM (
+        SELECT COUNT(appointment.id) AS aantal
+        FROM animal
+        JOIN appointment ON animal.id = appointment.animal_id
+        GROUP BY animal.id
+    ) subquery
+);
+
+Situatie 6
+
+Geef het gemiddeld aantal dieren per klant.
+SELECT AVG(aantal_dieren) AS gemiddeld_aantal_dieren
+FROM (
+    SELECT COUNT(animal.id) AS aantal_dieren
+    FROM customer
+    LEFT JOIN animal ON customer.id = animal.customer_id
+    GROUP BY customer.id
+) subquery;
+
+Situatie 7
+
+Geef het gemiddeld aantal afspraken per klant.
+SELECT AVG(aantal_afspraken) AS gemiddeld_aantal_afspraken
+FROM (
+    SELECT COUNT(appointment.id) AS aantal_afspraken
+    FROM customer
+    LEFT JOIN animal ON customer.id = animal.customer_id
+    LEFT JOIN appointment ON animal.id = appointment.animal_id
+    GROUP BY customer.id
+) subquery;
+
+Situatie 8
+
+Geef het gemiddeld aantal consulten per dier.
+SELECT AVG(aantal_consulten) AS gemiddeld_aantal_consulten
+FROM (
+    SELECT COUNT(consult.id) AS aantal_consulten
+    FROM animal
+    LEFT JOIN appointment ON animal.id = appointment.animal_id
+    LEFT JOIN consult ON appointment.id = consult.id
+    GROUP BY animal.id
+) subquery;
+
+Situatie 9
+
+Geef afspraken die meer medewerkers hebben dan gemiddeld.
+SELECT appointment.id
+FROM appointment
+JOIN employee_appointment
+    ON appointment.id = employee_appointment.appointment_id
+GROUP BY appointment.id
+HAVING COUNT(employee_appointment.employee_id) >
+(
+    SELECT AVG(aantal)
+    FROM (
+        SELECT COUNT(employee_appointment.employee_id) AS aantal
+        FROM appointment
+        LEFT JOIN employee_appointment
+            ON appointment.id = employee_appointment.appointment_id
+        GROUP BY appointment.id
+    ) subquery
+);
+
+Situatie 10
+
+Geef medewerkers die meer verschillende klanten bedienen dan het gemiddelde
+
+SELECT employee.first_name, employee.last_name
+FROM employee
+JOIN employee_appointment ON employee.id = employee_appointment.employee_id
+JOIN appointment ON employee_appointment.appointment_id = appointment.id
+JOIN animal ON appointment.animal_id = animal.id
+GROUP BY employee.first_name, employee.last_name
+HAVING COUNT(DISTINCT animal.customer_id) >
+(
+    SELECT AVG(aantal)
+    FROM (
+        SELECT COUNT(DISTINCT animal.customer_id) AS aantal
+        FROM employee
+        JOIN employee_appointment ON employee.id = employee_appointment.employee_id
+        JOIN appointment ON employee_appointment.appointment_id = appointment.id
+        JOIN animal ON appointment.animal_id = animal.id
+        GROUP BY employee.id
+    ) subquery
+);
+
+Situatie 11
+
+Verhoog de consultprijs met 10% voor dieren met meer dan 3 consulten.
+
+UPDATE consult
+SET price = price * 1.10
+WHERE id IN (
+    SELECT consult.id
+    FROM consult
+    JOIN appointment ON consult.id = appointment.id
+    JOIN animal ON appointment.animal_id = animal.id
+    GROUP BY animal.id
+    HAVING COUNT(consult.id) > 3
+);
+
+Situatie 12
+
+Verwijder afspraken in het verleden zonder medewerkers.
+
+DELETE FROM appointment
+WHERE date_time < CURRENT_TIMESTAMP
+AND id NOT IN (
+    SELECT appointment_id FROM employee_appointment
+);
+
+Situatie 13
+Verhoog de duur van afspraken met meer dan één medewerker.
+
+UPDATE appointment
+SET duration = duration + 15
+WHERE id IN (
+    SELECT appointment_id
+    FROM employee_appointment
+    GROUP BY appointment_id
+    HAVING COUNT(employee_id) > 1
+);
+
+Situatie 14
+
+Zet producten die nooit verkocht zijn op inactief (prijs = NULL).
+
+UPDATE product
+SET current_price = NULL
+WHERE id NOT IN (
+    SELECT product_id FROM purchase
+    UNION
+    SELECT product_id FROM purchase_at_reception
+);
+
+Situatie 15
+
+Verwijder klanten zonder dieren en zonder aankopen.
+
+DELETE FROM customer
+WHERE id NOT IN (SELECT customer_id FROM animal)
+AND id NOT IN (SELECT customer_id FROM purchase_at_reception);
+
+

@@ -1,8 +1,6 @@
 import os
 
-# -------------------------------
 # Team klasse
-# -------------------------------
 class Team:
     def __init__(self, name):
         self.name = name
@@ -55,9 +53,7 @@ class Team:
             return self.goals_scored > other.goals_scored
         return self.name < other.name
 
-# -------------------------------
 # Competition klasse
-# -------------------------------
 class Competition:
     def __init__(self):
         self.teams = {}
@@ -89,9 +85,7 @@ class Competition:
         with open(filename, "w") as f:
             f.write(self.display_table())
 
-# -------------------------------
 # Functie om match data in te lezen
-# -------------------------------
 def read_match_data_file(filename):
     matches = []
     with open(filename, "r") as f:
@@ -106,9 +100,7 @@ def read_match_data_file(filename):
             matches.append((team_a, team_b, score_a, score_b))
     return matches
 
-# -------------------------------
 # Functie om alles te verwerken
-# -------------------------------
 def process_match_data(match_data_file_name, output_file_name):
     # Debug: huidige werkmap
     print("Current working directory:", os.getcwd())
@@ -123,9 +115,7 @@ def process_match_data(match_data_file_name, output_file_name):
     competition.write_table(output_file_name)
     print(f"Output written to {output_file_name}")
 
-# -------------------------------
 # Main
-# -------------------------------
 if __name__ == "__main__":
     # Zorg dat match_data.txt in dezelfde map staat als dit script
     script_dir = os.path.dirname(os.path.abspath(__file__))

@@ -1,0 +1,147 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>Groepsopdracht rijschool</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">Nothing is impossible. The word itself says “I’m Possible”</span> <br>
+&mdash;Audrey Hepburn
+</p> </blockquote> <h1>Groepswerk modelleren</h1> <h2>Opdracht</h2> <p>
+Binnen dit vak hebben jullie geleerd wat een databank is, hoe jullie deze
+      kunnen modelleren, implementeren en vervolgens query's schrijven om data
+      in de databank toe te voegen en eruit te halen. Met dit project gaan
+      jullie het volledige proces van datamodel tot query's realiseren voor een
+      specifieke case. De case is onderaan beschreven, aan jullie om de
+      gevraagde databank uit te werken volgens het aangeleerde proces.
+</p> <p>
+Dit project wordt gerealiseerd door een <em>groep van maximum 4 studenten</em>. De groepen worden bepaald door de lectoren. De deadline voor het
+      indienen van jullie resultaat ligt op <strong>15 december 2023 om 23u59</strong>. Jullie dienen het resultaat in via de opdracht ‘Project opdracht’ die
+      jullie op Toledo terugvinden. Dit project staat op 6 punten. Een project
+      dat niet tegen de deadline wordt ingeleverd, resulteert in een 0.
+      Herkansing is niet mogelijk.
+</p> <p>
+Als je tweede zit hebt door dit OPO, vervallen de punten op de
+      groepsopdracht en staat het examen bijgevolg op 18 punten. Er zijn immers
+      twee punten op het portfolio dat je de eerste weken samenstelde en die
+      blijven behouden. Voor meer info: zie ECTS fiches (link op Toledo of via
+      je ISP).
+</p> <h2>In te leveren</h2> <p>Jullie werken volgende dingen uit:</p> <ol> <li>
+Een <em>conceptueel datamodel</em> waarin jullie onderstaande case uitwerken.
+        Het conceptueel datamodel wordt in draw.io uitwerkt en in pdf-formaat ingeleverd
+        met als naam ‘DF_conceptueel_team_XX.pdf’ waarbij je XX vervangt door jouw
+        teamnummer.
+</li> <li>
+Een <em>logisch datamodel</em> dat de vertaling doet van jullie conceptueel
+        datamodel naar een relationeel databankmodel. Het logische datamodel wordt
+        in draw.io uitwerkt en in pdf-formaat met als naam ‘DF_logisch_team_XX.pdf’
+        ingeleverd.
+</li> <li>
+Een <em>fysiek datamodel</em> dat de vertaling doet van jullie logisch datamodel
+        naar een databank in PostgreSQL. Jullie werken het fysiek datamodel bij voorkeur
+        uit in DBSchema en leveren het hieruit resulterende script in met als naam
+        ‘DF_create_database_team_XX.sql’. Aansluitend leveren jullie ook een .png
+        van jullie schema in (in DBSChema: Model &gt; Export as ... &gt; PNG image)
+        met als naam ‘DF_fysiek_team_XX.png’.
+</li> <li>
+Een tweede script dat <em>data</em> toevoegt aan de gecreëerde tabellen.
+        Dit script, met als naam ‘DF_insert_data_team_XX.sql’, vult de database op.
+</li> <li>
+Een derde script ‘DF_delete_database_team_XX.sql’, dat de aangemaakte
+        database <em>opruimt</em>. Jullie mogen geen gebruik maken van een <code>drop cascade</code>, maar moeten alle tabellen in de juiste volgorde afzonderlijk
+        verwijderen.
+</li> <li>
+Vijf <em>query's</em> die een resultaat uit de databank halen (<a href="#Query's">zie onderaan</a>). Jullie verzamelen de verschillende query's in één script
+        ‘DF_query_team_XX.sql’.
+</li> <li>
+Een maximaal 15 minuten durende <em>video</em> met als naam ‘DF_video_team_XX’
+        waarin jullie een demo geven van bovenstaande eindresultaten. Het formaat
+        van de video moet kunnen afgespeeld worden in <a href="http://www.videolan.org/vlc/">VLC</a>. In deze video toon je al je modellen en leg je uit hoe alles in
+        elkaar zit. Na het fysieke datamodel bouw je de hele databank op in
+        pgAdmin enkel door code te gebruiken. Dan toon je het uitvoeren van de
+        query's en tenslotte breek je het hele schema terug tabel voor tabel af.
+        Test één en ander ruim op voorhand technisch uit (software,
+        videoformaat, microfoon, …)!
+</li> </ol> <p>
+Jullie bundelen het geheel van de bovenstaande bestanden in één
+      ‘DF_project_team_XX.zip’ bestand. Dit .zip bestand leveren jullie in via
+      Toledo (Opdrachten &gt; Project (groep)). Eénmaal indienen per groep is
+      voldoende.
+</p> <h2>Rijschool</h2> <section class="info"> <p>
+Onderstaand case beschrijft een bedrijf, mensen, objecten en processen.
+        We laten met opzet heel wat details weg. Welke informatie wil men
+        bijhouden van een auto, leerling,werknemer, ... ? Je maakt hier zelf
+        zinvolle keuzes en motiveert die.
+</p> </section> <p>
+Een rijschool biedt lessen aan voor mensen die hun rijbewijs willen halen
+      of gewoon hun kennis en vaardigheden wat willen bijspijkeren. Je kan er
+      zowel terecht voor theoretische lessen als voor rijlessen. <a href="https://www.belgium.be/nl/mobiliteit/rijbewijs/categorieen">
+Alle types van voertuigen en rijbewijzen
+</a> worden aangeboden.
+</p> <figure class="center"> <img src="/assets/groepswerk/aanhanger-4-1024x685.jpg" alt=""> </figure> <p>
+Om dit allemaal in goede banen te leiden beschikt de rijschool over heel
+      wat medewerkers. Dat zijn vooral natuurlijk de lesgevers, maar er zijn ook
+      personeelsleden die zorgen voor de planning, administratie enz. Van de
+      lesgevers moet je natuurlijk weten over welke types rijbewijzen ze
+      beschikken, voor de administratieve werknemers is dat niet relevant. Er
+      zijn twee types lessen: theorie en praktijk.
+</p> <p>
+Een theorieles wordt gegeven door een lesgever en gaat altijd door in één
+      van de leslokalen van het bedrijf. Elke theorieles wordt gepland op een
+      bepaalde datum en uur, heeft een vastgelegde duur en gaat over een bepaald
+      onderwerp. Veel onderwerpen gaan natuurlijk specifiek over de wegcode als
+      voorbereiding voor het theorie-examen waar iedereen die het rijbewijs wil
+      halen eerst moet op slagen, vooraleer je op de baan kan beginnen oefenen.
+      Maar ook dingen zoals defensief rijden voor motards, ecologisch rijgedrag,
+      enz. komen aan bod. Er is een maximum aantal deelnemers per theorieles dat
+      meestal te maken heeft met de capaciteit van het lokaal (20 mensen), maar
+      soms ook met het specifieke onderwerp, waar dan kleinere groepen voorzien
+      kunnen worden.
+</p> <p>
+Een praktijkles (met de moto, auto, vrachtwagen …) heeft natuurlijk
+      gelijkaardige gegevens, maar het grote verschil is dat dit altijd
+      één-op-één onderwijs is. Het heeft geen zin om hiervoor een specifiek
+      onderwerp aan te geven, want tijdens een praktijkles komen heel wat
+      verschillende topics aan bod: parkeren, positie op de weg, snelheid,
+      voorrangsregels, defensief rijden enz. Een praktijkles maakt per definitie
+      gebruik van een voertuig: moto, auto, vrachtwagen … Het bedrijf heeft een
+      uitgebreide vloot van alle mogelijke voertuigen. Het spreekt voor zich dat
+      een leerling die een les boekt om te oefenen voor het motorrijexamen
+      categorie A als voertuig een motorfiets zal moeten krijgen en een lesgever
+      die bevoegd is om dit type van lessen te geven.
+</p> <p>
+Een leerling boekt een les: ofwel een theorieles, ofwel een praktijkles.
+      Bij een praktijkles krijgt de leerling op het einde van de les altijd een
+      evaluatie met opmerkingen.
+</p> <p>
+De rijschool heeft naast de hoofdzetel in Haasrode ook nog vestigingen in
+      Alken, Tienen, Sint-Niklaas en Gent. De faciliteiten in deze vestigingen
+      zijn vergelijkbaar met die in Haasrode.
+</p> <p>
+De administratie moet op elk moment een overzicht per vestiging kunnen
+      geven van alle lessen: welke lesgever geeft wanneer les aan welke leerling
+      in welk voertuig? Hoe zit het met lokaalbezetting? Wie van de lesgevers is
+      er beschikbaar voor welk type voertuig? Bedenk zelf nog heel wat vragen
+      waarop de databank het antwoord zou kunnen helpen formuleren!
+</p> <h2>Datageneratie</h2> <p>
+Je vult alle tabellen met <em>voldoende</em> data. Die data moet er <em>realistisch</em>
+uitzien. Meestal is een combinatie van handwerk (zelf data intypen) en automatische
+      datageneratie (via de datagenerator van DBSchema of online tools zoals Mockaroo)
+      een goed idee. Wat is trouwens ‘voldoende’? Moeilijk om daar een getal op te
+      plakken (“Je moet minstens … rijen hebben in die tabel”). We zouden zeggen:
+      bij de query's (zie volgend puntje) moet je een zinvol resultaat kunnen bekomen.
+      Zo is bijvoorbeeld de <a href="/NL/SQL_tennis/">spelersdatabank</a> echt onvoldoende
+      groot om voor deze opdracht te kunnen dienen (slechts 14 spelers, 2 teams,
+      8 boetes). De <a href="/NL/SQL_kookclub/">kookclub</a> daarentegen is wel voldoende
+      groot (173 deels handgecodeerde ingrediënten, 500 automatisch gegenereerde
+      leden, 10 manueel ingevoerde gerechten waarvoor we inspiratie vonden bij Jeroen
+      Meus, 1178 gemeenten via een CSV-bestand op de site van bpost gevonden, …)
+</p> <h2>Query's</h2> <p>
+Stel nu 5 voldoende <em>uitgebreide</em> en <em>zinvolle</em> query's op om
+      jouw databank te bevragen. Probeer alle SQL-leerstof te gebruiken: <code>SELECT</code>,
+<code>WHERE</code>, inner en outer <code>JOINS</code>, <code>GROUP BY</code>, <code>HAVING</code>, <code>ORDER BY</code>, aantal rijen beperken enz.
+</p> <p>We hebben hier twee woorden beklemtoond:</p> <ol> <li> <em>uitgebreid</em>: we verwachten echt wel query's die het hele
+        arsenaal van wat we zagen in de lessen SQL aanwenden en niet zomaar een
+        overzicht waarbij je één of twee tabellen gebruikt.
+</li> <li> <em>zinvol</em>: motiveer waarom voor de rijschool het resultaat van
+        deze query belangrijk is. Je leidt dus elke query in met wat uitleg,
+        bvb. ‘Voor de rijschool is het belangrijk om een overzicht te krijgen
+        per … want …’.
+</li> </ol> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>

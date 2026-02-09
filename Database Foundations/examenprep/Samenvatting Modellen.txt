@@ -1,0 +1,14 @@
+Conceptuele modellen (titel)
+
+entititeiten:(tussentitel)
+
+entititeiten teken je met een vierkant. voorbeelden zijn : klant, product, dier, etc...
+
+Kardinaliteiten:(tussentitel)
+
+0: kan zonder connectie bestaan (bv eigenaar zonder huisdier)
+1: moet een connectie hebben
+N: kan meerdere connecties hebben
+
+entititeit<-----> soort verbinding<------> entititeit
+           min,max                 min,max

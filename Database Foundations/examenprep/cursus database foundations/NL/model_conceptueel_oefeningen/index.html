@@ -1,0 +1,477 @@
+<!DOCTYPE html><html lang="nl"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/assets/styles/stijl.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/vs2015.min.css"><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script><script>
+      hljs.highlightAll();
+    </script><title>Modelleren: conceptueel</title></head> <body> <header id="top"> <div class="container"> <nav> <ul> <li><a href="/NL/">Home</a></li> <li><a href="/NL/leerpad">Leerpad</a></li> <li><a href="/NL/model_menu">Modelleren</a></li> <li><a href="/NL/SQL_menu">SQL</a></li> <li><a href="/NL/FAQ">FAQ</a></li> </ul> </nav> </div> </header>  <main> <blockquote> <p> <span class="citaat">May the Force be with you.</span> <br>
+&mdash;Star Wars
+</p> </blockquote> <h1>Conceptueel datamodel: oefeningen</h1> <p>
+Onderstaande oefeningen geven je de mogelijkheid om alvast te oefenen in
+      het maken van conceptuele datamodellen. Voor de verschillende oefeningen
+      geven we telkens een modeloplossing. Het is zeker mogelijk dat jij een 
+      andere oplossing hebt die evenzeer juist is. Als je hierrond vragen hebt,
+      mag je ons steeds contacteren!
+</p> <h2>Oefening 1: jeugdvereniging: entiteittypes</h2> <p>
+Hieronder krijg je de beschrijving van de werking van een jeugdbeweging.
+      Dit verhaal wordt voor de volgende oefeningen gebruikt. Je gaat
+      achtereenvolgens op zoek naar entiteittypes, attributen en relaties. In
+      deze sectie beperken we ons eerst tot de entiteittypes.
+</p> <figure class="center"> <img src="/assets/conceptueel/chiro.jpg" alt=""> </figure> <section class="taak"> <div> <p>
+Lees onderstaande beschrijving grondig door en bepaal de
+          entiteittypes.
+</p> <p>
+Een jeugdvereniging wil een database opzetten, ter ondersteuning van
+          haar ledenadministratie en de planning van activiteiten. Bij de eerste
+          inschrijving krijgt elk lid een uniek lidnummer. Gegevens zoals naam,
+          voornaam, adres, e-mailadres, geslacht en geboortedatum worden
+          geregistreerd.
+</p> <p>
+Onze leden moeten zich elk jaar opnieuw inschrijven, een inschrijving
+          is dus geldig voor één jaar. Lidgeld wordt ook jaarlijks betaald om
+          bijvoorbeeld de verzekeringskosten te dekken. Dit is elk jaar een
+          ander bedrag, het belangrijkste is om te weten welke leden hun
+          inschrijvingsgeld hebben betaald, en welke dit nog niet gedaan hebben.
+          Op het ogenblik dat een inschrijving gebeurt, wordt het lid in een
+          bepaalde leeftijdsklasse geplaatst, bijvoorbeeld ‘6 tot 9 jarigen’,
+          ‘10 tot 12 jarigen’, … De leeftijdsklasse wordt bepaald op basis van
+          de leeftijd van het lid bij de start van het nieuwe
+          jeugdvereniging-jaar.
+</p> <p>
+Na inschrijving worden de leden op basis van de leeftijdsklasse aan
+          een groep toegevoegd. Bij heel wat inschrijvingen binnen een bepaalde
+          leeftijdsklasse is het mogelijk dat van een bepaalde leeftijdsklasse
+          meerdere groepen worden gecreëerd. De groepen kiezen zelf een naam die
+          ze doorheen het jaar gaan gebruiken. Net zoals de inschrijving, wordt
+          dit elk jaar herbekeken en de verdeling opnieuw gemaakt.
+</p> <p>
+Elke groep krijgt één lid aangeduid die de rol van ‘hoofdleiding’ van
+          de groep op zich neemt. Daarnaast krijgt elke groep mogelijk nog
+          bijkomende ‘leiding’, wat één of meerdere leden zijn die de
+          ‘hoofdleiding’ zullen ondersteunen. De leeftijd van de leiders moet
+          natuurlijk niet overeen komen met de leeftijdscategorie van de groep,
+          dat zou wat ongepast zijn. Leiding wordt elk jaar opnieuw bepaald, en
+          geldt dus voor de levensduur van een groep. Leden kunnen van maximaal
+          één groep de leiding nemen, dit geldt voor zowel de ‘hoofdleiding’ als
+          de ‘leiding’.
+</p> <p>
+De leiding organiseren voor hun groepen bepaalde activiteiten die
+          samen de jaarplanning van de groep vormen. Elke activiteit wordt
+          gepland op een bepaalde datum en bepaalde locatie. Eenzelfde
+          activiteit kan ingepland worden voor meerdere groepen tegelijk.
+</p> <p>
+We maken gebruik van een lijst van mogelijke activiteiten die
+          beschreven staan in een lange lijst. Deze lijst bevat bijvoorbeeld
+          ‘Zwemmen’, waarbij telkens aangegeven wordt wat de leden moet
+          meebrengen, hoe lang dit duurt en bepaalde dingen waarmee rekening
+          gehouden moet worden. De lijst van mogelijke activiteiten wordt
+          aangevuld en dan gebruikt om activiteiten te plannen. De lijst wordt
+          dan ook gebruikt om naar de leden en hun ouders te communiceren zodat
+          ze op de hoogte zijn.
+</p> <p>
+De verantwoordelijkheid voor het coördineren van deze activiteiten
+          ligt bij de ‘hoofdleiding’. Het e-mailadres van de hoofdleiding wordt
+          mee toegevoegd zodat leden en ouders bepaalde vragen kunnen stellen.
+</p> <p>
+De bedoeling van het systeem is de ledenadministratie bij te houden
+          waarbij we de volgende vragen willen kunnen beantwoorden:
+</p> <ul> <li>Welke groepen hebben we?</li> <li>Welke leden hebben we dit jaar?</li> <li>Welke leden hadden we vorig jaar?</li> <li>Welke leden hebben we van een bepaalde leeftijdsgroep?</li> <li>Welke leden hebben inschrijvingsgeld betaald?</li> <li>Welke leden zitten in welke groep?</li> <li>Welke leiding hebben we?</li> <li>Welke leiding begeleidt welke groep?</li> <li>
+Welke activiteiten staan op de planning voor een bepaalde groep?
+</li> <li>
+Wie is verantwoordelijk voor het coördineren van de geplande
+            activiteiten?
+</li> <li>Wanneer zijn de verschillende activiteiten gepland?</li> <li>Waar gaan de activiteiten door?</li> </ul> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+De zelfstandige naamwoorden die in aanmerking komen voor een
+          entiteittype zijn: Lid, Inschrijving, Leeftijdsklasse, Groep,
+          Activiteit en Activiteittype.
+</p> <figure class="center model"> <img src="/assets/conceptOef/NL/model_conceptueel_oefening1_oplossing_afb01.svg" alt="Oplossing oefening Conceptueel.1"> </figure> </div>  </section> <h2>Oefening 2: jeugdvereniging: attributen</h2> <section class="taak"> <div> <p>
+Ga terug naar conceptueel.1 en bepaal voor elke van de entiteittypes
+          welke attributen je hiervan terugvindt in de tekst. De attributen
+          moeten toelaten om de entiteiten te beschrijven. Stel jezelf de
+          volgende vragen:
+</p> <ul> <li>
+Welke eigenschappen moet ik voor elk van de entiteittypes bijhouden?
+</li> <li>
+Welke informatie is noodzakelijk voor mijn applicatie? Kan ik deze
+            informatie terugvinden in de attributen?
+</li> <li>
+Ontbreken er bepaalde entiteittypes om de nodige data te
+            structureren? Kan je bepaalde attributen moeilijk plaatsen bij de
+            entiteittypes die je hebt geïdentificeerd?
+</li> <li>
+Zijn er bepaalde entiteittypes die slechts één attribuut hebben?
+            Zijn we zeker dat het hier gaat om een entiteittype met één
+            attribuut, of een attribuut van een ander entiteittype?
+            Bijvoorbeeld, willen we van een persoon een leeftijd bijhouden, dan
+            zouden we een entiteittype ‘Leeftijd’ kunnen identificeren met als
+            attribuut ‘Leeftijd". Daarentegen kan dit ook gewoon een attribuut
+            van het entiteittype ‘Persoon’ zijn, zonder dat we daarbij ons
+            datamodel onnodig complex maken.
+</li> </ul> <p>
+Breid jouw ERD in draw.io uit met jouw attributen. (TIP: je kan in
+          diagrams.net een tab dupliceren. Je kan dan verder bouwen op het
+          antwoord van een eerdere vraag, zonder dat je het antwoord op de
+          eerste vraag kwijt speelt.)
+</p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Hieronder een overzicht van de verschillende attributen die werden
+          geïdentificeerd voor elk van de entiteittypes:
+</p> <figure class="center model"> <img src="/assets/conceptOef/NL/model_conceptueel_oefening2_oplossing_afb01.svg" alt="Oplossing oefening Conceptueel.2"> </figure> </div>  </section> <h2>Oefening 3: jeugdvereniging: relaties</h2> <section class="taak"> <div> <p>
+Bouw verder op de resultaten van oefening conceptueel.2 en ga op zoek
+          naar de verschillende relaties die er bestaan tussen de entiteittypes.
+          Beschrijf de relaties met een duidelijke naam en geef de kardinaliteit
+          aan voor elk van de entiteittypes van de relatie. Stel hierbij de
+          volgende vragen:
+</p> <ul> <li>
+Laten de relaties toe om alle verbanden en informatie te
+            achterhalen?
+</li> <li>Zijn alle entiteittypes met elkaar verbonden?</li> </ul> <p>Breid jouw ERD in diagrams.net uit met jouw relaties.</p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>Onderstaande ERD bevat de relaties met hun kardinaliteiten.</p> <figure class="center model"> <img src="/assets/conceptOef/NL/model_conceptueel_oefening3_oplossing_afb01.svg" alt="Oplossing oefening Conceptueel.3"> </figure> </div>  </section> <h2>Oefening 4: jeugdvereniging: types van attributen</h2> <section class="taak"> <div> <p>
+Ga terug naar het resultaat van oefening conceptueel.3 en verfijn jouw
+          resultaat met de juiste types van attributen. Komt de notatie van jouw
+          attributen overeen met het type? Zijn er bepaalde relaties die een
+          attribuut hebben?
+</p> <p>Breid jouw ERD in diagrams.net uit met jouw relaties.</p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <figure class="center model"> <img src="/assets/conceptOef/NL/model_conceptueel_oefening4_oplossing_afb01.svg" alt="Oplossing oefening conceptueel.4"> </figure> </div>  </section> <h2>Oefening 5: autoverhuurbedrijf</h2> <p>
+Voor de volgende oefeningen gaan we in een aantal stappen een ERD
+      uittekenen. <span class="extra">Elke stap voegt een stukje logica en/of complexiteit toe (blauwe
+        cursieve tekst).</span>
+Beschrijf duidelijk de entiteiten, attributen en relaties. Geef voor elk van
+      de relaties duidelijk de kardinaliteit van elk van de entiteittypes aan. Gezien
+      de verschillende opgaves telkens op elkaar verder bouwen, kan je in diagrams.net
+      telkens een tab dupliceren. Zo houd je een overzicht van jouw werk en kan je
+      de verschillende stappen onderscheiden.
+</p> <figure class="center"> <img src="/assets/conceptueel/autoverhuur.jpg" alt=""> </figure> <h4>Stap 1</h4> <section class="taak"> <div> <p>
+Een autoverhuurbedrijf verhuurt wagens aan klanten. Bij de eerste
+          verhuur krijgen de klanten een klantennummer toegekend. Van elke klant
+          houden we ook de naam, voornaam, adres, e-mailadres en GSM-nummer bij.
+          Van elke wagen houden we merk, model, nummerplaat en chassisnummer
+          bij. Ons systeem moet een overzicht genereren van:
+</p> <ul> <li>de klanten die op dit ogenblik een wagen huren</li> <li>
+de wagen en bij welke klanten deze zich op dit ogenblik bevinden
+</li> <li>
+de wagens en wanneer deze beschikbaar zijn voor een volgend verhuur
+</li> </ul> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <figure class="center model"> <img src="/assets/conceptOef/NL/model_conceptueel_oefening5_oplossing_afb01.svg" alt="Oplossing oefening conceptueel.5.1"> </figure> </div>  </section> <h4>Stap 2</h4> <section class="taak"> <div> <p>
+Tekst <span class="extra">in het blauw en cursief</span> is een uitbreiding
+          van de vorige oefening. Er komen dus telkens extra vereisten bij.
+</p> <p>
+Een autoverhuurbedrijf verhuurt wagens aan klanten. <span class="extra">
+Klanten kunnen op voorhand een type wagen reserveren, waarbij ze
+            aangeven wanneer ze de wagen zouden willen oppikken en wanneer ze
+            deze zouden willen terugbrengen.
+</span> Bij de eerste verhuur krijgen de klanten een klantennummer toegekend.
+          Van elke klant houden we ook de naam, voornaam, adres, e-mailadres en GSM-nummer
+          bij. Van elke wagen houden we merk, model, nummerplaat en chassisnummer
+          bij. Ons systeem moet een overzicht genereren van:
+</p> <ul> <li> <span class="extra">de reservaties die de klanten hebben gemaakt;</span> </li> <li>de klanten die op dit ogenblik een wagen huren;</li> <li>
+de wagen en bij welke klanten deze zich op dit ogenblik bevinden;
+</li> <li>
+de wagens en wanneer deze beschikbaar zijn voor een volgend verhuur.
+</li> </ul> <p>
+TIP! Voor zij die nog nooit een wagen gehuurd hebben, breng eens een
+          bezoekje aan één van de online autoverhuurbedrijven. Stel jezelf de
+          vraag, wat reserveer ik eigenlijk?
+</p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <figure class="center model"> <img src="/assets/conceptOef/NL/model_conceptueel_oefening5_oplossing_afb02.svg" alt="Oplossing oefening conceptueel.5.2"> </figure> </div>  </section> <h4>Stap 3</h4> <section class="taak"> <div> <p>
+Een autoverhuurbedrijf verhuurt wagens aan klanten. Klanten kunnen op
+          voorhand een type wagen reserveren, waarbij ze aangeven wanneer ze de
+          wagen zouden willen oppikken en wanneer ze deze zouden willen
+          terugbrengen. Bij de eerste verhuur krijgen de klanten een
+          klantennummer toegekend. Van elke klant houden we ook de naam,
+          voornaam, adres, e-mailadres en GSM-nummer bij. Van elke wagen houden
+          we merk, model, nummerplaat en chassisnummer bij. Ons systeem moet een
+          overzicht genereren van:
+</p> <ul> <li>de reservaties die de klanten hebben gemaakt;</li> <li>de klanten die op dit ogenblik een wagen huren;</li> <li>
+de wagen en bij welke klanten deze zich op dit ogenblik bevinden;
+</li> <li>
+de wagens en wanneer deze beschikbaar zijn voor een volgend verhuur;
+</li> <li> <span class="extra">
+alle wagens die in het verleden door een bepaalde klant werden
+              gehuurd;
+</span> </li> <li> <span class="extra">
+alle klanten die in het verleden een bepaalde wagen hebben
+              gehuurd.
+</span> </li> </ul> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <figure class="center model"> <img src="/assets/conceptOef/NL/model_conceptueel_oefening5_oplossing_afb03.svg" alt="Oplossing oefening conceptueel.5.3"> </figure> </div>  </section> <h2>Oefening 6: studentenadministratie</h2> <p>
+Voor de volgende oefeningen gaan we in een aantal stappen een ERD
+      uittekenen. <span class="extra">Elke stap voegt een stukje logica en/of complexiteit toe (blauwe
+        cursieve tekst).</span>
+Beschrijf duidelijk de entiteiten, attributen en relaties. Geef voor elk van
+      de relaties duidelijk de kardinaliteit van elk van de entiteittypes aan. Gezien
+      de verschillende opgaves telkens op elkaar verder bouwen, kan je in diagrams.net
+      telkens een tab dupliceren. Zo houd je een overzicht van jouw werk en kan je
+      de verschillende stappen onderscheiden.
+</p> <figure class="center"> <img src="/assets/conceptueel/kuloket.png" alt=""> </figure> <h4>Stap 1</h4> <section class="taak"> <div> <p>
+Een student kan één of meerdere opleidingsonderdelen volgen, elk
+          opleidingsonderdeel wordt gegeven door één lector. Lectoren geven les
+          aan studenten. Van een student worden naam, voornaam, adres, en
+          leeftijd bijgehouden. Van een lector worden naam, voornaam, discipline
+          en aantal jaren in dienst bijgehouden. Van elk opleidingsonderdeel
+          houden we de code en naam van het opleidingsonderdeel bij. We moeten
+          het overzicht voor het lopende academiejaar kunnen geven.
+</p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <figure class="center model"> <img src="/assets/conceptOef/NL/model_conceptueel_oefening6_oplossing_afb01.svg" alt="Oplossing oefening conceptueel.6.1"> </figure> </div>  </section> <h4>Stap 2</h4> <section class="taak"> <div> <p>
+Een student kan één of meerdere opleidingsonderdelen volgen, elk
+          opleidingsonderdeel wordt gegeven door één lector. Lectoren geven les
+          aan studenten. <span class="extra">
+We willen een lijst kunnen genereren waarbij we een overzicht
+            krijgen van welke studenten les krijgen van welke lectoren.</span>
+Van een student worden naam, voornaam, adres, en leeftijd bijgehouden.
+          Van een lector worden naam, voornaam, discipline en aantal jaren in dienst
+          bijgehouden. Van elk opleidingsonderdeel houden we de code en naam van
+          het opleidingsonderdeel bij. We moeten het overzicht voor het lopende academiejaar
+          kunnen geven.
+</p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+We kunnen de lijst genereren op basis van het vorige resultaat. Er
+          moet niets toegevoegd worden.
+</p> </div>  </section> <h4>Stap 3</h4> <section class="taak"> <div> <p>
+Een student kan één of meerdere opleidingsonderdelen volgen, elk
+          opleidingsonderdeel wordt gegeven door <span class="extra">nul of meerdere lectoren</span>. Lectoren geven les aan studenten. We willen een lijst kunnen
+          genereren waarbij we een overzicht krijgen van welke studenten les
+          krijgen van welke lectoren. Van een student worden naam, voornaam,
+          adres, en leeftijd bijgehouden. Van een lector worden naam, voornaam,
+          discipline en aantal jaren in dienst bijgehouden. Van elk
+          opleidingsonderdeel houden we de code en naam van het
+          opleidingsonderdeel bij. We moeten het overzicht voor het lopende
+          academiejaar kunnen geven.
+</p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <figure class="center model"> <img src="/assets/conceptOef/NL/model_conceptueel_oefening6_oplossing_afb03.svg" alt="Oplossing oefening conceptueel.6.3"> </figure> </div>  </section> <h4>Stap 4</h4> <section class="taak"> <div> <p>
+Een student kan één of meerdere opleidingsonderdelen volgen, <span class="extra">elk opleidingsonderdeel wordt gecoördineerd door hoogstens één
+            lector, maar wordt gegeven door nul of meerdere lectoren</span>. Lectoren geven les aan studenten. We willen een lijst kunnen
+          genereren waarbij we een overzicht krijgen van welke studenten les
+          krijgen van welke lectoren. Van een student worden naam, voornaam,
+          adres, en leeftijd bijgehouden. Van een lector worden naam, voornaam,
+          discipline en aantal jaren in dienst bijgehouden. Van elk
+          opleidingsonderdeel houden we de code en naam van het
+          opleidingsonderdeel bij. We moeten het overzicht voor het lopende
+          academiejaar kunnen geven.
+</p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <figure class="center model"> <img src="/assets/conceptOef/NL/model_conceptueel_oefening6_oplossing_afb04.svg" alt="Oplossing oefening conceptueel.6.4"> </figure> </div>  </section> <h4>Stap 5</h4> <section class="taak"> <div> <p>
+Een student kan één of meerdere opleidingsonderdelen volgen, elk
+          opleidingsonderdeel wordt gecoördineerd door hoogstens één lector,
+          maar wordt gegeven door nul of meerdere lectoren. Lectoren geven les
+          aan studenten. We willen een lijst kunnen genereren waarbij we een
+          overzicht krijgen van welke studenten les krijgen van welke lectoren.
+          Van een student worden naam, voornaam, adres, en leeftijd bijgehouden.
+          Van een lector worden naam, voornaam, <span class="extra">de verschillende disciplines waar hij/zij toe behoort</span> en aantal jaren in dienst bijgehouden. Van elk opleidingsonderdeel houden
+          we de code en naam van het opleidingsonderdeel bij. We moeten het overzicht
+          voor het lopende academiejaar kunnen geven.
+</p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Je kan dit alvast op twee manier oplossen, enerzijds met een
+          entiteittype ‘Discipline’, anderzijds met een meervoudig attribuut
+          ‘Discipline’. Beide oplossingen zijn correct.
+</p> <figure class="center model"> <img src="/assets/conceptOef/NL/model_conceptueel_oefening6_oplossing_afb05a.svg" alt="Oplossing oefening conceptueel.6.5.a"> </figure> <figure class="center model"> <img src="/assets/conceptOef/NL/model_conceptueel_oefening6_oplossing_afb05b.svg" alt="Oplossing oefening conceptueel.6.5.b"> </figure> </div>  </section> <h4>Stap 6</h4> <section class="taak"> <div> <p>
+Een student kan één of meerdere opleidingsonderdelen volgen, elk
+          opleidingsonderdeel wordt gecoördineerd door hoogstens één lector,
+          maar wordt gegeven door nul of meerdere lectoren. Lectoren geven les
+          aan studenten. We willen een lijst kunnen genereren waarbij we een
+          overzicht krijgen van welke studenten les krijgen van welke lectoren.
+          Van een student worden naam, voornaam, adres, en leeftijd bijgehouden.
+          Van een lector worden naam, voornaam, de verschillende disciplines
+          waar hij/zij toe behoort en aantal jaren in dienst bijgehouden. Van
+          elk opleidingsonderdeel houden we de code en naam van het
+          opleidingsonderdeel bij. <span class="extra">Voor elk opleidingsonderdeel dat door een student wordt gevolgd,
+            houden we de punten bij die de student op dit opleidingsonderdeel
+            heeft verdiend</span>. We moeten het overzicht voor het lopende academiejaar kunnen geven.
+</p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <figure class="center model"> <img src="/assets/conceptOef/NL/model_conceptueel_oefening6_oplossing_afb06.svg" alt="Oplossing oefening conceptueel.6.6"> </figure> </div>  </section> <h4>Stap 7</h4> <section class="taak"> <div> <p>
+Een student kan één of meerdere opleidingsonderdelen volgen, elk
+          opleidingsonderdeel wordt gecoördineerd door hoogstens één lector,
+          maar wordt gegeven door nul of meerdere lectoren. Lectoren geven les
+          aan studenten. We willen een lijst kunnen genereren waarbij we een
+          overzicht krijgen van welke studenten les krijgen van welke lectoren.
+          Van een student worden naam, voornaam, adres, en leeftijd bijgehouden.
+          Van een lector worden naam, voornaam, de verschillende disciplines
+          waar hij/zij toe behoort en aantal jaren in dienst bijgehouden. Van
+          elk opleidingsonderdeel houden we de code en naam van het
+          opleidingsonderdeel bij. Voor elk opleidingsonderdeel dat door een
+          student wordt gevolgd, houden we de punten bij die de student op dit
+          opleidingsonderdeel heeft verdiend. <span class="extra">De student kiest een stage binnen een bepaalde discipline</span>. We moeten het overzicht voor het lopende academiejaar kunnen geven.
+</p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <figure class="center model"> <img src="/assets/conceptOef/NL/model_conceptueel_oefening6_oplossing_afb07.svg" alt="Oplossing oefening conceptueel.6.7"> </figure> </div>  </section> <h4>Stap 8</h4> <section class="taak"> <div> <p>
+Een student kan één of meerdere opleidingsonderdelen volgen, elk
+          opleidingsonderdeel wordt gecoördineerd door hoogstens één lector,
+          maar wordt gegeven door nul of meerdere lectoren. Lectoren geven les
+          aan studenten. We willen een lijst kunnen genereren waarbij we een
+          overzicht krijgen van welke studenten les krijgen van welke lectoren.
+          Van een student worden naam, voornaam, adres, en leeftijd bijgehouden.
+          Van een lector worden naam, voornaam, de verschillende disciplines
+          waar hij/zij toe behoort en aantal jaren in dienst bijgehouden. Van
+          elk opleidingsonderdeel houden we de code en naam van het
+          opleidingsonderdeel bij. Voor elk opleidingsonderdeel dat door een
+          student wordt gevolgd, houden we de punten bij die de student op dit
+          opleidingsonderdeel heeft verdiend. De student kiest een stage binnen
+          een bepaalde discipline, <span class="extra">waarbij een lector wordt aangeduid als een coach voor de stage</span>. We moeten het overzicht voor het lopende academiejaar kunnen geven.
+</p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <figure class="center model"> <img src="/assets/conceptOef/NL/model_conceptueel_oefening6_oplossing_afb08.svg" alt="Oplossing oefening conceptueel.6.8"> </figure> </div>  </section> <h4>Stap 9</h4> <section class="taak"> <div> <p>
+Een student kan één of meerdere opleidingsonderdelen volgen, elk
+          opleidingsonderdeel wordt gecoördineerd door hoogstens één lector,
+          maar wordt gegeven door nul of meerdere lectoren. Lectoren geven les
+          aan studenten. We willen een lijst kunnen genereren waarbij we een
+          overzicht krijgen van welke studenten les krijgen van welke lectoren.
+          Van een student worden naam, voornaam, adres, en leeftijd bijgehouden.
+          Van een lector worden naam, voornaam, de verschillende disciplines
+          waar hij/zij toe behoort en aantal jaren in dienst bijgehouden. Van
+          elk opleidingsonderdeel houden we de code en naam van het
+          opleidingsonderdeel bij. Voor elk opleidingsonderdeel dat door een
+          student wordt gevolgd, houden we de punten bij die de student op dit
+          opleidingsonderdeel heeft verdiend. De student kiest een stage binnen
+          een bepaalde discipline, waarbij een lector wordt aangeduid als een
+          coach voor de stage.
+<span class="extra">De discipline van de stage moet overeenkomen met de discipline van
+            de lector. (Is het mogelijk om voorwaarden aan een ERD toe te
+            voegen?)</span> We moeten het overzicht voor het lopende academiejaar kunnen geven.
+</p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+Het is niet mogelijk om voorwaarden toe te voegen aan een ERD. Het
+          resultaat blijft dus ongewijzigd.
+</p> </div>  </section> <h4>Stap 10</h4> <section class="taak"> <div> <p>
+Een student kan één of meerdere opleidingsonderdelen volgen, elk
+          opleidingsonderdeel wordt gecoördineerd door hoogstens één lector,
+          maar wordt gegeven door nul of meerdere lectoren. Lectoren geven les
+          aan studenten. We willen een lijst kunnen genereren waarbij we een
+          overzicht krijgen van welke studenten les krijgen van welke lectoren.
+          Van een student worden naam, voornaam, adres, en leeftijd bijgehouden.
+          Van een lector worden naam, voornaam, de verschillende disciplines
+          waar hij/zij toe behoort en aantal jaren in dienst bijgehouden. Van
+          elk opleidingsonderdeel houden we de code en naam van het
+          opleidingsonderdeel bij. <span class="extra">Een opleidingsonderdeel kan op verschillende campussen gegeven
+            worden. Elke campus heeft een naam en een adres.</span> Voor elk opleidingsonderdeel dat door een student wordt gevolgd, houden
+          we de punten bij die de student op dit opleidingsonderdeel heeft verdiend.De
+          student kiest een stage binnen een bepaalde discipline, waarbij een lector
+          wordt aangeduid als een coach voor de stage. De discipline van de stage
+          moet overeenkomen met de discipline van de lector. We moeten het overzicht
+          voor het lopende academiejaar kunnen geven.
+</p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <figure class="center model"> <img src="/assets/conceptOef/NL/model_conceptueel_oefening6_oplossing_afb010.svg" alt="Oplossing oefening conceptueel.6.10"> </figure> </div>  </section> <h4>Stap 11</h4> <section class="taak"> <div> <p>
+Een student kan één of meerdere opleidingsonderdelen volgen, elk
+          opleidingsonderdeel wordt gecoördineerd door hoogstens één lector,
+          maar wordt gegeven door nul of meerdere lectoren. Lectoren geven les
+          aan studenten. We willen een lijst kunnen genereren waarbij we een
+          overzicht krijgen van welke studenten les krijgen van welke lectoren.
+          Van een student worden naam, voornaam, adres, en leeftijd bijgehouden.
+          Van een lector worden naam, voornaam, de verschillende disciplines
+          waar hij/zij toe behoort en aantal jaren in dienst bijgehouden. Van
+          elk opleidingsonderdeel houden we de code en naam van het
+          opleidingsonderdeel bij.
+<span class="extra">Sommige opleidingsonderdelen bouwen verder op bestaande
+            opleidingsonderdelen en kunnen enkel gevolgd worden indien de
+            student die opleidingsonderdelen heeft gevolgd. Een vak kan toegang
+            geven tot meerdere vakken. Een vak kan ook vereisen dat
+            verschillende andere vakken eerder gevolgd moeten zijn.</span> Een opleidingsonderdeel kan op verschillende campussen gegeven worden.
+          Elke campus heeft een naam en een adres. Voor elk opleidingsonderdeel dat
+          door een student wordt gevolgd, houden we de punten bij die de student
+          op dit opleidingsonderdeel heeft verdiend.De student kiest een stage binnen
+          een bepaalde discipline, waarbij een lector wordt aangeduid als een coach
+          voor de stage. De discipline van de stage moet overeenkomen met de discipline
+          van de lector. We moeten het overzicht voor het lopende academiejaar kunnen
+          geven.
+</p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <figure class="center model"> <img src="/assets/conceptOef/NL/model_conceptueel_oefening6_oplossing_afb011.svg" alt="Oplossing oefening conceptueel.6.11"> </figure> </div>  </section> <h4>Stap 12</h4> <section class="taak"> <div> <p>
+Een student kan één of meerdere opleidingsonderdelen volgen, elk
+          opleidingsonderdeel wordt gecoördineerd door hoogstens één lector,
+          maar wordt gegeven door nul of meerdere lectoren. Lectoren geven les
+          aan studenten. We willen een lijst kunnen genereren waarbij we een
+          overzicht krijgen van welke studenten les krijgen van welke lectoren.
+          Van een student worden naam, voornaam, adres, en leeftijd bijgehouden.
+          Van een lector worden naam, voornaam, de verschillende disciplines
+          waar hij/zij toe behoort en aantal jaren in dienst bijgehouden. Van
+          elk opleidingsonderdeel houden we de code en naam van het
+          opleidingsonderdeel bij. Sommige opleidingsonderdelen bouwen verder op
+          bestaande opleidingsonderdelen en kunnen enkel gevolgd worden indien
+          de student die opleidingsonderdeel heeft gevolgd. Een vak kan toegang
+          geven tot meerdere vakken. Een vak kan ook vereisen dat verschillende
+          andere vakken eerder gevolgd moeten zijn. Een opleidingsonderdeel kan
+          op verschillende campussen gegeven worden. Elke campus heeft een naam
+          en een adres. Voor elk opleidingsonderdeel dat door een student wordt
+          gevolgd, houden we de punten bij die de student op dit
+          opleidingsonderdeel heeft verdiend.De student kiest een stage binnen
+          een bepaalde discipline, waarbij een lector wordt aangeduid als een
+          coach voor de stage. De discipline van de stage moet overeenkomen met
+          de discipline van de lector. <span class="extra">We moeten het overzicht voor het lopende en alle afgelopen
+            academiejaren kunnen geven.</span> </p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <figure class="center model"> <img src="/assets/conceptOef/NL/model_conceptueel_oefening6_oplossing_afb012.svg" alt="Oplossing oefening conceptueel.6.12"> </figure> </div>  </section> <h2>Oefening 7: bibliotheek</h2> <p>
+Voor de volgende oefeningen gaan we in een aantal stappen een ERD
+      uittekenen. <span class="extra">
+Elke stap voegt een stukje logica en/of complexiteit toe (blauwe
+        cursieve tekst)
+</span>. Beschrijf duidelijk de entiteiten, attributen en relaties. Geef
+      voor elk van de relaties duidelijk de kardinaliteit van elk van de
+      entiteittypes aan. Gezien de verschillende opgaves telkens op elkaar
+      verder bouwen, kan je in diagrams.net telkens een tab dupliceren. Zo houd
+      je een overzicht van jouw werk en kan je de verschillende stappen
+      onderscheiden.
+</p> <figure class="center"> <img src="/assets/conceptueel/mechelen_het_predikheren_public_library_be_001.jpg" alt=""> </figure> <h4>Stap 1</h4> <section class="taak"> <div> <p>
+Een bibliotheek leent boeken uit. Elk boek wordt gekenmerkt door een
+          ISBN-nummer, een titel en één of meerdere auteurs. Van één bepaald
+          boek kunnen we verschillende exemplaren hebben, daarom geven we elk
+          boek een exemplaarnummer. Het ISBN en het exemplaarnummer laten ons
+          toe elk boek uniek te identificeren. Om een boek uit te lenen moet je
+          lid zijn van de bibliotheek. Wanneer een lid voor de eerste keer een
+          boek ontleent, schrijft hij of zij zich in. Wanneer het lid zich
+          inschrijft, noteren we de naam, voornaam, adres, e-mailadres en
+          GSM-nummer. We kennen dan ook een lidnummer toe. De bibliotheek wil
+          weten welke boeken op dit ogenblik ontleend zijn. Wanneer een boek
+          niet op tijd wordt teruggebracht, wordt een boete geregistreerd. We
+          willen een overzicht kunnen genereren van de openstaande boetes en 
+          hoeveel er betaald moet worden.
+</p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <p>
+We zouden de verschillende relaties als een combinatie van binaire 
+          relaties kunnen modelleren.
+</p> <figure class="center model"> <img src="/assets/conceptOef/NL/Oplossing oefening conceptueel_7_1_a.png" alt="Oplossing oefening conceptueel.7.1.a"> </figure> <p>
+We kunnen zo echter niet rechtstreeks achterhalen voor
+          welke ontlening een bepaalde boete is gegeven. Dit zou kunnen leiden tot situaties
+          die in de realiteit niet kunnen voorvallen. Stel dat gebruiker Emma Boek 1 en 
+          Boek 2 ontleent. Volgens dit model zou Emma een boete kunnen krijgen voor 
+          Boek 3, terwijl ze dit nooit ontleend heeft.
+</p> <p>
+We zullen dit probleem daarom als een ternaire relatie modelleren. 
+          Hierbij kan een ontlening optioneel gelinkt worden aan een boete.
+</p> <figure class="center model"> <img src="/assets/conceptOef/NL/Oplossing oefening conceptueel_7_1_b.png" alt="Oplossing oefening conceptueel.7.1.b"> </figure> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_7k66pu01&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_9ei0bj7x" width="1280" height="720" allowfullscreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation" frameborder="0" title="Kaltura Player"></iframe> </div> </div>  </section> <h4>Stap 2</h4> <section class="taak"> <div> <p>
+Een bibliotheek leent boeken uit. <span class="extra">We hebben echter ook boeken die te waardevol zijn om uit te lenen.
+            Deze kunnen enkel geraadpleegd worden in de bibliotheek.</span> Elk boek wordt gekenmerkt door een ISBN nummer, een titel en één of meerdere
+          auteurs. Van één bepaald boek kunnen we verschillende exemplaren hebben,
+          daarom geven we elk boek een exemplaarnummer. Het ISBN en het exemplaarnummer
+          laten ons toe elk boek uniek te identificeren. Om een boek uit te lenen
+          moet je lid zijn van de bibliotheek. Wanneer een lid voor de eerste keer
+          een boek ontleent, schrijft hij of zij zich in. Wanneer het lid zich inschrijft,
+          ontvangen met de naam, voornaam, adres, e-mailadres en GSM-nummer. We kennen
+          dan ook een lidnummer toe. De bibliotheek wil weten welke boeken op dit
+          ogenblik ontleend zijn. Wanneer een boek niet op tijd wordt teruggebracht,
+          wordt een boete geregistreerd. We willen een overzicht kunnen genereren
+          van de openstaande boetes en 
+          hoeveel er betaald moet worden.
+</p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <figure class="center model"> <img src="/assets/conceptOef/NL/Oplossing oefening conceptueel_7_2.png" alt="Oplossing oefening conceptueel.7.2"> </figure> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_xymd2g9b&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_9ei0bj7x" width="1280" height="720" allowfullscreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation" frameborder="0" title="Kaltura Player"></iframe> </div> </div>  </section> <h4>Stap 3</h4> <section class="taak"> <div> <p>
+Een bibliotheek leent boeken uit. We hebben echter ook boeken die te
+          waardevol zijn om uit te lenen. Deze kunnen enkel geraadpleegd worden
+          in de bibliotheek. Elk boek wordt gekenmerkt door een ISBN nummer, een
+          titel en één of meerdere auteurs. Van één bepaald boek kunnen we
+          verschillende exemplaren hebben, daarom geven we elk boek een
+          exemplaarnummer. Het ISBN en het exemplaarnummer laten ons toe elk
+          boek uniek te identificeren. Om een boek uit te lenen moet je lid zijn
+          van de bibliotheek. Wanneer een lid voor de eerste keer een boek
+          ontleent, schrijft hij of zij zich in. Wanneer het lid zich
+          inschrijft, ontvangen met de naam, voornaam, adres, e-mailadres en
+          GSM-nummer. We kennen dan ook een lidnummer toe. De bibliotheek wil
+          weten welke boeken op dit ogenblik ontleend zijn. Wanneer een boek
+          niet op tijd wordt teruggebracht, wordt een boete geregistreerd. We
+          willen een overzicht kunnen genereren van de openstaande boetes en
+          hoeveel er betaald moet worden. <span class="extra">De bibliothecaris wil niet enkel een overzicht welke boeken op dit
+            ogenblik uitgeleend zijn, maar ook welke boeken het meest of minst
+            uitgeleend worden, welke boeken het meest of minst geraadpleegd
+            worden en welke leden het vaakst boeken te laat terugbrengen.</span> </p> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <figure class="center model"> <img src="/assets/conceptOef/NL/Oplossing oefening conceptueel_7_3.png" alt="Oplossing oefening conceptueel.7.3"> </figure> <div class="iframewrapper kaltura"> <iframe class="preview-iframe" src="https://cdnapisec.kaltura.com/p/2375821/sp/237582100/embedIframeJs/uiconf_id/43066731/partner_id/2375821?iframeembed=true&playerId=kaltura_player&entry_id=1_xbc7ax0g&flashvars[streamerType]=auto&flashvars[localizationCode]=en&flashvars[sideBarContainer.plugin]=true&flashvars[sideBarContainer.position]=left&flashvars[sideBarContainer.clickToClose]=true&flashvars[chapters.plugin]=true&flashvars[chapters.layout]=vertical&flashvars[chapters.thumbnailRotator]=false&flashvars[streamSelector.plugin]=true&flashvars[EmbedPlayer.SpinnerTarget]=videoHolder&flashvars[dualScreen.plugin]=true&flashvars[hotspots.plugin]=1&flashvars[Kaltura.addCrossoriginToIframe]=true&&wid=1_9ei0bj7x" width="1280" height="720" allowfullscreen allow="autoplay *; fullscreen *; encrypted-media *" sandbox="allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation" frameborder="0" title="Kaltura Player"></iframe> </div> </div>  </section> <h2>Oefening 8: bordspelenvereniging</h2> <p>
+Maak voor de volgende beschrijving een ERD-diagram. Geef duidelijk de
+      kardinaliteit van de relaties en de attributen van de entiteittypes aan.
+</p> <figure class="center"> <img src="/assets/conceptueel/IMG_1656.jpeg" alt=""> </figure> <section class="taak"> <div> <p>
+Een bordspelenvereniging wil een applicatie ontwikkelen om haar
+          werking te ondersteunen. De vereniging organiseert tornooien voor de
+          verschillende leden van de vereniging. Een tornooi draait rond één
+          specifiek bordspel. Typisch geven we een grappige naam om makkelijk
+          naar de leden te communiceren. Het doel is om een lid als winnaar van
+          het tornooi uit te roepen. De leden schrijven in voor het tornooi. Op
+          basis van de inschrijvingen worden wedstrijden georganiseerd. Elke
+          wedstrijd wordt op een bepaalde datum en een bepaald tijdstip
+          ingepland. De wedstrijden gaan door in het verenigingscentrum. Elke
+          tafel heeft een nummer. Voor de wedstrijden houden bij op welke tafel
+          de wedstrijd gepland is. Elke wedstrijd wordt gespeeld door een aantal
+          van de leden van de vereniging. Bij elke wedstrijd neemt één van de
+          leden de rol van spelleider. Deze is verantwoordelijk om de
+          individuele scores van de spelers te registreren. De leden worden
+          geregistreerd in het systeem zodat ze kunnen deelnemen aan wedstrijden
+          en de rol van spelleider opnemen. Voor elke lid houden we naam,
+          e-mailadres en geboortedatum bij. Leden kunnen andere leden
+          aanbrengen. We hebben een catalogus van spellen die we gebruiken om de
+          tornooien en wedstrijden te organiseren. Van elk spel moeten we de
+          naam, het aantal spelers en de editie weten. Een bordspel kan of een
+          basisspel, of een uitbreiding zijn. Indien het gaat om een
+          uitbreiding, willen we weten van welk basisspel het een uitbreiding
+          is. Van elk bordspel willen we een overzicht van de leden die
+          wedstrijden van het bordspel kunnen leiden. We moeten op elk ogenblik
+          een overzicht kunnen creëren van
+</p><ul> <li>de planning van de tornooien en de wedstrijden;</li> <li>
+de gespeelde wedstrijden, welke leden hebben deelgenomen en de
+            scores die de leden hebben gehaald;
+</li> <li>de winnaars van de verschillende tornooien;</li> <li>de catalogus van bordspelen, met mogelijke spelleiders.</li> </ul> </div>  <button>Toon / verberg oplossing</button> <div class="oplossing"> <figure class="center model"> <img src="/assets/conceptOef/NL/model_conceptueel_oefening8_oplossing_afb01.svg" alt="Oplossing oefening conceptueel.8"> </figure> </div>  </section> </main>  <footer> <div class="container"> <p> <img src="/assets/Logo_UCLL_negatief_RGB.png" width="100" height="53" alt="Logo UCLL Hogeschool"><br>&copy; versie 2025-11-25 — Steven
+          Engels, Jan Van Hee
+</p> <p><a href="#top">&uarr; Naar top</a></p> </div> </footer> <script src="/assets/js/func2.js"></script> </body> </html>
