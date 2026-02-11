@@ -1,6 +1,6 @@
 package main.java.b_variables;
 
-public class Main_boolean {
+public class Main_test{
 
     public static void main(String[] args) {
         // booleans
@@ -8,6 +8,11 @@ public class Main_boolean {
         boolean isRaining = false;
         byte leeftijd = 19;
         System.out.println(leeftijd);
+        System.out.println("happy? " + happy);
+        System.out.println("Raining? " + isRaining);
+
+
+
 
         //leerkracht
 
