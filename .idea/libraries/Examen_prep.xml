@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Examen prep">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Front end/Examen prep/todos-backend.zip!/" />
+      <root url="jar://$PROJECT_DIR$/Front end/Examen prep/startcode.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Back_end/Java/Classes/Classes.iml" filepath="$PROJECT_DIR$/Back_end/Java/Classes/Classes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/UCLL-projects.iml" filepath="$PROJECT_DIR$/.idea/UCLL-projects.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Back_end/Java/Classes/exercise-java-classes-main/exercise-java-classes-main.iml" filepath="$PROJECT_DIR$/Back_end/Java/Classes/exercise-java-classes-main/exercise-java-classes-main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Back_end/Java/Introductie/exercise-java-introduction-main/exercise-java-introduction-main.iml" filepath="$PROJECT_DIR$/Back_end/Java/Introductie/exercise-java-introduction-main/exercise-java-introduction-main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Back_end/Java/Classes/sample-toledo-java-classes-main/sample-toledo-java-classes-main.iml" filepath="$PROJECT_DIR$/Back_end/Java/Classes/sample-toledo-java-classes-main/sample-toledo-java-classes-main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Back_end/Java/Introductie/sample-toledo-java-introduction-main/sample-toledo-java-introduction-main.iml" filepath="$PROJECT_DIR$/Back_end/Java/Introductie/sample-toledo-java-introduction-main/sample-toledo-java-introduction-main.iml" />
+    </modules>
+  </component>
+</project>
