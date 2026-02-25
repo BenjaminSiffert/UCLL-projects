@@ -44,12 +44,12 @@ class AgeRestrictedItem(Item):
 class CountryRestrictedItem(Item):
     def can_be_sold_to(self, customer):
         if customer.country != "Arstotzka":
-            raise ValueError("            GLORY TO ARSTOTZKA!"+ "\n" +3*"-------------------------" + "\n" + 50*"PEW PEW PEW PEW PEW PEW PEW PEW") 
+            raise ValueError("            GLORY TO ARSTOTZKA!"+ "\n" +3*"-------------------------------------------" + "\n" + 50*"PEW PEW PEW PEW PEW PEW" + "\n" +3*"-------------------------------------------" + "\n" + "You got 50 pistol magazines shot in your face, you died near instantly.... ") 
         else :
             return True
     
     
-customer1 = Customer("Janneke", 17, "Kolechia")
+customer1 = Customer("Janneke", 19, "Arstotzka")
 item1 = CountryRestrictedItem("vodka", 20)
 shoppinglist1 = ShoppingList(customer1)
 shoppinglist1.add(item1)

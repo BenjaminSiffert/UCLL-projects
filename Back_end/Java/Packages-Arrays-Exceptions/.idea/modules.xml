@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/Packages-Arrays-Exceptions.iml" filepath="$PROJECT_DIR$/.idea/Packages-Arrays-Exceptions.iml" />
+      <module fileurl="file://$PROJECT_DIR$/exercise-java-packages-arrays-exceptions-main/exercise-java-packages-arrays-exceptions-main.iml" filepath="$PROJECT_DIR$/exercise-java-packages-arrays-exceptions-main/exercise-java-packages-arrays-exceptions-main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sample-toledo-java-packages-arrays-exceptions-main/sample-toledo-java-packages-arrays-exceptions-main.iml" filepath="$PROJECT_DIR$/sample-toledo-java-packages-arrays-exceptions-main/sample-toledo-java-packages-arrays-exceptions-main.iml" />
+    </modules>
+  </component>
+</project>
