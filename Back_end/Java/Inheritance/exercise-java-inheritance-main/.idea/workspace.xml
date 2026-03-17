@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="0fea71d6-2ad7-474b-a894-a29a22c849d4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../Maven/exercise-tdd-main/src/main/java/be/ucll/domain/Parent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../Maven/exercise-tdd-main/src/main/java/be/ucll/domain/Student.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/exercise-java-inheritance-main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Programming 2/P2-coursematerial-2526-main/01-oo/02-encapsulation-recap/assignments/02-queue/student.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../Programming 2/P2-coursematerial-2526-main/01-oo/02-encapsulation-recap/assignments/02-queue/student.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/02-nested-functions/assignments/02-nested-functions/student.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/02-nested-functions/assignments/02-nested-functions/student.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/03-lambdas/assignments/02-lambdas/student.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/03-lambdas/assignments/02-lambdas/student.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/03-lambdas/assignments/04-sorting/student.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/03-lambdas/assignments/04-sorting/student.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/05-iterable/assignments/02-repeat/student.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/05-iterable/assignments/02-repeat/student.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/05-iterable/assignments/03-cycle/student.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/05-iterable/assignments/03-cycle/student.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/05-iterable/assignments/04-fizzbuzz/student.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/05-iterable/assignments/04-fizzbuzz/student.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/05-iterable/assignments/05-rle/student.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/05-iterable/assignments/05-rle/student.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 3
+}]]></component>
+  <component name="ProjectId" id="3Apvh7xu5FyVIJIDH830MzJmk6O" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Robin/Desktop/UCLL/UCLL-projects/Back_end/Java/Inheritance/exercise-java-inheritance-main"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.30387.90" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0fea71d6-2ad7-474b-a894-a29a22c849d4" name="Changes" comment="" />
+      <created>1773302442873</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1773302442873</updated>
+    </task>
+    <servers />
+  </component>
+</project>

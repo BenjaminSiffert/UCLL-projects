@@ -2,10 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e7d9346d-8cc5-4b60-bbe0-6b613a994b5e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../../Packages-Arrays-Exceptions/exercise-java-packages-arrays-exceptions-main/src/exercise2/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Packages-Arrays-Exceptions/exercise-java-packages-arrays-exceptions-main/src/exercise2/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Packages-Arrays-Exceptions/exercise-java-packages-arrays-exceptions-main/src/exercise3/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Packages-Arrays-Exceptions/exercise-java-packages-arrays-exceptions-main/src/exercise3/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Packages-Arrays-Exceptions/out/production/exercise-java-packages-arrays-exceptions-main/exercise2/Application.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Packages-Arrays-Exceptions/out/production/exercise-java-packages-arrays-exceptions-main/exercise2/Application.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Packages-Arrays-Exceptions/out/production/exercise-java-packages-arrays-exceptions-main/exercise3/Application.class" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Packages-Arrays-Exceptions/out/production/exercise-java-packages-arrays-exceptions-main/exercise3/Application.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Maven/exercise-tdd-main/src/main/java/be/ucll/domain/Parent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Maven/exercise-tdd-main/src/main/java/be/ucll/domain/Student.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../Programming 2/P2-coursematerial-2526-main/01-oo/02-encapsulation-recap/assignments/02-queue/student.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../Programming 2/P2-coursematerial-2526-main/01-oo/02-encapsulation-recap/assignments/02-queue/student.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/02-nested-functions/assignments/02-nested-functions/student.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/02-nested-functions/assignments/02-nested-functions/student.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/03-lambdas/assignments/02-lambdas/student.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/03-lambdas/assignments/02-lambdas/student.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/03-lambdas/assignments/04-sorting/student.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/03-lambdas/assignments/04-sorting/student.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/05-iterable/assignments/02-repeat/student.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/05-iterable/assignments/02-repeat/student.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/05-iterable/assignments/03-cycle/student.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/05-iterable/assignments/03-cycle/student.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/05-iterable/assignments/04-fizzbuzz/student.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/05-iterable/assignments/04-fizzbuzz/student.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/05-iterable/assignments/05-rle/student.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../Programming 2/P2-coursematerial-2526-main/02-functional-programming/05-iterable/assignments/05-rle/student.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,24 +21,24 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../../.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="3AD8fqJBhovBtQ5JTEdwihnjx5d" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Robin/Desktop/UCLL/UCLL-projects/Back_end/Java/Inheritance/exercise-java-inheritance-main/src"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Robin/Desktop/UCLL/UCLL-projects/Back_end/Java/Inheritance/exercise-java-inheritance-main/src&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>

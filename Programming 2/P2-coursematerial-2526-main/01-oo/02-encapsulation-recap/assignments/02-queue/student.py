@@ -1,3 +1,10 @@
+# Source - https://stackoverflow.com/a/57409500
+# Posted by Maeaex1
+# Retrieved 2026-03-04, License - CC BY-SA 4.0
+
+import time
+start_time = time.time()
+
 class Queue():
     def __init__(self):
         self.__items = []
@@ -14,15 +21,15 @@ class Queue():
         new_list = self.get__items()
         print(new_list[-1] + " Is next!")
         return new_list[-1]
-    def get__items(self):
+    def get_items(self):
         return self.__items
     def set__items(self, items):
         self.__items = items
         
 queue = Queue()
-print(queue.is_empty())
 queue.add("jip")
 queue.add("janneke")
-queue.is_empty()
+print(queue.get_items())
+print("Process finished --- %s seconds ---" % (time.time() - start_time))
 
 
